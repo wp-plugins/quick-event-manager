@@ -14,7 +14,8 @@ A really, really simple event creator. Just add new events and publish. The shor
 
 = Features =
 
-*	Drag and drop fields with display options
+*	Fill in the form to create an event
+*	Use the settings page to change how it displays
 *	Google maps options
 
 = Developers plugin page =
@@ -46,8 +47,8 @@ In the main dashboard, clcick on 'event' then 'add new'.
 = What's the shortcode? =
 [qem]
 
-= how can I change the date format? = 
-Use the plugin settings page. You have the option of US format (MM/DD/YYYY) or the one the rest of the wordl uses (DD/MM/YYYY). You can also change the size and colour of the icon.
+= How can I change the date format? = 
+Use the plugin settings page. You have the option of US format (MM/DD/YYYY) or the one the rest of the world uses (DD/MM/YYYY). You can also change the size and colour of the icon.
 
 = How do I change the colours and things? =
 Use the plugin settings page. You can't style individual events, they all look the same.
@@ -56,7 +57,7 @@ Use the plugin settings page. You can't style individual events, they all look t
 No.
 
 = Why not? =
-Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care an attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
+Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 
 == Changelog ==

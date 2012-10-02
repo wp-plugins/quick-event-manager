@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Quick Event Manager
-Plugin URI: http://www.aerin.co.uk/quick-event-manager
+Plugin URI: http://quick-plugins.com/quick-event-manager/
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
 Version: 1.0
 Author: fisicx
