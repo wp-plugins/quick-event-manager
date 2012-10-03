@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Quick Event Manager
-Plugin URI: http://quick-plugins.com/quick-event-manager/
+Plugin URI: http://www.aerin.co.uk/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
 Version: 1.0
 Author: fisicx
@@ -57,24 +57,23 @@ function event_settings() {
 			$event['summary'][$item] = (isset( $_POST['summary_'.$item]) );
 			$event['bold'][$item] = (isset( $_POST['bold_'.$item]) );
 			$event['italic'][$item] = (isset( $_POST['italic_'.$item]) );
-			$event['colour'][$item] = esc_html( $_POST['colour_'.$item]);
-			$event['size'][$item] = esc_html( $_POST['size_'.$item]);
+			$event['colour'][$item] = $_POST['colour_'.$item];
+			$event['size'][$item] = $_POST['size_'.$item];
 			if (!empty ( $_POST['label_'.$item])) $event['label'][$item] = $_POST['label_'.$item];
 			}
-		$event['sort'] = esc_html( $_POST['qem_settings_sort']);
-		$event['start_label'] = esc_html( $_POST['start_label']);
-		$event['finish_label'] = esc_html( $_POST['finish_label']);
-		$event['location_label'] = esc_html( $_POST['location_label']);
-		$event['show_map'] = esc_html( $_POST['show_map']);
-		$event['dateformat'] = esc_html( $_POST['dateformat']);
-		$event['address_style'] = esc_html( $_POST['address_style']);
-		$event['website_link'] = esc_html( $_POST['website_link']);
-		$event['date_background'] = esc_html( $_POST['date_background']);
-		$event['background_hex'] = esc_html( $_POST['background_hex']);
-		$event['event_order'] = esc_html( $_POST['event_order']);
-		$event['event_archive'] = esc_html( $_POST['event_archive']);
-		$event['calender_size'] = esc_html( $_POST['calender_size']);
-		$event['colour']['field1'] = 'red';
+		$event['sort'] = $_POST['qem_settings_sort'];
+		$event['start_label'] = $_POST['start_label'];
+		$event['finish_label'] = $_POST['finish_label'];
+		$event['location_label'] = $_POST['location_label'];
+		$event['show_map'] = $_POST['show_map'];
+		$event['dateformat'] = $_POST['dateformat'];
+		$event['address_style'] = $_POST['address_style'];
+		$event['website_link'] = $_POST['website_link'];
+		$event['date_background'] = $_POST['date_background'];
+		$event['background_hex'] = $_POST['background_hex'];
+		$event['event_order'] = $_POST['event_order'];
+		$event['event_archive'] = $_POST['event_archive'];
+		$event['calender_size'] = $_POST['calender_size'];
 		$event['map_width'] = $_POST['map_width'];
 		$event['map_height'] = $_POST['map_height'];
 		update_option( 'event_settings', $event);
@@ -106,7 +105,7 @@ function event_settings() {
 		<p><span style="color:red; font-weight:bold;">Important!</span> This plugin uses custom posts. For it to work properly you have to resave your <a href="'.get_admin_url().'options-permalink.php">permalinks</a>. This is not a bug, it&#146;s how wordpress works. If you don&#146;t resave your permalinks you will get a page not found on your events</p>
 		<h2>Event Display</h2>
 		<p>Use the check boxes to select which fields to display in the event post and the event list. Drag and drop to change the order of the fields.</p>
-		<p><b><div style="float:left; margin-left:7px;width:11em;">Show in post</div><div style="float:left; width:5em;">Show in event list</div><div style="float:left; width:9em;">Colour<br>(hex/RGB/name)</div><div style="float:left; width:5em;">Size</div><div style="float:left; width:8em;">Font attributes</div><div style="float:left; width:22em;">Display options:</div><div style="float:left;">Position:</div></b></p>
+		<p><b><div style="float:left; margin-left:7px;width:11em;">Show in post</div><div style="float:left; width:6em;">Show in<br>event list</div><div style="float:left; width:9em;">Colour</div><div style="float:left; width:5em;">Font<br>size</div><div style="float:left; width:8em;">Font<br>attributes</div><div style="float:left; width:22em;">Display options:</div><div style="float:left;">Position:</div></b></p>
 		<div style="clear:left"></div>
 		<ul id="qem_sort">';
 		$first = 'first';
@@ -142,12 +141,12 @@ function event_settings() {
 					break;
 				}
 			$li_class = ( $checked) ? 'button_active' : 'button_inactive';
-	$content .= '<li class="ui-state-default '.$li_class.' '.$first.'" id="' . $name . '">
+		$content .= '<li class="ui-state-default '.$li_class.' '.$first.'" id="' . $name . '">
 		<div style="float:left; width:11em; overflow:hidden;">
 		<input type="checkbox" class="button_activate" style="border: none; padding: 0; margin:0;" name="event_settings_active_' . $name . '" ' . $checked . ' />
 		<b>' . $event['label'][$name] . '</b>
 		</div>
-		<div style="float:left; width:5em; overflow:hidden;">
+		<div style="float:left; width:6em; overflow:hidden;">
 		<input type="checkbox" style="border: none; padding: 0; margin:0;" name="summary_' . $name . '" ' . $summary . ' />
 		</div>
 		<div style="float:left; width:9em; overflow:hidden;">
@@ -167,6 +166,7 @@ function event_settings() {
 	}
 	$content .= '
 		</ul>
+		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /></p>
 		<h2>Date Format</h2>
 		<p>
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="dateformat" value="usa" ' . $usa . ' /> US Format (MM/DD/YYYY)<br />
@@ -569,4 +569,3 @@ function event_get_default_options () {
 
 add_action('admin_menu', 'event_page_init');
 add_filter('the_content', 'get_event_content');
-?>
