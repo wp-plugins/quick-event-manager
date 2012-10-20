@@ -62,5 +62,8 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 1.1 =
+*	Reomved a div that shouldn't be there and was causing alignemnt problems
+
 = 1.0 =
 *	Initial Issue

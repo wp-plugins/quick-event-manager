@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.aerin.co.uk/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 1.0
+Version: 1.1
 Author: fisicx
 Author URI: http://www.aerin.co.uk
 */
@@ -403,7 +403,7 @@ function event_shortcode($atts) {
 				$content = '<div class="qem">' . 
 				get_event_calendar_icon() . 
 				'<div class="qem-summary">' . 
-				get_event_summary() . '</div></div>';
+				get_event_summary() . '</div>';
     			echo $content;
 				echo '<div style="clear:left"></div>';
 				$event_found = true;
