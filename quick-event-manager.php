@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.aerin.co.uk/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 1.1
+Version: 1.2
 Author: fisicx
 Author URI: http://www.aerin.co.uk
 */
@@ -15,6 +15,7 @@ add_action( 'save_post', 'save_event_details');
 add_action( 'admin_notices', 'event_admin_notice' );
 add_action( 'add_meta_boxes', 'action_add_meta_boxes', 0 );
 add_action( "manage_posts_custom_column",  "event_custom_columns");
+
 add_filter( "manage_event_posts_columns", "event_edit_columns");
 add_filter( "manage_edit-event_sortable_columns", "event_date_column_register_sortable");
 add_filter( "request", "event_date_column_orderby" );
@@ -75,7 +76,7 @@ function event_settings() {
 		$event['event_archive'] = $_POST['event_archive'];
 		$event['calender_size'] = $_POST['calender_size'];
 		$event['map_width'] = $_POST['map_width'];
-		$event['map_height'] = $_POST['map_height'];
+		$event['map_height'] = $_POST['locale'];
 		update_option( 'event_settings', $event);
 		event_admin_notice("The form settings have been updated.");
 		}
@@ -173,7 +174,7 @@ function event_settings() {
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="dateformat" value="world" ' . $world . ' /> Everybody else in the world (DD/MM/YYYY)</p>
 		<h2>Calender Icon</h2>
 		<div>
-		<div style="float:left; width:200px;">
+		<div style="float:left; width:200px; margin-right: 10px">
 		<h3>Size</h3>
 		<p>
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="small" ' . $small . ' /> Small (40px)<br />
@@ -203,21 +204,11 @@ function event_settings() {
 	}
 
 function action_add_meta_boxes() {
-	add_meta_box( 
-        'event_sectionid',
-       'Event Details',
-        'event_details_meta',
-        'event', 'normal', 'high'
-		);
+	add_meta_box('event_sectionid', 'Event Details', 'event_details_meta', 'event', 'normal', 'high');
 	global $_wp_post_type_features;
 	if (isset($_wp_post_type_features['event']['editor']) && $_wp_post_type_features['event']['editor']) {
 		unset($_wp_post_type_features['event']['editor']);
-		add_meta_box(
-			'description_section',
-			__('Event Description'),
-			'inner_custom_box',
-			'event', 'normal', 'low'
-		);
+		add_meta_box('description_section',	__('Event Description'), 'inner_custom_box', 'event', 'normal', 'low');
 		}
 	}
 
@@ -391,10 +382,8 @@ function event_shortcode($atts) {
 	query_posts( $args );
 	$event_found = false;
 	$today = time();
-	if ( have_posts() )
-		{
-		while ( have_posts() )
-			{
+	if ( have_posts() ) {
+		while ( have_posts() ) {
 			the_post();
 				$link = get_post_meta($post->ID, 'event_link', true);
 				$endtime = get_post_meta($post->ID, 'event_end_time', true);
@@ -420,6 +409,7 @@ function event_shortcode($atts) {
 function get_event_calendar_icon() {
 	global $post;
 	$event = event_get_stored_options();
+	setlocale(LC_TIME,get_locale().'.UTF8');
 	if ($event['calender_size'] == 'small') $width = 'small';
 	if ($event['calender_size'] == 'medium') $width = 'medium';
 	if ($event['calender_size'] == 'large') $width = 'large';
@@ -428,9 +418,9 @@ function get_event_calendar_icon() {
 	if ($event['date_background'] == 'red') $color = 'red';
 	$background = ' style="background:' . $color . ';border:1px solid ' . $color . ';"';
 	$unixtime = get_post_meta($post->ID, 'event_date', true);
-    $month = date("M", $unixtime);
-    $day = date("d", $unixtime);
-    $year = date("Y", $unixtime);
+    $month = strftime("%b", $unixtime);
+    $day = strftime("%d", $unixtime);
+    $year = strftime("%Y", $unixtime);
 	return '<div class="qem-calendar-' . $width . '"><span class="day"' . $background . '>'.$day.'</span><em>'.$month.'</em>'.$year.'</div>';
 	}
 
@@ -498,7 +488,6 @@ function build_event ($name,$event,$custom) {
 				}
 				return $output;
 				}
-
 
 function get_event_content($content) {
 	global $post;
