@@ -17,7 +17,7 @@
 	padding: 0 0 5px 0;
 	}
 	
-.qem-calendar-large span {
+.qem-calendar-large .day {
 	background: red;
 	border: 1px solid red;
 	-moz-border-top-left-radius: 5px;
@@ -29,7 +29,7 @@
 	padding: 4px 0;
 	}
 
-.qem-calendar-large em {
+.qem-calendar-large .month {
 	font-size: 200%;
 	display: block;
 	padding: 5px 0;
@@ -50,7 +50,7 @@
 	padding: 0 0 3px 0;
 	}
 	
-.qem-calendar-medium span {
+.qem-calendar-medium .day {
 	background: red;
 	border: 1px solid red;
 	-moz-border-top-left-radius: 3px;
@@ -62,7 +62,7 @@
 	padding: 3px 0;
 	}
 
-.qem-calendar-medium em {
+.qem-calendar-medium .month {
 	font-size: 150%;
 	display: block;
 	padding: 3px 0;
@@ -83,7 +83,7 @@
 	padding: 0 0 2px 0;
 	}
 	
-.qem-calendar-small span {
+.qem-calendar-small .day {
 	background: #343838
 	border: 1px solid #343838
 	-moz-border-top-left-radius: 2px;
@@ -95,7 +95,7 @@
 	padding: 2px 0;
 	}
 
-.qem-calendar-small em {
+.qem-calendar-small .month {
 	font-size: 140%;
 	display: block;
 	padding: 2px 0;

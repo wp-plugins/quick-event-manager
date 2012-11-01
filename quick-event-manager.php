@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.aerin.co.uk/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 1.2
+Version: 1.3
 Author: fisicx
 Author URI: http://www.aerin.co.uk
 */
@@ -15,11 +15,11 @@ add_action( 'save_post', 'save_event_details');
 add_action( 'admin_notices', 'event_admin_notice' );
 add_action( 'add_meta_boxes', 'action_add_meta_boxes', 0 );
 add_action( "manage_posts_custom_column",  "event_custom_columns");
-
 add_filter( "manage_event_posts_columns", "event_edit_columns");
 add_filter( "manage_edit-event_sortable_columns", "event_date_column_register_sortable");
 add_filter( "request", "event_date_column_orderby" );
 add_filter( 'plugin_action_links', 'event_plugin_action_links', 10, 2 );
+add_filter('pre_get_posts', 'query_post_type');
 
 $myStyleUrl = plugins_url('quick-event-list-style.css', __FILE__);
 wp_register_style('event_style', $myStyleUrl);
@@ -76,7 +76,9 @@ function event_settings() {
 		$event['event_archive'] = $_POST['event_archive'];
 		$event['calender_size'] = $_POST['calender_size'];
 		$event['map_width'] = $_POST['map_width'];
-		$event['map_height'] = $_POST['locale'];
+		$event['map_height'] = $_POST['map_height'];
+		$event['date_bold'] = $_POST['date_bold'];
+		$event['date_italic'] = $_POST['date_italic'];
 		update_option( 'event_settings', $event);
 		event_admin_notice("The form settings have been updated.");
 		}
@@ -174,14 +176,14 @@ function event_settings() {
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="dateformat" value="world" ' . $world . ' /> Everybody else in the world (DD/MM/YYYY)</p>
 		<h2>Calender Icon</h2>
 		<div>
-		<div style="float:left; width:200px; margin-right: 10px">
+		<div style="float:left; width:150px; margin-right: 10px">
 		<h3>Size</h3>
 		<p>
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="small" ' . $small . ' /> Small (40px)<br />
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="medium" ' . $medium . ' /> Medium (60px)<br />
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="large" ' . $large . ' /> Large (80px)</p>
 		</div>
-		<div style="float:left; width:300px;">
+		<div style="float:left; width:200px; margin-right: 10px">
 		<h3>Background colour</h3>
 		<p>
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="date_background" value="grey" ' . $grey . ' /> Grey<br />
@@ -189,6 +191,12 @@ function event_settings() {
 			<input style="margin: 0; padding: 0; border: none;" type="radio" name="date_background" value="color" ' . $color . ' /> Set your own (enter HEX code or color name below)</p>
 			<p><input type="text" style="width:7em;border:1px solid #415063;" label="background" name="background_hex" value="' . $event['background_hex'] . '" /></p>
 		</div>
+		<div style="float:left; width:200px;">
+		<h3>Month Style</h3>
+		<p>
+			<input style="margin: 0; padding: 0; border: none;" type="checkbox" name="date_bold" value="checked" ' . $event['date_bold'] . ' /> Bold<br />
+			<input style="margin: 0; padding: 0; border: none;" type="checkbox" name="date_italic" value="checked" ' . $event['date_italic'] . ' /> Italic</p>
+			</div>
 		</div>
 		<div style="clear:left"></div>
 		<h2>Event List Options</h2>
@@ -204,11 +212,21 @@ function event_settings() {
 	}
 
 function action_add_meta_boxes() {
-	add_meta_box('event_sectionid', 'Event Details', 'event_details_meta', 'event', 'normal', 'high');
+	add_meta_box( 
+        'event_sectionid',
+       'Event Details',
+        'event_details_meta',
+        'event', 'normal', 'high'
+		);
 	global $_wp_post_type_features;
 	if (isset($_wp_post_type_features['event']['editor']) && $_wp_post_type_features['event']['editor']) {
 		unset($_wp_post_type_features['event']['editor']);
-		add_meta_box('description_section',	__('Event Description'), 'inner_custom_box', 'event', 'normal', 'low');
+		add_meta_box(
+			'description_section',
+			__('Event Description'),
+			'inner_custom_box',
+			'event', 'normal', 'low'
+		);
 		}
 	}
 
@@ -382,8 +400,10 @@ function event_shortcode($atts) {
 	query_posts( $args );
 	$event_found = false;
 	$today = time();
-	if ( have_posts() ) {
-		while ( have_posts() ) {
+	if ( have_posts() )
+		{
+		while ( have_posts() )
+			{
 			the_post();
 				$link = get_post_meta($post->ID, 'event_link', true);
 				$endtime = get_post_meta($post->ID, 'event_end_time', true);
@@ -410,18 +430,21 @@ function get_event_calendar_icon() {
 	global $post;
 	$event = event_get_stored_options();
 	setlocale(LC_TIME,get_locale().'.UTF8');
+	setlocale(LC_TIME,'de_DE');
 	if ($event['calender_size'] == 'small') $width = 'small';
 	if ($event['calender_size'] == 'medium') $width = 'medium';
 	if ($event['calender_size'] == 'large') $width = 'large';
 	if ($event['date_background'] == 'color') $color = $event['background_hex'];
 	if ($event['date_background'] == 'grey') $color = '#343838';
 	if ($event['date_background'] == 'red') $color = 'red';
+	if ($event['date_bold']) {$boldon = '<b>'; $boldoff = '</b>';} else {$boldon = ''; $boldoff = '';}
+	if ($event['date_italic']) {$italicon = '<em>'; $italicoff = '</em>';} else {$italicon = ''; $italicoff = '';}
 	$background = ' style="background:' . $color . ';border:1px solid ' . $color . ';"';
 	$unixtime = get_post_meta($post->ID, 'event_date', true);
-    $month = strftime("%b", $unixtime);
-    $day = strftime("%d", $unixtime);
-    $year = strftime("%Y", $unixtime);
-	return '<div class="qem-calendar-' . $width . '"><span class="day"' . $background . '>'.$day.'</span><em>'.$month.'</em>'.$year.'</div>';
+    $month = date_i18n("M", $unixtime);
+    $day = date_i18n("d", $unixtime);
+    $year = date_i18n("Y", $unixtime);
+	return '<div class="qem-calendar-' . $width . '"><span class="day"' . $background . '>'.$day.'</span><span class="month">'.$boldon.$italicon.$month.$italicoff.$boldoff.'</span>'.$year.'</div>';
 	}
 
 function get_event_summary() {
@@ -489,6 +512,7 @@ function build_event ($name,$event,$custom) {
 				return $output;
 				}
 
+
 function get_event_content($content) {
 	global $post;
     if (is_singular ('event') ) {
@@ -521,6 +545,18 @@ function get_event_map() {
 	return $mapurl;
 	}
 
+function query_post_type($query) {
+  if(is_category() || is_tag()) {
+    $post_type = get_query_var('post_type');
+	if($post_type)
+	    $post_type = $post_type;
+	else
+	    $post_type = array('nav_menu_item','post','event');
+    $query->set('post_type',$post_type);
+	return $query;
+    }
+}
+
 function event_get_stored_options () {
 	$event = get_option('event_settings');
 	if(!is_array($event)) $event = array();
@@ -532,6 +568,7 @@ function event_get_stored_options () {
 function event_get_default_options () {
 	$event = array();
 	$event['active_buttons'] = array( 'field1'=>'on' , 'field2'=>'on' , 'field3'=>'on' , 'field4'=>'on' , 'field5'=>'on' , 'field6'=>'on');	
+
 	$event['summary'] = array('field1'=>'checked' , 'field2'=>'checked' , 'field3'=>'checked' , 'field4'=>'' , 'field5'=>'' , 'field6'=>'');
 	$event['label'] = array( 'field1'=>'Event Description' , 'field2'=>'Event Time' , 'field3'=>'Location' , 'field4'=>'Address' ,  'field5'=>'Event Website' , 'field6'=>'Cost' );
 	$event['sort'] = implode(',',array('field1', 'field2' , 'field3' , 'field4' , 'field5' , 'field6'));
@@ -553,8 +590,11 @@ function event_get_default_options () {
 	$event['calender_size'] = 'medium';
 	$event['map_width'] = '200';
 	$event['map_height'] = '200';
+	$event['date_bold'] = '';
+	$event['date_italic'] = 'checked';
 	return $event;
 	}
 
 add_action('admin_menu', 'event_page_init');
 add_filter('the_content', 'get_event_content');
+

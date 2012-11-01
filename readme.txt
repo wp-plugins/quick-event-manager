@@ -14,9 +14,9 @@ A really, really simple event creator. Just add new events and publish. The shor
 
 = Features =
 
-*	An easy form for creating events
-*	An admin page to change how it displays
-*	That's it. Couldn't be simpler
+*	Fill in the form to create an event
+*	Use the settings page to change how it displays
+*	Google maps options
 
 = Developers plugin page =
 
@@ -42,7 +42,7 @@ A really, really simple event creator. Just add new events and publish. The shor
 == Frequently Asked Questions ==
 
 = How do I add a new event? =
-In the main dashboard, click on 'event' then 'add new'.
+In the main dashboard, clcick on 'event' then 'add new'.
 
 = What's the shortcode? =
 [qem]
@@ -62,11 +62,14 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 1.3 =
+*	Added styling option for the month display
+
 = 1.2 =
-*	Calender now shows the local date format.
+*	Added locale for the date format
 
 = 1.1 =
-*	Reomved a div that shouldn't be there and was causing some alignemnt problems
+*	Reomved a div that shouldn't be there and was causing alignemnt problems
 
 = 1.0 =
 *	Initial Issue
