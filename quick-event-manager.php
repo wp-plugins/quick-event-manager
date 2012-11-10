@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.aerin.co.uk/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 1.3
+Version: 1.4
 Author: fisicx
 Author URI: http://www.aerin.co.uk
 */
@@ -21,8 +21,8 @@ add_filter( "request", "event_date_column_orderby" );
 add_filter( 'plugin_action_links', 'event_plugin_action_links', 10, 2 );
 add_filter('pre_get_posts', 'query_post_type');
 
-$myStyleUrl = plugins_url('quick-event-list-style.css', __FILE__);
-wp_register_style('event_style', $myStyleUrl);
+$styleurl = plugins_url('quick-event-manager-style.css', __FILE__);
+wp_register_style('event_style', $styleurl);
 wp_enqueue_style( 'event_style');
 
 /* register_deactivation_hook( __FILE__, 'event_delete_options' ); */
@@ -389,6 +389,9 @@ function save_event_field($event_field) {
 function event_shortcode($atts) {
 	global $post;
 	$event = event_get_stored_options();
+	if ($event['calender_size'] == 'small') $width = 'style="margin-left: 60px"';
+	if ($event['calender_size'] == 'medium') $width = 'style="margin-left: 80px"';
+	if ($event['calender_size'] == 'large') $width = 'style="margin-left: 100px"';
 	extract( shortcode_atts( array(	'daterange' => 'current', ), $atts ) );
 	ob_start();
 	$args = array(
@@ -411,10 +414,10 @@ function event_shortcode($atts) {
 				if ($unixtime > $today || $event['event_archive'] == 'checked') {
 				$content = '<div class="qem">' . 
 				get_event_calendar_icon() . 
-				'<div class="qem-summary">' . 
+				'<div class="qem-summary" ' . $width . '>' . 
 				get_event_summary() . '</div>';
     			echo $content;
-				echo '<div style="clear:left"></div>';
+				
 				$event_found = true;
 				}
 			}
@@ -556,6 +559,30 @@ function query_post_type($query) {
 	return $query;
     }
 }
+
+class qem_widget extends WP_Widget {
+	function qem_widget() {
+		$widget_ops = array('classname' => 'qem_widget', 'description' => 'Add Quick Events to your sidebar');
+		$this->WP_Widget('qem_widget', 'Quick Events', $widget_ops);
+		}
+
+	function form($instance) {
+		echo '<p>All options for the quick events manager are changed on the plugin <a href="'.get_admin_url().'options-general.php?page=quick-event-manager/quick-event-manager.php">Settings</a> page.</p>';
+		}
+
+	function update($new_instance, $old_instance) {
+		$instance = $old_instance;
+		$instance['email'] = $new_instance['email'];
+		return $instance;
+		}
+ 
+	function widget($args, $instance) {
+ 	   	extract($args, EXTR_SKIP);
+		echo event_shortcode('');
+		}
+	}
+
+add_action( 'widgets_init', create_function('', 'return register_widget("qem_widget");') );
 
 function event_get_stored_options () {
 	$event = get_option('event_settings');
