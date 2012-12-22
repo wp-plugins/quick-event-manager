@@ -62,6 +62,9 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 1.5 =
+*	Added comment support for events
+
 = 1.4 =
 *	Added sidebar widget
 

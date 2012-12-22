@@ -261,7 +261,7 @@ function event_register() {
 		'has_archive' => true,
 		'menu_position' => null,
 		'taxonomies' => array('category','post_tag',),
-		'supports' => array('title','editor','thumbnail')
+		'supports' => array('title','editor','thumbnail','comments')
 	  );
 	register_post_type( 'event' , $args );
 	}
