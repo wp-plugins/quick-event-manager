@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Quick Event Manager
-Plugin URI: http://www.aerin.co.uk/quick-event-manager
+Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 1.5
+Version: 1.6
 Author: fisicx
-Author URI: http://www.aerin.co.uk
+Author URI: http://www.quick-plugins.com
 */
 
 add_shortcode( 'qem', 'event_shortcode' );
@@ -63,10 +63,15 @@ function event_settings() {
 			if (!empty ( $_POST['label_'.$item])) $event['label'][$item] = $_POST['label_'.$item];
 			}
 		$event['sort'] = $_POST['qem_settings_sort'];
+		$event['description_label'] = $_POST['description_label'];
+		$event['address_label'] = $_POST['address_label'];
+		$event['url_label'] = $_POST['url_label'];
+		$event['cost_label'] = $_POST['cost_label'];
 		$event['start_label'] = $_POST['start_label'];
 		$event['finish_label'] = $_POST['finish_label'];
 		$event['location_label'] = $_POST['location_label'];
 		$event['show_map'] = $_POST['show_map'];
+		$event['read_more'] = $_POST['read_more'];
 		$event['dateformat'] = $_POST['dateformat'];
 		$event['address_style'] = $_POST['address_style'];
 		$event['website_link'] = $_POST['website_link'];
@@ -105,10 +110,11 @@ function event_settings() {
 		<form id="event_settings_form" method="post" action="">
 		<h2>Using the plugin</h2>
 		<p>Create new events using the <a href="'.get_admin_url().'edit.php?post_type=event">Events</a> link on your dashboard menu. To add an event list to your posts or pages use the short code: <code>[qem]</code>.<br />
-		<p><span style="color:red; font-weight:bold;">Important!</span> This plugin uses custom posts. For it to work properly you have to resave your <a href="'.get_admin_url().'options-permalink.php">permalinks</a>. This is not a bug, it&#146;s how wordpress works. If you don&#146;t resave your permalinks you will get a page not found on your events</p>
+		<p><span style="color:red; font-weight:bold;">Important!</span> This plugin uses custom posts. For it to work properly you have to resave your <a href="'.get_admin_url().'options-permalink.php">permalinks</a>. This is not a bug, it&#146;s how wordpress works. If you don&#146;t resave your permalinks you will get a page not found on your events.</p>
 		<h2>Event Display</h2>
 		<p>Use the check boxes to select which fields to display in the event post and the event list. Drag and drop to change the order of the fields.</p>
-		<p><b><div style="float:left; margin-left:7px;width:11em;">Show in post</div><div style="float:left; width:6em;">Show in<br>event list</div><div style="float:left; width:9em;">Colour</div><div style="float:left; width:5em;">Font<br>size</div><div style="float:left; width:8em;">Font<br>attributes</div><div style="float:left; width:22em;">Display options:</div><div style="float:left;">Position:</div></b></p>
+		<p>The fields with the blue border are for optional captions. For example: <span style="color:blue">The cost is</span> {cost} will display as <em>The cost is 20 Zlotys</em>. If you leave it blank just <em>20 Zlotys</em> will display.</p>
+		<p><b><div style="float:left; margin-left:7px;width:11em;">Show in post</div><div style="float:left; width:6em;">Show in<br>event list</div><div style="float:left; width:9em;">Colour</div><div style="float:left; width:5em;">Font<br>size</div><div style="float:left; width:8em;">Font<br>attributes</div><div style="float:left; width:28em;">Caption and display options:</div><div style="float:left;">Position:</div></b></p>
 		<div style="clear:left"></div>
 		<ul id="qem_sort">';
 		$first = 'first';
@@ -125,22 +131,22 @@ function event_settings() {
 			switch ( $name )
 				{
 				case 'field1':
-					$options = '';
+					$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="description_label" . value ="' . $event['description_label'] . '" /> {summary}';
 					break;
 				case 'field2':
-					$options = '<input type="text" style="border:1px solid #415063; width:6em; padding: 1px; margin:0;" name="start_label" . value ="' . $event['start_label'] . '" /> {start time} <input type="text" style="border:1px solid #415063; width:6em; padding: 1px; margin:0;" name="finish_label" . value ="' . $event['finish_label'] . '" /> {end time}';
+					$options = '<input type="text" style="border:1px solid blue; width:6em; padding: 1px; margin:0;" name="start_label" . value ="' . $event['start_label'] . '" /> {start time} <input type="text" style="border:1px solid blue; width:6em; padding: 1px; margin:0;" name="finish_label" . value ="' . $event['finish_label'] . '" /> {end time}';
 					break;	
 				case 'field3':
-					$options = '<input type="text" style="border:1px solid #415063; width:6em; padding: 1px; margin:0;" name="location_label" . value ="' . $event['location_label'] . '" /> {location} ';
+					$options = '<input type="text" style="border:1px solid blue; width:6em; padding: 1px; margin:0;" name="location_label" . value ="' . $event['location_label'] . '" /> {location} ';
 					break;
 				case 'field4':
-					$options = '<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="show_map"' . $event['show_map'] . ' value="checked" /> Show map (if address is given)';
+					$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="address_label" . value ="' . $event['address_label'] . '" /> {address}&nbsp;&nbsp;<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="show_map"' . $event['show_map'] . ' value="checked" /> Show map (if address is given)';
 					break;
 				case 'field5':
-					$options = '<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="website_link"' . $event['website_link'] . ' value="checked" />Link to website';
+					$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="url_label" . value ="' . $event['url_label'] . '" /> {url}&nbsp;&nbsp;&nbsp;<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="website_link"' . $event['website_link'] . ' value="checked" />Link to website';
 					break;
 				case 'field6':
-					$options = '';
+					$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="cost_label" . value ="' . $event['cost_label'] . '" /> {cost}';
 					break;
 				}
 			$li_class = ( $checked) ? 'button_active' : 'button_inactive';
@@ -162,13 +168,14 @@ function event_settings() {
 		<input type="checkbox" style="border: none; padding: 0; margin:0;" name="bold_' . $name . '" ' . $bold . ' /> Bold
 		<input type="checkbox" style="border: none; padding: 0; margin:0;" name="italic_' . $name . '" ' . $italic . ' /> Italic
 		</div>
-		<div style="float:left; width:25em; overflow:hidden;">
+		<div style="float:left; width:32em; overflow:hidden;">
 		' . $options . '</div>
 		</li>';
 	$first = '';
 	}
 	$content .= '
 		</ul>
+		<p>Read more caption: <input type="text" style="width:20em;border:1px solid #415063;" label="read_more" name="read_more" value="' . $event['read_more'] . '" /></p>
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /></p>
 		<h2>Date Format</h2>
 		<p>
@@ -414,7 +421,7 @@ function event_shortcode($atts) {
 				if ($unixtime > $today || $event['event_archive'] == 'checked') {
 				$content = '<div class="qem">' . 
 				get_event_calendar_icon() . 
-				'<div class="qem-summary" ' . $width . '>' . 
+				'<div class="qem-details" ' . $width . '>' . 
 				get_event_summary() . '</div>';
     			echo $content;
 				
@@ -460,7 +467,7 @@ function get_event_summary() {
 		if ($event['summary'][$name] == 'checked') {
 			$output .= build_event($name,$event,$custom);
 			}
-	$output .= '<p><a href="' . get_permalink() . '">Find out more...</a></p></div>';
+	$output .= '<p><a href="' . get_permalink() . '">' . $event['read_more'] . '</a></p></div>';
 	return $output;
 	}
 
@@ -490,7 +497,8 @@ function build_event ($name,$event,$custom) {
 	if (!empty ($style)) $style = 'style="' . $style . '" ';
 		switch ( $name ) {
 			case 'field1':
-					if (!empty ( $custom['event_desc'][0] )) $output .= '<p ' . $style . '>' . $custom['event_desc'][0] . '</p>';
+					if (!empty($event['description_label'])) $caption = $event['description_label'].' ';
+					if (!empty ( $custom['event_desc'][0] )) $output .= '<p ' . $style . '>' . $caption . $custom['event_desc'][0] . '</p>';
 					break;
 			case 'field2':
 					if (!empty ( $custom['event_start'][0] )) {
@@ -500,16 +508,21 @@ function build_event ($name,$event,$custom) {
 						}
 					break;
 				case 'field3':
-					if (!empty ( $custom['event_location'][0] )) $output .= '<p ' . $style . '>' . $event['location_label'] . ' ' . $custom['event_location'][0]  . '</p>';
+					if (!empty($event['location_label'])) $caption = $event['location_label'].' ';
+					if (!empty ( $custom['event_location'][0] )) $output .= '<p ' . $style . '>' . $caption . $custom['event_location'][0]  . '</p>';
 					break;
 				case 'field4':
-					if (!empty ( $custom['event_address'][0] )) $output .= '<p ' . $style . '>' . $custom['event_address'][0]  . '</p>';
+					if (!empty($event['address_label'])) $caption = $event['address_label'].' ';
+					if (!empty ( $custom['event_address'][0] )) $output .= '<p ' . $style . '>' . $caption . $custom['event_address'][0]  . '</p>';
 					break;
 				case 'field5':
-					if (!empty ( $custom['event_link'][0] )) $output .= '<p ' . $style . '><a href="' . $custom['event_link'][0] . '">' . $custom['event_link'][0]  . '</a></p>';
+					if (!empty($event['url_label'])) $caption = $event['url_label'].' ';
+					if (!preg_match("~^(?:f|ht)tps?://~i", $custom['event_link'][0])) $url = 'http://' . $custom['event_link'][0]; else  $url = $custom['event_link'][0];
+					if (!empty ( $custom['event_link'][0] )) $output .= '<p ' . $style . '>' . $caption .  '<a href="' . $url . '">' . $custom['event_link'][0]  . '</a></p>';
 					break;
 				case 'field6':
-					if (!empty ( $custom['event_cost'][0] )) $output .= '<p ' . $style . '>' . $custom['event_cost'][0]  . '</p>';
+					if (!empty($event['cost_label'])) $caption = $event['cost_label'].' ';
+					if (!empty ( $custom['event_cost'][0] )) $output .= '<p ' . $style . '>' . $caption . $custom['event_cost'][0]  . '</p>';
 					break;
 				}
 				return $output;
@@ -603,11 +616,16 @@ function event_get_default_options () {
 	$event['italic'] = array('field1'=>'' , 'field2'=>'' , 'field3'=>'' , 'field4'=>'checked' , 'field5'=>'' , 'field6'=>'');
 	$event['colour'] = array('field1'=>'' , 'field2'=>'#343838' , 'field3'=>'' , 'field4'=>'' , 'field5'=>'' , 'field6'=>'#008C9E');
 	$event['size'] = array('field1'=>'110' , 'field2'=>'120' , 'field3'=>'' , 'field4'=>'' , 'field5'=>'' , 'field6'=>'120');
+	$event['address_label'] = '';
+	$event['url_label'] = '';
+	$event['description_label'] = '';
+	$event['cost_label'] = '';
 	$event['start_label'] = 'From';
 	$event['finish_label'] = 'until';
 	$event['location_label'] = 'At';
 	$event['show_map'] = '';
 	$event['dateformat'] = 'world';
+	$event['read_more'] = 'Find out more...';
 	$event['address_style'] = 'italic';
 	$event['website_link'] = 'checked';
 	$event['date_background'] = 'grey';
