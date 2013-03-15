@@ -2,7 +2,7 @@
 	clear:left;
 	width:100%;
 	}
-	
+
 .qem-calendar-large {
 	float:left;
 	color: #343838;
@@ -20,10 +20,10 @@
 .qem-calendar-large .day {
 	background: red;
 	border: 1px solid red;
-	-moz-border-top-left-radius: 5px;
-	-moz-border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
+	-moz-border-top-left-radius: 4px;
+	-moz-border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
 	color: white;
 	display: block;
 	padding: 4px 0;
@@ -53,10 +53,10 @@
 .qem-calendar-medium .day {
 	background: red;
 	border: 1px solid red;
-	-moz-border-top-left-radius: 3px;
-	-moz-border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
+	-moz-border-top-left-radius: 2px;
+	-moz-border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
 	color: white;
 	display: block;
 	padding: 3px 0;
@@ -79,17 +79,17 @@
 	text-align: center;
 	background: #FFF;
 	width: 40px;
-	margin: 5px 0 10px 0;
+	margin: 5px 10px 10px 0;
 	padding: 0 0 2px 0;
 	}
 	
 .qem-calendar-small .day {
 	background: #343838
 	border: 1px solid #343838
-	-moz-border-top-left-radius: 2px;
-	-moz-border-top-right-radius: 2px;
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
+	-moz-border-top-left-radius: 1px;
+	-moz-border-top-right-radius: 1px;
+	border-top-left-radius: 1px;
+	border-top-right-radius: 1px;
 	color: white;
 	display: block;
 	padding: 2px 0;
@@ -99,13 +99,12 @@
 	font-size: 140%;
 	display: block;
 	padding: 2px 0;
+	text-align: center;
 	color: 
 	}
 
 .qem-details {
-	margin-left: 100px;
 	}
-
 .qem-details p {
 	margin: 4px 0;
 	padding: 0;
@@ -113,8 +112,6 @@
 
 #qem_sort { list-style-type: none; margin: 0; padding: 0; width:80em; }
 #qem_sort li { margin: 3px 0; padding: 0.3em 0.8em 0.3em 0.5em; min-height: 1.6em; cursor:pointer; border:1px solid #888; clear:left}
-#qem_sort li.button_active { background-color: white; background: url(updown.gif) no-repeat right center;}
-#qem_sort li.button_active.first { background-color: white; background: url(down.gif) no-repeat right center;}
-#qem_sort li.button_active.last { background-color: white; background: url(up.gif) no-repeat right center;}
+#qem_sort li.button_active { background-color: white;}
 #qem_sort li.button_inactive { background-color: #E0E0E0 }
 #qem_sort li div {overflow:hidden;}

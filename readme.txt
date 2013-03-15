@@ -62,6 +62,12 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 2.0 =
+*	Added shortcode to list old events
+*	Fixed CSS bug in the calendar icon
+*	Fixed bug in the map marker
+*	Optimised the code so it loads much faster
+
 = 1.6 =
 *	Allows captions on all options
 *	Editable 'read more' label
