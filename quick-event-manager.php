@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 2.0
+Version: 2.1
 Author: fisicx
 Author URI: http://www.quick-plugins.com
 */
@@ -24,7 +24,7 @@ function event_page_init() {
 	}
 function event_plugin_action_links($links, $file) {
 	if ( $file == plugin_basename( __FILE__ ) ) {
-		$event_links = '<a href="'.get_admin_url().'options-general.php?page=quick-event-manager/quick-event-manager.php">'.__('Settings').'</a>';
+		$event_links = '<a href="'.get_admin_url().'options-general.php?page=quick-event-manager/settings.php">'.__('Settings').'</a>';
 		array_unshift( $links, $event_links );
 		}
 	return $links;
@@ -66,9 +66,6 @@ function event_shortcode($atts) {
 	extract(shortcode_atts(array( 'id' => '' ), $atts));
 	global $post;
 	$event = event_get_stored_options();
-	if ($event['calender_size'] == 'small') $width = 'style="margin-left: 60px"';
-	if ($event['calender_size'] == 'medium') $width = 'style="margin-left: 80px"';
-	if ($event['calender_size'] == 'large') $width = 'style="margin-left: 100px"';
 	extract( shortcode_atts( array(	'daterange' => 'current', ), $atts ) );
 	ob_start();
 	$args = array(
@@ -79,7 +76,8 @@ function event_shortcode($atts) {
 		);
 	query_posts( $args );
 	$event_found = false;
-	$today = time();
+	$today = strtotime(date('Y-m-d'));
+	$width = '-'.$event['calender_size'];
 	if ( have_posts() )
 		{
 		while ( have_posts() )
@@ -89,18 +87,16 @@ function event_shortcode($atts) {
 				$endtime = get_post_meta($post->ID, 'event_end_time', true);
 				$unixtime = get_post_meta($post->ID, 'event_date', true);
 				if (($id == 'archive' && $unixtime < $today) || ($id == '' && ($unixtime >= $today || $event['event_archive'] == 'checked'))) {
-				$content = '<div class="qem">' . 
-				get_event_calendar_icon() . 
-				'<div class="qem-details" ' . $width . '>' . 
-				get_event_summary() . '</div>';
-    			echo $content;
-				
+				$content .= '' . get_event_calendar_icon() . 
+				get_event_summary() . '</div><div style="clear:left;"></div>';	
 				$event_found = true;
 				}
 			}
+			$content .= '';
+			echo $content;
 		}
 	wp_reset_query();
-	if (!$event_found) echo "<p>No event found.</p>";
+	if (!$event_found) echo "<p>".$event['noevent']."</p>";
 	$output_string = ob_get_contents();
 	ob_end_clean();
 	return $output_string;
@@ -131,13 +127,13 @@ function get_event_summary() {
 	global $post;
 	$event = event_get_stored_options();
 	$custom = get_post_custom();
-	$output = '
-	<h2><a href="' . get_permalink() . '">' . $post->post_title . '</a></h2>';
-	
+	$width = '-'.$event['calender_size'];
+	$output = '<div class="qem'.$width.'">
+	<div style="float:left"><h2><a href="' . get_permalink() . '">' . $post->post_title . '</a></h2><div style="clear:left"></div>';
 	foreach (explode( ',',$event['sort']) as $name)
-		if ($event['summary'][$name] == 'checked') {
-			$output .= build_event($name,$event,$custom);
-			}
+	if ($event['summary'][$name] == 'checked') {
+		$output .= build_event($name,$event,$custom);
+		}
 	$output .= '<p><a href="' . get_permalink() . '">' . $event['read_more'] . '</a></p></div>';
 	return $output;
 	}
@@ -145,17 +141,15 @@ function get_event_summary() {
 function get_event_details() {
 	global $post;
 	$event = event_get_stored_options();
+	$width = '-'.$event['calender_size'];
 	$custom = get_post_custom();
-	if ($event['calender_size'] == 'small') $width = 'style="margin-left:60px"';
-	if ($event['calender_size'] == 'medium') $width = 'style="margin-left:80px"';
-	if ($event['calender_size'] == 'large') $width = 'style="margin-left:100px"';
-	$output = '<div class="qem-details" ' . $width . '>' . get_event_map() .
-	$output .= '<div>';
+	$output = '<div class="qem'.$width.'">' . get_event_map() .
+	$output .= '';
 	foreach (explode( ',',$event['sort']) as $name)
 		if ($event['active_buttons'][$name]) {
 			$output .= build_event($name,$event,$custom);
 			}
-			$output .= '</div>';
+			$output .= '';
 			return $output;
 	}
 
@@ -291,6 +285,7 @@ function event_get_default_options () {
 	$event['show_map'] = '';
 	$event['dateformat'] = 'world';
 	$event['read_more'] = 'Find out more...';
+	$event['noevent'] = 'No event found';
 	$event['address_style'] = 'italic';
 	$event['website_link'] = 'checked';
 	$event['date_background'] = 'grey';

@@ -37,6 +37,7 @@ function event_settings() {
 		$event['location_label'] = $_POST['location_label'];
 		$event['show_map'] = $_POST['show_map'];
 		$event['read_more'] = $_POST['read_more'];
+		$event['noevent'] = $_POST['noevent'];
 		$event['dateformat'] = $_POST['dateformat'];
 		$event['address_style'] = $_POST['address_style'];
 		$event['website_link'] = $_POST['website_link'];
@@ -137,6 +138,8 @@ function event_settings() {
 	$content .= '
 		</ul>
 		<p>Read more caption: <input type="text" style="width:20em;border:1px solid #415063;" label="read_more" name="read_more" value="' . $event['read_more'] . '" /></p>
+		<p>No events message: <input type="text" style="width:20em;border:1px solid #415063;" label="noevent" name="noevent" value="' . $event['noevent'] . '" /></p>
+		
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /></p>
 		<h2>Date Format</h2>
 		<p>

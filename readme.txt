@@ -42,10 +42,11 @@ A really, really simple event creator. Just add new events and publish. The shor
 == Frequently Asked Questions ==
 
 = How do I add a new event? =
-In the main dashboard, clcick on 'event' then 'add new'.
+In the main dashboard, click on 'event' then 'add new'.
 
 = What's the shortcode? =
 [qem]
+If you just want old events use the shortcode [qem id="archive"]
 
 = How can I change the date format? = 
 Use the plugin settings page. You have the option of US format (MM/DD/YYYY) or the one the rest of the world uses (DD/MM/YYYY). You can also change the size and colour of the icon.
@@ -59,8 +60,13 @@ No.
 = Why not? =
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
-
 == Changelog ==
+
+= 2.1 =
+*	Minor tweaks to the CSS
+*	Fixed a float problem with the event title
+*	Solved the problem with displaying today's events.
+*	New events now show today's date
 
 = 2.0 =
 *	Added shortcode to list old events

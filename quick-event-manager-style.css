@@ -1,8 +1,12 @@
-.qem {
-	clear:left;
-	width:100%;
+.qem-large {
+	margin-left: 100px;
 	}
-
+.qem-medium {
+	margin-left: 75px;
+	}
+.qem-small {
+	margin-left: 50px;
+	}
 .qem-calendar-large {
 	float:left;
 	color: #343838;
@@ -13,7 +17,7 @@
 	text-align: center;
 	background: #FFF;
 	width: 80px;
-	margin: 5px 20px 10px 0;
+	margin: 5px 0 10px 0;
 	padding: 0 0 5px 0;
 	}
 	
@@ -46,7 +50,7 @@
 	text-align: center;
 	background: #FFF;
 	width: 60px;
-	margin: 5px 15px 10px 0;
+	margin: 5px 0 10px 0;
 	padding: 0 0 3px 0;
 	}
 	
@@ -79,7 +83,7 @@
 	text-align: center;
 	background: #FFF;
 	width: 40px;
-	margin: 5px 10px 10px 0;
+	margin: 5px 0 10px 0;
 	padding: 0 0 2px 0;
 	}
 	
@@ -104,6 +108,7 @@
 	}
 
 .qem-details {
+	border:1px solid blue;
 	}
 .qem-details p {
 	margin: 4px 0;
