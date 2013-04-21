@@ -45,6 +45,7 @@ function event_settings() {
 		$event['background_hex'] = $_POST['background_hex'];
 		$event['event_order'] = $_POST['event_order'];
 		$event['event_archive'] = $_POST['event_archive'];
+		$event['event_descending'] = $_POST['event_descending'];
 		$event['calender_size'] = $_POST['calender_size'];
 		$event['map_width'] = $_POST['map_width'];
 		$event['map_height'] = $_POST['map_height'];
@@ -75,13 +76,13 @@ function event_settings() {
 		<div id ="qem-style">
 		<form id="event_settings_form" method="post" action="">
 		<h2>Using the plugin</h2>
-		<p>Create new events using the <a href="'.get_admin_url().'edit.php?post_type=event">Events</a> link on your dashboard menu.</p>
-		<p>To add an event list to your posts or pages use the shortcode: <code>[qem]</code>. To display past events use the shortcode: <code>[qem id="archive"]</code>.</p>
+		<p>Create new events using the <a href="'.get_admin_url().'edit.php?post_type=event">Events</a> link on your dashboard menu.<br>
+		To add an event list to your posts or pages use the shortcode: <code>[qem]</code>. To just display past events use the shortcode: <code>[qem id="archive"]</code>.</p>
 		<p><span style="color:red; font-weight:bold;">Important!</span> This plugin uses custom posts. For it to work properly you have to resave your <a href="'.get_admin_url().'options-permalink.php">permalinks</a>. This is not a bug, it&#146;s how wordpress works. If you don&#146;t resave your permalinks you will get a page not found on your events.</p>
 		<h2>Event Display</h2>
-		<p>Use the check boxes to select which fields to display in the event post and the event list. Drag and drop to change the order of the fields.</p>
-		<p>The fields with the blue border are for optional captions. For example: <span style="color:blue">The cost is</span> {cost} will display as <em>The cost is 20 Zlotys</em>. If you leave it blank just <em>20 Zlotys</em> will display.</p>
-		<p><b><div style="float:left; margin-left:7px;width:11em;">Show in post</div><div style="float:left; width:6em;">Show in<br>event list</div><div style="float:left; width:9em;">Colour</div><div style="float:left; width:5em;">Font<br>size</div><div style="float:left; width:8em;">Font<br>attributes</div><div style="float:left; width:28em;">Caption and display options:</div></b></p>
+		<p>Use the check boxes to select which fields to display in the event post and the event list. Drag and drop to change the order of the fields.<br>
+		The fields with the blue border are for optional captions. For example: <span style="color:blue">The cost is</span> {cost} will display as <em>The cost is 20 Zlotys</em>. If you leave it blank just <em>20 Zlotys</em> will display.</p>
+		<p><b><div style="float:left; margin-left:7px;width:11em;">Show in event post</div><div style="float:left; width:6em;">Show in<br>event list</div><div style="float:left; width:9em;">Colour</div><div style="float:left; width:5em;">Font<br>size</div><div style="float:left; width:8em;">Font<br>attributes</div><div style="float:left; width:28em;">Caption and display options:</div></b></p>
 		<div style="clear:left"></div>
 		<ul id="qem_sort">';
 		$sort = explode(",", $event['sort']); 
@@ -171,7 +172,8 @@ function event_settings() {
 		</div>
 		<div style="clear:left"></div>
 		<h2>Event List Options</h2>
-		<p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_archive" value="checked" ' . $archive . ' /> Show past events in the events list</p>
+		<p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_descending" value="checked" ' . $event['event_descending'] . ' /> List events in reverse order (from future to past)<br>
+		<input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_archive" value="checked" ' . $event['event_archive'] . ' /> Show past events in the events list</p>
 		<p>If you only want to display past events use the shortcode: <code>[qem id="archive"]</code>.</p>
 		<h2>Map Size</h2>
 		<p>Width: <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_width" . value ="' . $event['map_width'] . '" /> px&nbsp;&nbsp;Height: <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_height" . value ="' . $event['map_height'] . '" /> px</p>

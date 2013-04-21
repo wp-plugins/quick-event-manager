@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 2.1
+Version: 2.2
 Author: fisicx
 Author URI: http://www.quick-plugins.com
 */
@@ -24,7 +24,7 @@ function event_page_init() {
 	}
 function event_plugin_action_links($links, $file) {
 	if ( $file == plugin_basename( __FILE__ ) ) {
-		$event_links = '<a href="'.get_admin_url().'options-general.php?page=quick-event-manager/settings.php">'.__('Settings').'</a>';
+		$event_links = '<a href="'.get_admin_url().'options-general.php?page=quick-event-manager/quick-event-manager.php">'.__('Settings').'</a>';
 		array_unshift( $links, $event_links );
 		}
 	return $links;
@@ -56,7 +56,7 @@ function event_register() {
 		'hierarchical' => false,
 		'has_archive' => true,
 		'menu_position' => null,
-		'taxonomies' => array('category','post_tag',),
+		'taxonomies' => array('category','post_tag'),
 		'supports' => array('title','editor','thumbnail','comments')
 	  );
 	register_post_type( 'event' , $args );
@@ -68,12 +68,12 @@ function event_shortcode($atts) {
 	$event = event_get_stored_options();
 	extract( shortcode_atts( array(	'daterange' => 'current', ), $atts ) );
 	ob_start();
-	$args = array(
-		'post_type'	=> 'event',
-		'orderby'  	=> 'meta_value_num',
-		'meta_key'	=> 'event_date',
-		'order'	=> 'ASC'
-		);
+	if ($event['event_descending']) {
+		$args = array('post_type'=> 'event', 'orderby'=> 'meta_value_num', 'meta_key'=> 'event_date',);
+		}
+	else {
+		$args = array('post_type'=> 'event','orderby'=> 'meta_value_num','meta_key'=> 'event_date','order'=> 'asc');
+		}
 	query_posts( $args );
 	$event_found = false;
 	$today = strtotime(date('Y-m-d'));
