@@ -27,7 +27,7 @@ function event_settings() {
 			$event['size'][$item] = $_POST['size_'.$item];
 			if (!empty ( $_POST['label_'.$item])) $event['label'][$item] = $_POST['label_'.$item];
 			}
-		$event['sort'] = $_POST['qem_settings_sort'];
+$event['sort'] = $_POST['qem_settings_sort'];
 		$event['description_label'] = $_POST['description_label'];
 		$event['address_label'] = $_POST['address_label'];
 		$event['url_label'] = $_POST['url_label'];
@@ -51,6 +51,9 @@ function event_settings() {
 		$event['map_height'] = $_POST['map_height'];
 		$event['date_bold'] = $_POST['date_bold'];
 		$event['date_italic'] = $_POST['date_italic'];
+		$event['styles'] = $_POST['event_styles'];
+		$event['custom'] = $_POST['custom'];
+		$event['number_of_posts'] = $_POST['number_of_posts'];
 		update_option( 'event_settings', $event);
 		event_admin_notice("The form settings have been updated.");
 		}
@@ -178,6 +181,9 @@ function event_settings() {
 		<h2>Map Size</h2>
 		<p>Width: <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_width" . value ="' . $event['map_width'] . '" /> px&nbsp;&nbsp;Height: <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_height" . value ="' . $event['map_height'] . '" /> px</p>
 		<p>Note: the map will only display if you have a valid address and the &#146;show map&#146; checkbox is ticked.</p>
+		<h2>Custom Styles</h2>
+		<input style="width:20px; margin: 0; padding: 0; border: none;" type="checkbox" name="event_styles" value="checked" ' . $event['styles'] . ' /> Use custom styles (add to text editor below)</p>
+		<p><textarea style="width:100%; height: 200px" name="custom">' . $event['custom'] . '</textarea></p>
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /></p>
 		<input type="hidden" id="qem_settings_sort" name="qem_settings_sort" value="'.stripslashes( $event['sort']).'" />
 		</form>

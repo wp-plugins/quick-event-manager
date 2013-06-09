@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 2.2
+Version: 2.3
 Author: fisicx
 Author URI: http://www.quick-plugins.com
 */
@@ -11,9 +11,10 @@ Author URI: http://www.quick-plugins.com
 if (is_admin()) require_once( plugin_dir_path( __FILE__ ) . '/settings.php' );
 
 add_shortcode( 'qem', 'event_shortcode' );
+add_action('wp_head', 'qem_use_custom_css');
 add_action( 'init', 'event_register');
+add_action( 'widgets_init', create_function('', 'return register_widget("qem_widget");') );
 add_filter( 'plugin_action_links', 'event_plugin_action_links', 10, 2 );
-add_filter('pre_get_posts', 'query_post_type');
 
 $styleurl = plugins_url('quick-event-manager-style.css', __FILE__);
 wp_register_style('event_style', $styleurl);
@@ -63,38 +64,39 @@ function event_register() {
 	}
 
 function event_shortcode($atts) {
-	extract(shortcode_atts(array( 'id' => '' ), $atts));
+	extract(shortcode_atts(array( 'id' => '',posts => '' ), $atts));
 	global $post;
 	$event = event_get_stored_options();
+	if ($posts == 0) $posts = 99;
 	extract( shortcode_atts( array(	'daterange' => 'current', ), $atts ) );
 	ob_start();
 	if ($event['event_descending']) {
-		$args = array('post_type'=> 'event', 'orderby'=> 'meta_value_num', 'meta_key'=> 'event_date',);
+		$args = array('post_type'=> 'event', 'orderby'=> 'meta_value_num', 'meta_key'=> 'event_date','posts_per_page'=>-1);
 		}
 	else {
-		$args = array('post_type'=> 'event','orderby'=> 'meta_value_num','meta_key'=> 'event_date','order'=> 'asc');
+		$args = array('post_type'=> 'event','orderby'=> 'meta_value_num','meta_key'=> 'event_date','order'=> 'asc','posts_per_page'=>-1);
 		}
 	query_posts( $args );
 	$event_found = false;
 	$today = strtotime(date('Y-m-d'));
 	$width = '-'.$event['calender_size'];
-	if ( have_posts() )
-		{
-		while ( have_posts() )
-			{
-			the_post();
-				$link = get_post_meta($post->ID, 'event_link', true);
-				$endtime = get_post_meta($post->ID, 'event_end_time', true);
-				$unixtime = get_post_meta($post->ID, 'event_date', true);
-				if (($id == 'archive' && $unixtime < $today) || ($id == '' && ($unixtime >= $today || $event['event_archive'] == 'checked'))) {
-				$content .= '' . get_event_calendar_icon() . 
+	if ( have_posts()){
+		while ( have_posts() )	{
+		the_post();
+		$link = get_post_meta($post->ID, 'event_link', true);
+		$endtime = get_post_meta($post->ID, 'event_end_time', true);
+		$unixtime = get_post_meta($post->ID, 'event_date', true);
+		if ($i < $posts) {
+			if (($id == 'archive' && $unixtime < $today) || ($id == '' && ($unixtime >= $today || $event['event_archive'] == 'checked'))) {
+				$content .= '<div id="qem">' . get_event_calendar_icon() . 
 				get_event_summary() . '</div><div style="clear:left;"></div>';	
 				$event_found = true;
+				$i++;
 				}
 			}
-			$content .= '';
-			echo $content;
 		}
+	echo $content;
+	}
 	wp_reset_query();
 	if (!$event_found) echo "<p>".$event['noevent']."</p>";
 	$output_string = ob_get_contents();
@@ -106,7 +108,6 @@ function get_event_calendar_icon() {
 	global $post;
 	$event = event_get_stored_options();
 	setlocale(LC_TIME,get_locale().'.UTF8');
-	setlocale(LC_TIME,'de_DE');
 	if ($event['calender_size'] == 'small') $width = 'small';
 	if ($event['calender_size'] == 'medium') $width = 'medium';
 	if ($event['calender_size'] == 'large') $width = 'large';
@@ -134,7 +135,7 @@ function get_event_summary() {
 	if ($event['summary'][$name] == 'checked') {
 		$output .= build_event($name,$event,$custom);
 		}
-	$output .= '<p><a href="' . get_permalink() . '">' . $event['read_more'] . '</a></p></div>';
+	$output .= '<p><a href="' . get_permalink() . '">' . $event['read_more'] . '</a></p></div></div>';
 	return $output;
 	}
 
@@ -223,38 +224,39 @@ function get_event_map() {
 	return $mapurl;
 	}
 
-function query_post_type($query) {
-  if(is_category() || is_tag()) {
-    $post_type = get_query_var('post_type');
-	if($post_type)
-	    $post_type = $post_type;
-	else
-	    $post_type = array('nav_menu_item','post','event');
-    $query->set('post_type',$post_type);
-	return $query;
-    }
-}
-
 class qem_widget extends WP_Widget {
 	function qem_widget() {
-		$widget_ops = array('classname' => 'qem_widget', 'description' => 'Add Quick Events to your sidebar');
+		$widget_ops = array('classname' => 'qem_widget', 'description' => 'Add events to your sidebar');
 		$this->WP_Widget('qem_widget', 'Quick Events', $widget_ops);
 		}
 	function form($instance) {
-		echo '<p>All options for the quick events manager are changed on the plugin <a href="'.get_admin_url().'options-general.php?page=quick-event-manager/quick-event-manager.php">Settings</a> page.</p>';
+		$instance = wp_parse_args( (array) $instance, array( 'posts' => '') );
+		$posts = $instance['posts'];
+		?>
+		<p><label for="<?php echo $this->get_field_id('posts'); ?>">Number of posts to display: <input style="width:3em" id="<?php echo $this->get_field_id('posts'); ?>" name="<?php echo $this->get_field_name('posts'); ?>" type="text" value="<?php echo attribute_escape($posts); ?>" /></label></p>
+		<p>Leave blank to use the default settings.</p>
+		<p>All options for the quick events manager are changed on the plugin <a href="'.get_admin_url().'options-general.php?page=quick-event-manager/quick-event-manager.php">Settings</a> page.</p>
+		<?php
 		}
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
-		$instance['email'] = $new_instance['email'];
+		$instance['posts'] = $new_instance['posts'];
 		return $instance;
 		}
 	function widget($args, $instance) {
  	   	extract($args, EXTR_SKIP);
-		echo event_shortcode('');
+		$posts=$instance['posts'];
+		echo event_shortcode($instance);
 		}
 	}
 
-add_action( 'widgets_init', create_function('', 'return register_widget("qem_widget");') );
+function qem_use_custom_css () {
+	$event = get_option('event_settings');
+	if ($event['styles'] == 'checked') {
+		$event = event_get_stored_options();
+		echo "<style type=\"text/css\" media=\"screen\">\r\n" . $event['custom'] . "\r\n</style>\r\n";
+		}
+	}
 
 function event_get_stored_options () {
 	$event = get_option('event_settings');
@@ -297,6 +299,8 @@ function event_get_default_options () {
 	$event['map_height'] = '200';
 	$event['date_bold'] = '';
 	$event['date_italic'] = 'checked';
+	$event['styles'] = '';
+	$event['custom'] = "#qem h1 {\r\n}\r\n#qem h2 a{\r\n}";
 	return $event;
 	}
 

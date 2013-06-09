@@ -60,7 +60,19 @@ No.
 = Why not? =
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
+== Upgrade Notice ==
+= 2.3 =
+The sidebar widget now has an options to how many events are displayed.
+
 == Changelog ==
+
+= 2.3 =
+*	Improved widget and shortcode options allows you to set the number of events to display
+*	Fixed code to display all events (overrides reading settings)
+
+=2.2 = 
+*	Added option to display old events
+*	Added option to display events in descending order (new to old)
 
 = 2.1 =
 *	Minor tweaks to the CSS
