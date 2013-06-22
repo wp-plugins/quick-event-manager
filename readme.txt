@@ -14,9 +14,10 @@ A really, really simple event creator. Just add new events and publish. The shor
 
 = Features =
 
-*	Fill in the form to create an event
-*	Use the settings page to change how it displays
-*	Google maps options
+*	Event posts created from your dashboard
+*	Loads of layout and styling options
+*	Uses Google maps
+*	Widgets and Shortcode options
 
 = Developers plugin page =
 
@@ -48,9 +49,6 @@ In the main dashboard, click on 'event' then 'add new'.
 [qem]
 If you just want old events use the shortcode [qem id="archive"]
 
-= How can I change the date format? = 
-Use the plugin settings page. You have the option of US format (MM/DD/YYYY) or the one the rest of the world uses (DD/MM/YYYY). You can also change the size and colour of the icon.
-
 = How do I change the colours and things? =
 Use the plugin settings page. You can't style individual events, they all look the same.
 
@@ -61,10 +59,23 @@ No.
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 == Upgrade Notice ==
+
+= 3.0 =
+*	Upgraded settings interface
+
+= 2.4 =
+You can now removed the links in the event list using the shortcode [qem links='off']
+
 = 2.3 =
 The sidebar widget now has an options to how many events are displayed.
 
 == Changelog ==
+
+= 3.0 =
+*	New Settings interface
+*	Loads of styling options
+*	Improved calendar icon options
+*	Date picker
 
 = 2.3 =
 *	Improved widget and shortcode options allows you to set the number of events to display
