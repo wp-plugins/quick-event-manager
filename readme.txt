@@ -24,10 +24,12 @@ A really, really simple event creator. Just add new events and publish. The shor
 [quick event list plugin](http://quick-plugins.com/quick-event-manager/).
 
 == Screenshots ==
-1. This an events list.
-2. This an event post.
-3. This is the admin (settings) page.
-4. This the event editor.
+
+1. This is an example of an events post.
+2. This is the list of events.
+3. This the event editor. 
+4. The main admin page.
+5. Part of the styling page shoing how you can format the calendar icon.
 
 == Installation ==
 
