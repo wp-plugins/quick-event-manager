@@ -14,6 +14,8 @@ add_filter("request","event_date_column_orderby");
 register_uninstall_hook(__FILE__, 'event_delete_options');
 
 function qem_init() {
+	wp_enqueue_script('jquery-ui-datepicker');
+	wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
 	wp_enqueue_script('jquery-ui-sortable');
 	return;
 	}
@@ -24,13 +26,13 @@ function event_delete_options() {
 	delete_option('qem_upgrade');
 	}
 function event_page_init() {
-	add_options_page('Quick Event Manager', 'Quick Event Manager', 'manage_options', __FILE__, 'qem_tabbed_page');
+	add_options_page('Event Manager', 'Event Manager', 'manage_options', __FILE__, 'qem_tabbed_page');
 	}
 function qem_admin_notice($message) {
 	if (!empty( $message)) echo '<div class="updated"><p>'.$message.'</p></div>';
 	}
 function qem_tabbed_page() {
-	qem_use_custom_css();
+	qem_head_script();
 	echo '<div class="wrap">';
 	echo '<h1>Quick Event Manager</h1>';
 	if ( isset ($_GET['tab'])) {qem_admin_tabs($_GET['tab']); $tab = $_GET['tab'];} else {qem_admin_tabs('setup'); $tab = 'setup';}
@@ -38,13 +40,14 @@ function qem_tabbed_page() {
 		case 'setup' : qem_setup(); break;
 		case 'settings' : qem_event_settings(); break;
 		case 'display' : qem_display_page(); break;
+		case 'calendar' : qem_calendar(); break;
 		case 'styles' : qem_styles(); break;
 		case 'help' : qem_help (); break;
 		}
 	echo '</div>';
 	}
 function qem_admin_tabs($current = 'settings') { 
-	$tabs = array( 'setup' => 'Setup' , 'settings' => 'Event Settings', 'display' => 'Event Display', 'styles' => 'Styling' ); 
+	$tabs = array( 'setup' => 'Setup' , 'settings' => 'Event Settings', 'display' => 'Event Display', 'styles' => 'Event Styling','calendar' => 'Calendar Options', );
 	$links = array();  
 	echo '<div id="icon-themes" class="icon32"><br></div>';
 	echo '<h2 class="nav-tab-wrapper">';
@@ -55,20 +58,21 @@ function qem_admin_tabs($current = 'settings') {
 	echo '</h2>';
 	}
 function qem_setup() {
-	$content = '<div class="wrap">
-	<div id ="qem-style">
+	$content = '<div class="qem-options">
 	<h2>Setting up and using the plugin</h2>
 	<p><span style="color:red; font-weight:bold;">Important!</span> This plugin uses custom posts. For it to work properly you have to resave your <a href="'.get_admin_url().'options-permalink.php">permalinks</a>. This is not a bug, it&#146;s how wordpress works. If you don&#146;t resave your permalinks you will get a page not found on your events.</p>
 	<p>Create new events using the <a href="'.get_admin_url().'edit.php?post_type=event">Events</a> link on your dashboard menu.</p>
 	<p>To add an event list to your posts or pages use the shortcode: <code>[qem]</code>. To just display past events use the shortcode: <code>[qem id="archive"]</code>.</p>
-	<p>That\'s pretty much it. All you need to do now is create some events.</p>
+<p>If you prefer to display your events as a calendar use the shortcode: <code>[qem-calendar]</code>.</p>
+	<p>That\'s pretty much it. All you need to do now is <a href="'.get_admin_url().'edit.php?post_type=event">create some events</a>.</p>
 	<h2>Plugin Options</h2>
 	<p>To change what is displayed use the <a href="?page=quick-event-manager/settings.php&tab=settings">Event Settings</a> pages</p>
 	<p>To change how events are displayed use the <a href="?page=quick-event-manager/settings.php&tab=display">Event Display</a> page.</p>
 	<p>To change the overall look of the events use the <a href="?page=quick-event-manager/settings.php&tab=styles">Styles</a> page.</p>
-	<p>There is some development info on <a href="http://quick-plugins.com/quick-paypal-payments/" target="_blank">my plugin page</a> along with a feedback form. Or you can email me at <a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a>.</p>
-		
-	</div></div>';
+<p>To change calendar settings use the <a href="?page=quick-event-manager/settings.php&tab=calendar">Calendar</a> page.</p>
+
+	<p>There is some development info on <a href="http://quick-plugins.com/quick-event-manager/" target="_blank">quick-plugins.com</a> along with a feedback form. Or you can email me at <a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a>.</p>
+	</div>';
 	echo $content;
 	}
 function qem_event_settings() {
@@ -92,10 +96,10 @@ function qem_event_settings() {
 	$$event['dateformat'] = 'checked'; 
 	$$event['date_background'] = 'checked'; 
 	$$event['event_order'] = 'checked'; 
-	$$event['calender_size'] = 'checked'; 
+	$$style['calender_size'] = 'checked'; 
 	if ( $event['event_archive'] == "checked") $archive = "checked"; 
 	if ($event['show_map'] == 'checked') $map = 'checked';
-	$content = '<div class="wrap">
+	$content = '
 	<script>
 	jQuery(function() {
 		var qem_sort = jQuery( "#qem_sort" ).sortable({ axis: "y" ,
@@ -106,10 +110,11 @@ function qem_event_settings() {
 		});
 	});
 	</script>
-	<div id ="qem-style">
+	<div class ="qem-options" style="width:90%">
 	<form id="event_settings_form" method="post" action="">
-	<p>Use the check boxes to select which fields to display in the event post and the event list. Drag and drop to change the order of the fields.<br>
-	The fields with the blue border are for optional captions. For example: <span style="color:blue">The cost is</span> {cost} will display as <em>The cost is 20 Zlotys</em>. If you leave it blank just <em>20 Zlotys</em> will display.</p>
+	<p>Use the check boxes to select which fields to display in the event post and the event list.</p>
+	<p>Drag and drop to change the order of the fields.</p>
+	<p>The fields with the blue border are for optional captions. For example: <span style="border:1px solid blue;">The cost is</span> {cost} will display as <em>The cost is 20 Zlotys</em>. If you leave it blank just <em>20 Zlotys</em> will display.</p>
 	<p><b><div style="float:left; margin-left:7px;width:11em;">Show in event post</div><div style="float:left; width:6em;">Show in<br>event list</div><div style="float:left; width:9em;">Colour</div><div style="float:left; width:5em;">Font<br>size</div><div style="float:left; width:8em;">Font<br>attributes</div><div style="float:left; width:28em;">Caption and display options:</div></b></p>
 	<div style="clear:left"></div>
 	<ul id="qem_sort">';
@@ -167,7 +172,7 @@ function qem_event_settings() {
 	<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /></p>
 	<input type="hidden" id="qem_settings_sort" name="sort" value="'.$event['sort'].'" />
 	</form>
-	</div></div>';
+	</div>';
 	echo $content;
 	}
 function qem_display_page() {
@@ -184,8 +189,7 @@ function qem_display_page() {
 	$display = event_get_stored_display();
 	$$display['event_order'] = 'checked'; 
 	if ( $display['event_archive'] == "checked") $archive = "checked"; 
-	$content = '<div class="wrap">
-	<div id ="qem-style">
+	$content = '<div class="qem-options">
 		<form id="event_settings_form" method="post" action="">';	
 	$content .= '
 		<h2>Event Messages</h2>
@@ -200,7 +204,7 @@ function qem_display_page() {
 		<p>Note: the map will only display if you have a valid address and the &#146;show map&#146; checkbox is ticked.</p>
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the display settings?\' );"/></p>
 		</form>
-		</div></div>';
+		</div>';
 	echo $content;
 	}
 function qem_styles() {
@@ -221,67 +225,62 @@ function qem_styles() {
 	$$style['event_background'] = 'checked';
 	$$style['date_background'] = 'checked'; 
 	$$style['calender_size'] = 'checked'; 
-	qem_use_custom_css();
-	$content = '<div class="wrap">
-	<div id ="qem-style">
+	qem_head_script();
+	$content = '<div class="qem-options">
 	<form method="post" action="">
-	<div style="float:left; width:200px; margin-right: 10px"> 
+	<div style="float:left; width:48%; margin-right: 1%"> 
 	<h2>Event Width</h2>
 	<p>
 	<input style="margin:0; padding:0; border:none;" type="radio" name="widthtype" value="percent" ' . $percent . ' /> 100% (fill the available space)<br />
 	<input style="margin:0; padding:0; border:none;" type="radio" name="widthtype" value="pixel" ' . $pixel . ' /> Pixel (fixed)</p>
 	<p>Enter the width in pixels: <input type="text" style="width:4em;border:1px solid #415063;" label="width" name="width" value="' . $style['width'] . '" /> (Just enter the value, no need to add \'px\').</p>
 	</div>
-	<div style="float:left; width:200px; margin-right: 10px">
+	<div style="float:left; width:48%; margin-right: 1%"> 
 	<h2>Font Options</h2>
 	<p><input style="margin:0; padding:0; border:none" type="radio" name="font" value="theme" ' . $theme . ' /> Use your theme font styles<br />
 	<input style="margin:0; padding:0; border:none" type="radio" name="font" value="plugin" ' . $plugin . ' /> Use Plugin font styles (enter font family and size below)</p>
 	<p>Font Family: <input type="text" style="width:15em;border:1px solid #415063;" label="font-family" name="font-family" value="' . $style['font-family'] . '" /></p>
 	<p>Font Size: <input type="text" style="width:7em;border:1px solid #415063;" label="font-size" name="font-size" value="' . $style['font-size'] . '" /></p>
-</div>
+	</div>
 	<div style="clear:left"></div>
 	<h2>Calender Icon</h2>
 	<div>
-	<div style="float:left; width:150px; margin-right: 10px">
+	<div style="float:left; width:48%; margin-right: 1%"> 
 	<h3>Size</h3>
 	<p>
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="small" ' . $small . ' /> Small (40px)<br />
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="medium" ' . $medium . ' /> Medium (60px)<br />
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="large" ' . $large . ' /> Large (80px)</p>
 	</div>
-	<div style="float:left; width:200px; margin-right: 10px">
+<div style="float:left; width:48%; margin-right: 1%"> 
 	<h3>Border Thickeness</h3>
 	<p><input type="text" style="width:7em;border:1px solid #415063;" label="calendar border" name="date_border_width" value="' . $style['date_border_width'] . '" /></p>
 	<h3>Border Colour</h3>
 	<p><input type="text" style="width:150px;border:1px solid #415063;" label="calendar border" name="date_border_colour" value="' . $style['date_border_colour'] . '" /></p>
 	</div>
-	<div style="float:left; width:200px; margin-right: 10px">
+<div style="float:left; width:48%; margin-right: 1%"> 
 	<h3>Date Background colour</h3>
 	<p>
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="date_background" value="grey" ' . $grey . ' /> Grey<br />
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="date_background" value="red" ' . $red . ' /> Red<br />
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="date_background" value="color" ' . $color . ' /> Set your own (enter HEX code or color name below)</p>
 	<p><input type="text" style="width:7em;border:1px solid #415063;" label="background" name="date_backgroundhex" value="' . $style['date_backgroundhex'] . '" /></p>
+	</div>
+<div style="float:left; width:48%; margin-right: 1%"> 
 	<h3>Date Text Colour</h3>
 	<p><input type="text" style="width:7em;border:1px solid #415063;" label="date colour" name="date_colour" value="' . $style['date_colour'] . '" /></p>
-	</div>
-	<div style="float:left; width:150px; margin-right: 10px">
 	<h3>Month Text Style</h3>
 	<p><input style="margin: 0; padding: 0; border: none;" type="checkbox" name="date_bold" value="checked" ' . $style['date_bold'] . ' /> Bold<br />
 	<input style="margin: 0; padding: 0; border: none;" type="checkbox" name="date_italic" value="checked" ' . $style['date_italic'] . ' /> Italic</p>
 	</div>
-	<div style="float:left; width:200px; margin-right: 10px">
-	<h3>Calendar Icon Preview</h3>';
-	$content .= get_event_calendar_icon();
-	$content .= '</div>
 	<div style="clear:left"></div>
 	<h2>Event Content</h2>
-	<div style="float:left; width:200px; margin-right: 10px">
+	<div style="float:left; width:48%; margin-right: 1%"> 
 	<h3>Event Border</h3>
 	<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="event_border"' . $style['event_border'] . ' value="checked" /> Add a border to the event post</p>
 	<p>Thickness and colour will be the same as the calendar icon</p>
 	</div>
-	<div style="float:left; width:200px; margin-right: 10px">
+	<div style="float:left; width:48%; margin-right: 1%"> 
 	<h3>Event Background colour</h3>
 	<p><input style="margin:0; padding:0; border:none;" type="radio" name="event_background" value="bgwhite" ' . $bgwhite . ' /> White<br />
 	<input style="margin:0; padding:0; border:none;" type="radio" name="event_background" value="bgtheme" ' . $bgtheme . ' /> Use theme colours<br />
@@ -296,32 +295,73 @@ function qem_styles() {
 	<p>The main style wrapper is the <code>.qem</code> class.</p>
 	<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the style settings?\' );"/></p>
 	</form>
-	</div>';
+</div>
+	</div><div class="qem-options">
+<h2>Event List Preview</h2>';
+	$atts = array('posts' => '3');
+	$content .= event_shortcode($atts);
+	$content .= '</div>';
+	echo $content;
+	}
+function qem_calendar() {
+	if( isset( $_POST['Submit'])) {
+		$options = array( 'calday','day','eventday','oldday','eventhover','eventdaytext','eventlink','connect','calendar_text','calendar_url','eventlist_text','eventlist_url');
+		foreach ( $options as $item) $calendar[$item] = stripslashes($_POST[$item]);
+		update_option('qem_calendar', $calendar);
+		qem_admin_notice("The calendar settings have been updated.");
+		}
+	if( isset( $_POST['Reset'])) {
+		delete_option('qem_calendar');
+		qem_admin_notice("The calendar settings have been reset.");
+		}
+	$calendar = qem_get_stored_calendar();
+	$$calendar['eventlink'] = 'checked';
+	$content = '<div class="qem-options">
+	<p>This is a new feature in the plugin. It does work but may need some tweaks. If you want something just let me know: <a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a></p>
+	<p>To add the calendar to your site use the shortcode: <code>[qem-calendar]</code>.</p>
+	<form method="post" action="">
+	<h2>Event Links</h2>
+	<p><input style="margin:0; padding:0; border:none;" type="radio" name="eventlink" value="linkpopup" ' . $linkpopup . ' /> Link opens event summary in a popup<br />
+	<input style="margin:0; padding:0; border:none;" type="radio" name="eventlink" value="linkpage" ' . $linkpage . ' /> Link opens event page<br />
+	<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="connect"' . $calendar['connect'] . ' value="checked" /> Link Event List to Calendar Page (you will need to create a page for the calendar)</p>
+	<table>
+	<tr><td>Calendar link text</td><td><input type="text" style="width:20em;border:1px solid #415063;" label="calendar_text" name="calendar_text" value="' . $calendar['calendar_text'] . '" /></td></tr>
+	<tr><td>Calendar page URL</td><td><input type="text" style="width:20em;border:1px solid #415063;" label="calendar_url" name="calendar_url" value="' . $calendar['calendar_url'] . '" /></td></tr>
+	<tr><td>Event list link text</td><td><input type="text" style="width:20em;border:1px solid #415063;" label="eventlist_text" name="eventlist_text" value="' . $calendar['eventlist_text'] . '" /></td></tr>
+	<tr><td>Event list page URL</td><td><input type="text" style="width:20em;border:1px solid #415063;" label="eventlist_url" name="eventlist_url" value="' . $calendar['eventlist_url'] . '" /></td></tr>
+	</table>
+	<h2>Calendar Colours</h2>
+	<table>
+<tr><td>...</td><td>Background</td><td>Text<td></tr>
+	<tr><td>Days of the Week</td><td><input type="text" style="width:7em;border:1px solid #415063;" label="background" name="calday" value="' . $calendar['calday'] . '" /></td>
+<td></td></tr>
+	<tr><td>Normal Date</td><td><input type="text" style="width:7em;border:1px solid #415063;" label="background" name="day" value="' . $calendar['day'] . '" /></td><td></td></tr>
+	<tr><td>Event Date</td><td><input type="text" style="width:7em;border:1px solid #415063;" label="background" name="eventday" value="' . $calendar['eventday'] . '" /></td>
+<td><input type="text" style="width:7em;border:1px solid #415063;" label="text" name="eventdaytext" value="' . $calendar['eventdaytext'] . '" /></td></tr>
+	<tr><td>Past Date</td><td><input type="text" style="width:7em;border:1px solid #415063;" label="background" name="oldday" value="' . $calendar['oldday'] . '" /></td>
+<td></td></tr>
+	<tr><td>Event Hover</td><td><input type="text" style="width:7em;border:1px solid #415063;" label="background" name="eventhover" value="' . $calendar['eventhover'] . '" /></td>
+<td></td></tr>
+	</table>
+	<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="Save Changes" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the calendar settings?\' );"/></p>
+	</form>
+	</div>
+<div class="qem-options">
+<h2>Calendar Preview</h2>';
+$content .= qem_show_calendar();
+$content .= '</div>';
 	echo $content;
 	}
 function event_custom_columns($column) {
 	global $post;
 	$custom = get_post_custom();
 	switch ($column) {
-		case "event_date":
-			$date = $custom["event_date"][0];
-			echo date("d", $date).' '.date("M", $date).' '.date("Y", $date);
-			break;
-		case "event_time":
-			echo $custom["event_start"][0] . ' - ' . $custom["event_finish"][0];
-			break;
-		case "event_location":
-			echo $custom["event_location"][0];
-			break;
-		case "event_address":
-			echo $custom["event_address"][0];
-			break;
-		case "event_website":
-			echo $custom['event_link'][0];
-			break;
-		case "event_cost":
-			echo $custom["event_cost"][0];
-			break;
+		case "event_date":$date = $custom["event_date"][0];echo date("d", $date).' '.date("M", $date).' '.date("Y", $date);break;
+		case "event_time":echo $custom["event_start"][0] . ' - ' . $custom["event_finish"][0];break;
+		case "event_location":echo $custom["event_location"][0];break;
+		case "event_address":echo $custom["event_address"][0];break;
+		case "event_website":echo $custom['event_link'][0];break;
+		case "event_cost":echo $custom["event_cost"][0];break;
 		}
 	}
 function event_date_column_register_sortable( $columns ) {
@@ -351,7 +391,6 @@ function event_edit_columns($columns) {
 	return $columns;
 	}
 function event_details_meta() {
-
 	global $post;
 	$event = event_get_stored_options();
 	$date = get_event_field('event_date');

@@ -1,98 +1,40 @@
-.qem-large {
-	margin-left: 100px;
-	}
-.qem-medium {
-	margin-left: 75px;
-	}
-.qem-small {
-	margin-left: 50px;
-	}
-.qem-calendar-large {
-	float:left;
-	color: #343838;
-	font-size: 120%;
-	text-align: center;
-	background: #FFF;
-	width: 80px;
-	margin: 0 0 10px 0;
-	padding: 0 0 5px 0;
-	}
-	
-.qem-calendar-large .day {
-	font-size: 140%;
-	color: white;
-	display: block;
-	padding: 4px 0;
-	}
-
-.qem-calendar-large .month {
-	font-size: 200%;
-	display: block;
-	padding: 5px 0;
-	color: 
-	}
-
-.qem-calendar-medium {
-	float:left;
-	color: #343838;
-	text-align: center;
-	background: #FFF;
-	width: 60px;
-	margin: 0 0 10px 0;
-	padding: 0 0 3px 0;
-	}
-	
-.qem-calendar-medium .day {
-	background: red;
-	font-size: 120%;
-	color: white;
-	display: block;
-	padding: 3px 0;
-	}
-
-.qem-calendar-medium .month {
-	font-size: 150%;
-	display: block;
-	padding: 3px 0;
-	color: 
-	}
-
-.qem-calendar-small {
-	float:left;
-	color: #343838;
-	font-size: 80%;
-	text-align: center;
-	background: #FFF;
-	width: 40px;
-	margin: 0 0 10px 0;
-	padding: 0 0 2px 0;
-	}
-	
-.qem-calendar-small .day {
-	background: #343838
-	color: white;
-	display: block;
-	padding: 2px 0;
-	}
-
-.qem-calendar-small .month {
-	font-size: 140%;
-	display: block;
-	padding: 2px 0;
-	text-align: center;
-	color: 
-	}
-
-.qem-details {
-	border:1px solid blue;
-	}
-.qem-details p {
-	margin: 4px 0;
-	padding: 0;
-	}
-
+.qem-large {margin-left: 100px;}
+.qem-medium {margin-left: 75px;}
+.qem-small {margin-left: 50px;}
+.qem-calendar-large {float:left;color: #343838;font-size: 120%;text-align: center;background: #FFF;width: 80px;margin: 0 0 10px 0;padding: 0 0 5px 0;}
+.qem-calendar-large .day {font-size: 140%;color: white;display: block;padding: 4px 0;}
+.qem-calendar-large .month {font-size: 200%;display: block;padding: 5px 0;}
+.qem-calendar-medium {float:left;color: #343838;text-align: center;background: #FFF;width: 60px;margin: 0 0 10px 0;padding: 0 0 3px 0;}
+.qem-calendar-medium .day {background: red;font-size: 120%;color: white;display: block;padding: 3px 0;}
+.qem-calendar-medium .month {font-size: 150%;display: block;padding: 3px 0;}
+.qem-calendar-small {float:left;color: #343838;font-size: 80%;text-align: center;background: #FFF;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
+.qem-calendar-small .day {background: #343838color: white;display: block;padding: 2px 0;}
+.qem-calendar-small .month {font-size: 140%;display: block;padding: 2px 0;text-align: center;}
+.qem-details {border:1px solid blue;}
+.qem-details p {margin: 4px 0;padding: 0;}
 .qem {margin-bottom:12px;}
 
+#qem-calendar {margin: 0 0 12px 0;}	
+#qem-calendar .top {margin-bottom: 4px;}
+#qem-calendar .calday {text-align:center;padding:3px;background: #EBEFC9;font-weight:bold}
+#qem-calendar .day {height:3em;padding:2px;text-align:left;background:#EBEFC9;}
+#qem-calendar .oldday {background:#CCC;}
+#qem-calendar .eventday {background:#EED1AC;padding-bottom:4px;}
+#qem-calendar .day span, #qem-calendar .eventday span, .popdate {font-size:160%;color: #D75231;}
+#qem-calendar h2 {font-size:160%;color: #D75231;padding:0;margin:0;}
+#qem-calendar .eventday a {display:block;margin: 3px 2px;border:1px solid #D75231;color:#343838;padding: 4px;text-decoration:none;background:#FFF;cursor: pointer;-webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;font-size:90%;}
+#qem-calendar td {width:14.2%;vertical-align:top;}
+#qem-calendar td a:hover {background:#F2F2E6; }
+#qem-calendar a.calnav {text-decoration:none;padding:4px;border:1px solid #CCC;display:block;text-align:center;}
+#qem-calendar .calmonth h2 {text-align:center;}
+.qempop {max-width:800px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;}
+
+.qem-options {border: 1px solid #B52C00;padding: 0 10px 10px 10px;margin: 10px 10px 0 0 ;float: left;width: 46%;}
+.qem-options p {margin: 4px 0;padding: 0;}
+.qem-options h2, .qem-options h2 a{color: #005F6B;text-decoration:none;}
+.qem-options h3 {color: #717DD7;margin: 4px 0 0 0;padding: 0;}
+.qem-options submit input:focus {color: #FFF;}
+.qem-options ul {margin: 0;padding: 0;}
 #qem_sort { list-style-type: none; margin: 0; padding: 0; width:80em; }
 #qem_sort li { margin: 3px 0; padding: 0.3em 0.8em 0.3em 0.5em; min-height: 1.6em; cursor:pointer; border:1px solid #888; clear:left}
 #qem_sort li.button_active { background-color: white;}

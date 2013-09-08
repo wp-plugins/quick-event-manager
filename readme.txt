@@ -1,9 +1,9 @@
 === Quick Event Manager ===
 
 Contributors: 
-Tags: contact form
+Tags: event manager, calendar
 Requires at least: 2.7
-Tested up to: 3.4.1
+Tested up to: 3.6
 Stable tag: trunk
 
 Simple event manager. No messing about, just add events and a shortcode and the plugin does the rest for you. 
@@ -16,20 +16,27 @@ A really, really simple event creator. Just add new events and publish. The shor
 
 *	Event posts created from your dashboard
 *	Loads of layout and styling options
-*	Uses Google maps
+*	Show events as a list or a calendar
+*	Event maps
 *	Widgets and Shortcode options
+*	Archive post options
 
 = Developers plugin page =
 
 [quick event list plugin](http://quick-plugins.com/quick-event-manager/).
+
+= Demo Pages
+
+[Event list](http://quick-plugins.com/the-event-list/).
+[Calendar](http://quick-plugins.com/event-calendar/).
 
 == Screenshots ==
 
 1. This is an example of an events post.
 2. This is the list of events.
 3. This the event editor. 
-4. The main admin page.
-5. Part of the styling page shoing how you can format the calendar icon.
+4. The styling editor.
+5. Setting up the calendar.
 
 == Installation ==
 
@@ -50,6 +57,7 @@ In the main dashboard, click on 'event' then 'add new'.
 = What's the shortcode? =
 [qem]
 If you just want old events use the shortcode [qem id="archive"]
+If you just want a calendar use the shortcode [qem-calendar"]
 
 = How do I change the colours and things? =
 Use the plugin settings page. You can't style individual events, they all look the same.
@@ -62,6 +70,9 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Upgrade Notice ==
 
+= 4.0 =
+*	Calendars! You can now display events in a calendar
+
 = 3.0 =
 *	Upgraded settings interface
 
@@ -72,6 +83,9 @@ You can now removed the links in the event list using the shortcode [qem links='
 The sidebar widget now has an options to how many events are displayed.
 
 == Changelog ==
+
+= 4.0 =
+*	Calendars! You can now display events in a calendar
 
 = 3.0 =
 *	New Settings interface
