@@ -70,6 +70,9 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Upgrade Notice ==
 
+= 4.1 =
+*	Fixed an issue with categories
+
 = 4.0 =
 *	Calendars! You can now display events in a calendar
 

@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A really, really simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 4.0
+Version: 4.1
 Author: fisicx
 Author URI: http://www.quick-plugins.com
 */
@@ -16,6 +16,17 @@ add_action("init","event_register");
 add_action('wp_head', 'qem_head_script');
 add_action("widgets_init", create_function('', 'return register_widget("qem_widget");') );
 add_filter("plugin_action_links","event_plugin_action_links", 10, 2 );
+
+function qem_add_custom_types( $query ) {
+  if( is_category() || is_tag() ) {
+    $query->set( 'post_type', array(
+     'post', 'event','nav_menu_item'
+		));
+	  return $query;
+	}
+}
+add_filter( 'pre_get_posts', 'qem_add_custom_types' );
+
 wp_enqueue_style('event_style',plugins_url('quick-event-manager-style.css', __FILE__));
 
 function event_plugin_action_links($links, $file) {
@@ -43,6 +54,7 @@ function event_register() {
 		'labels' => $labels,
 		'public' => true,
 		'publicly_queryable' => true,
+		'exclude_from_search' => false,
 		'show_ui' => true,
 		'query_var' => true,
 		'rewrite' => true,
