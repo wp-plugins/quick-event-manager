@@ -25,6 +25,10 @@ A really, really simple event creator. Just add new events and publish. The shor
 
 [quick event list plugin](http://quick-plugins.com/quick-event-manager/).
 
+= Translations = 
+
+French: [Dan (chouf1](http://bp-fr.net)
+
 = Demo Pages
 
 [Event list](http://quick-plugins.com/the-event-list/).
@@ -68,24 +72,17 @@ No.
 = Why not? =
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
-== Upgrade Notice ==
+
+
+== Changelog ==
+
+= 4.2 =
+*	Added option to display anchor text on website links
+*	Awsome French translation
 
 = 4.1 =
 *	Fixed an issue with categories
 
-= 4.0 =
-*	Calendars! You can now display events in a calendar
-
-= 3.0 =
-*	Upgraded settings interface
-
-= 2.4 =
-You can now removed the links in the event list using the shortcode [qem links='off']
-
-= 2.3 =
-The sidebar widget now has an options to how many events are displayed.
-
-== Changelog ==
 
 = 4.0 =
 *	Calendars! You can now display events in a calendar
