@@ -29,7 +29,7 @@ A really, really simple event creator. Just add new events and publish. The shor
 
 French: [Dan (chouf1](http://bp-fr.net)
 
-= Demo Pages
+= Demo Pages =
 
 [Event list](http://quick-plugins.com/the-event-list/).
 [Calendar](http://quick-plugins.com/event-calendar/).
@@ -73,16 +73,16 @@ No.
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 
-
 == Changelog ==
 
 = 4.2 =
 *	Added option to display anchor text on website links
 *	Awsome French translation
+*	Calender can start the week on a Sunday or Monday
+*	Duplicate weekly or monthly events
 
 = 4.1 =
 *	Fixed an issue with categories
-
 
 = 4.0 =
 *	Calendars! You can now display events in a calendar
