@@ -61,7 +61,7 @@ In the main dashboard, click on 'event' then 'add new'.
 = What's the shortcode? =
 [qem]
 If you just want old events use the shortcode [qem id="archive"]
-If you just want a calendar use the shortcode [qem-calendar"]
+If you just want a calendar use the shortcode [qemcalendar"]
 
 = How do I change the colours and things? =
 Use the plugin settings page. You can't style individual events, they all look the same.
@@ -72,8 +72,14 @@ No.
 = Why not? =
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
-
 == Changelog ==
+
+= 5.0 =
+*	Extracted scrpts and styles to external files
+*	Added mini form for event registraton
+*	New field to add end date to events
+*	Option to display end date on event list
+*	Cleaned out a whole bunch of code
 
 = 4.2 =
 *	Added option to display anchor text on website links

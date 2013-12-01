@@ -9,6 +9,7 @@ add_action("manage_posts_custom_column","event_custom_columns");
 add_filter("manage_event_posts_columns","event_edit_columns");
 add_filter("manage_edit-event_sortable_columns","event_date_column_register_sortable");
 add_filter("request","event_date_column_orderby");
+add_action( 'admin_enqueue_scripts', 'qem_admin_pointers_header' );
 
 /* register_deactivation_hook( __FILE__, 'event_delete_options' ); */
 register_uninstall_hook(__FILE__, 'event_delete_options');
@@ -28,7 +29,7 @@ function event_delete_options() {
 }
 
 function event_page_init() {
-	add_options_page( __('Event Manager', 'quick-event-manager'), __('Event Management', 'quick-event-manager'), 'manage_options', __FILE__, 'qem_tabbed_page');
+	add_options_page( __('Event Manager', 'quick-event-manager'), __('Event Manager', 'quick-event-manager'), 'manage_options', __FILE__, 'qem_tabbed_page');
 }
 
 function qem_admin_notice($message) {
@@ -36,9 +37,8 @@ function qem_admin_notice($message) {
 }
 
 function qem_tabbed_page() {
-	qem_head_script();
-		echo '<div class="wrap">';
-		echo '<h1>Quick Event Manager</h1>';
+	echo '<div class="wrap">';
+	echo '<h1>Quick Event Manager</h1>';
 	if ( isset ($_GET['tab'])) {
 		qem_admin_tabs($_GET['tab']); 
 		$tab = $_GET['tab'];
@@ -51,6 +51,7 @@ function qem_tabbed_page() {
 			case 'display' : qem_display_page(); break;
 			case 'calendar' : qem_calendar(); break;
 			case 'styles' : qem_styles(); break;
+			case 'register' : qem_register(); break;
 			case 'help' : qem_help (); break;
 			}
 		echo '</div>';
@@ -63,6 +64,7 @@ function qem_admin_tabs($current = 'settings') {
 	'display'   => __('Event Display', 'quick-event-manager'), 
 	'styles'    => __('Event Styling', 'quick-event-manager'),
 	'calendar'  => __('Calendar Options', 'quick-event-manager'),
+	'register'  => __('Event Registration', 'quick-event-manager'),
 	);
 	
 	$links = array(); 
@@ -77,29 +79,18 @@ function qem_admin_tabs($current = 'settings') {
 }
 
 function qem_setup() {
-	
 	$content = '
-<div class="qem-options">
+	<div class="qem-options">
 	<h2>'.__('Setting up and using the plugin', 'quick-event-manager').'</h2>
-	<p><span style="color:red; font-weight:bold;">'. __('Important!', 'quick-event-manager').'</span> '.__('This plugin uses custom posts. For it to work properly you have to resave your <a href="options-permalink.php">permalinks</a>. This is not a bug, it&#146;s how wordpress works. If you don&#146;t resave your permalinks you will get a page not found on your events.', 'quick-event-manager').'</p>
+	<p><span style="color:red; font-weight:bold;">'. __('Important!', 'quick-event-manager').'</span> '.__('This plugin uses custom posts. For it to work properly you have to resave your <a href="options-permalink.php">permalinks</a>. This is not a bug, it&#146;s how wordpress works. If you don&#146;t resave your permalinks you will get a <em>page not found</em> message on your events.', 'quick-event-manager').'</p>
 	<p>'.__('Create new events using the <a href="edit.php?post_type=event">Events</a> link on your dashboard menu.', 'quick-event-manager').'</p>
-	<p>'.__('To display list of events use the shortcode: <code>[qem]</code>. To just display past events use the shortcode: <code>[qem id="archive"]</code>.', 'quick-event-manager').'</p>
-	<p>'.__('If you prefer to display your events as a calendar use the shortcode: <code>[qem-calendar]</code>.', 'quick-event-manager').'</p>
+	<p>'.__('To display a list of events on your posts or pages use the shortcode: <code>[qem]</code>.', 'quick-event-manager').'</p>
+	<p>'.__('If you prefer to display your events as a calendar use the shortcode: <code>[qemcalendar]</code>.', 'quick-event-manager').'</p>
 	<p>'.__('That&#39;s pretty much it. All you need to do now is <a href="edit.php?post_type=event">create some events</a>.', 'quick-event-manager').'</p>
-	<h2>'.__('Plugin Options', 'quick-event-manager').'</h2>
-	<p>'.__('To change what is displayed use the <a href="?page=quick-event-manager/settings.php&tab=settings">Event Settings</a> pages.', 'quick-event-manager').'</p>
-	<p>'.__('To change how events are displayed use the <a href="?page=quick-event-manager/settings.php&tab=display">Event Display</a> page.', 'quick-event-manager').'</p>
-	<p>'.__('To change the overall look of the events use the <a href="?page=quick-event-manager/settings.php&tab=styles">Styles</a> page.', 'quick-event-manager').'</p>
-	<p>'.__('To change calendar settings use the <a href="?page=quick-event-manager/settings.php&tab=calendar">Calendar</a> page.', 'quick-event-manager').'</p>
-	
-	<p>'.__('There is some development info on <a href="http://quick-plugins.com/quick-event-manager/" target="_blank">quick-plugins.com</a> along with a feedback form. Or you can email me at ', 'quick-event-manager').'<a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a>.</p>
-</div>
-
-	';
-	
+	<p>'.__('There are more shortcode options and some help at <a href="http://quick-plugins.com/quick-event-manager/" target="_blank">quick-plugins.com</a> along with a feedback form. Or you can email me at ', 'quick-event-manager').'<a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a>.</p>
+	</div>';
 	echo $content;
 }
-	
 function qem_event_settings() {
 	$active_buttons = array( 
 		'field1',
@@ -195,7 +186,6 @@ function qem_event_settings() {
 				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="cost_label" . value ="' . $event['cost_label'] . '" /> {'.__('cost', 'quick-event-manager').'}';
 				break;
 		}
-		
 	$li_class = ( $checked) ? 'button_active' : 'button_inactive';
 	$content .= '<li class="ui-state-default '.$li_class.' '.$first.'" id="' . $name . '">
 	<div style="float:left; width:11em; overflow:hidden;">
@@ -231,24 +221,24 @@ function qem_event_settings() {
 
 function qem_display_page() {
 	if( isset( $_POST['Submit'])) {
-		$option = array('read_more','noevent','event_archive','event_descending','map_width','map_height');
+		$option = array('show_end_date','read_more','noevent','event_archive','event_descending','map_width','map_height');
 			foreach ($option as $item) $display[$item] = $_POST[$item];
 			update_option('qem_display', $display);		
 			qem_admin_notice (__('The display settings have been updated.', 'quick-event-manager'));
 	}		
-			
 	if( isset( $_POST['Reset'])) {
 		delete_option('qem_display');
 		qem_admin_notice (__('The display settings have been reset.', 'quick-event-manager')) ;
 		}
-		
 	$display = event_get_stored_display();
-	$$display['event_order'] = 'checked'; 
-	
+	$$display['event_order'] = 'checked';
+	$$display['show_end_date'] = 'checked';
 	if ( $display['event_archive'] == "checked") $archive = "checked"; 
 	$content = '<div class="qem-options">
 		<form id="event_settings_form" method="post" action="">';	
 	$content .= '
+		<h2>'.__('End Date Display', 'quick-event-manager').'</h2>
+		<p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="show_end_date" value="checked" ' . $display['show_end_date'] . ' /> '.__('Show end date in event list (below start date)', 'quick-event-manager').'<br>
 		<h2>'.__('Event Messages', 'quick-event-manager').'</h2>
 		<p>'.__('Read more caption:', 'quick-event-manager').' <input type="text" style="width:20em;border:1px solid #415063;" label="read_more" name="read_more" value="' . $display['read_more'] . '" /></p>
 		<p>'.__('No events message:', 'quick-event-manager').' <input type="text" style="width:20em;border:1px solid #415063;" label="noevent" name="noevent" value="' . $display['noevent'] . '" /></p>
@@ -261,7 +251,14 @@ function qem_display_page() {
 		<p>'.__('Note: the map will only display if you have a valid address and the &#146;show map&#146; checkbox is ticked.', 'quick-event-manager').'</p>
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \' '.__('Are you sure you want to reset the display settings?', 'quick-event-manager').'\' );"/></p>
 		</form>
-		</div>';
+		</div>
+		<div class="qem-options">
+<h2>'.__('Event List Preview', 'quick-event-manager').'</h2>';
+	$atts = array('
+		posts' => '3');
+	
+	$content .= event_shortcode($atts,'');
+	$content .= '</div>';
 	echo $content;
 	}
 	
@@ -286,17 +283,16 @@ function qem_styles() {
 		'date_border_colour',
 		'calender_size',
 		'event_border');
-		
-			foreach ( $options as $item) $style[$item] = stripslashes($_POST[$item]);
-			update_option('qem_style', $style);
-			qem_admin_notice (__('The form styles have been updated.', 'quick-event-manager'));
-			}
-			
+		foreach ( $options as $item) $style[$item] = stripslashes($_POST[$item]);
+		update_option('qem_style', $style);
+		qem_options_css();
+		qem_admin_notice (__('The form styles have been updated.', 'quick-event-manager'));
+		}
 	if( isset( $_POST['Reset'])) {
 		delete_option('qem_style');
+		qem_options_css();
 		qem_admin_notice (__('The style settings have been reset.', 'quick-event-manager'));
-		}
-		
+		}	
 	$style = qem_get_stored_style();
 	$$style['font'] = 'checked';
 	$$style['widthtype'] = 'checked';
@@ -304,9 +300,6 @@ function qem_styles() {
 	$$style['event_background'] = 'checked';
 	$$style['date_background'] = 'checked'; 
 	$$style['calender_size'] = 'checked'; 
-	
-	qem_head_script();
-	
 	$content = '<div class="qem-options">
 	<form method="post" action="">
 	<div style="float:left; width:48%; margin-right: 1%"> 
@@ -382,7 +375,7 @@ function qem_styles() {
 	$atts = array('
 		posts' => '3');
 	
-	$content .= event_shortcode($atts);
+	$content .= event_shortcode($atts,'');
 	$content .= '</div>';
 	
 	echo $content;
@@ -420,7 +413,7 @@ function qem_calendar() {
 	$$calendar['startday'] = 'checked';
 	$content = '<div class="qem-options">
 	<p>'.__('This is a new feature in the plugin. It does work but may need some tweaks. If you want something just let me know:', 'quick-event-manager').' <a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a></p>
-	<p>'.__('To add the calendar to your site use the shortcode: <code>[qem-calendar]</code>.', 'quick-event-manager').'</p>
+	<p>'.__('To add the calendar to your site use the shortcode: <code>[qemcalendar]</code>.', 'quick-event-manager').'</p>
 	<form method="post" action="">
 	<h2>'.__('Event Links', 'quick-event-manager').'</h2>
 	<p><input style="margin:0; padding:0; border:none;" type="radio" name="eventlink" value="linkpopup" ' . $linkpopup . ' /> '.__('Link opens event summary in a popup', 'quick-event-manager').'<br />
@@ -459,6 +452,40 @@ function qem_calendar() {
 	$content .= '</div>';
 	
 	echo $content;
+}
+function qem_register (){
+	if( isset( $_POST['Submit'])) {
+		$options = array('useform','sendemail','title','blurb','yourname','youremail','qemsubmit','error','replytitle','replyblurb');
+		foreach ($options as $item) $register[$item] = stripslashes( $_POST[$item]);
+		update_option('qem_register', $register);
+		qem_admin_notice("The registration form settings have been updated.");
+		}
+	if( isset( $_POST['Reset'])) {
+		delete_option('qem_register');
+		qem_admin_notice("The registration form settings have been reset.");
+		}
+	$register = qem_get_stored_register();
+	$content = '<div class ="qem-options">
+		<form id="" method="post" action="">
+		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="useform"' . $register['useform'] . ' value="checked" /> '.__('Add a registration form to your events', 'quick-event-manager').'</p>
+		<table>
+		<tr><td>Your Email Address</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="sendemail" value="' . $register['sendemail'] . '" /></td></tr>
+		<tr><td colspan="2"><h2>Registration From</h2></td></tr>
+		<tr><td>Form title</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="title" value="' . $register['title'] . '" /></td></tr>
+		<tr><td>Form blurb</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="blurb" value="' . $register['blurb'] . '" /></td></tr>
+		<tr><td>Name Field Label</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="yourname" value="' . $register['yourname'] . '" /></td></tr>
+		<tr><td>Email Field Label</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="youremail" value="' . $register['youremail'] . '" /></td></tr>
+		<tr><td>Submit Button Label</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="qemsubmit" value="' . $register['qemsubmit'] . '" /></td></tr>
+		<tr><td colspan="2"><h2>Error and Thank-you messages</h2></td></tr>
+		<tr><td>Error Message</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="error" value="' . $register['error'] . '" /></td></tr>
+		<tr><td>Thank you message title</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="replytitle" value="' . $register['replytitle'] . '" /></td></tr>
+		<tr><td>Thank you message blurb</td><td><input type="text" style="width:20em;border:1px solid #415063;" name="replyblurb" value="' . $register['replyblurb'] . '" /></td></tr>';
+		$content .= '</table>
+		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \''.__('Are you sure you want to reset the calendar settings?', 'quick-event-manager').'\' );"/></p>
+		</form></div><div class ="qem-options"><h2>Example form</h2><p>This is an example of the form. When it appears on your site it will use your theme styles.</p>';
+		$content .= qem_loop();
+		$content .= '</div>';
+	echo $content;		
 }
 
 function event_custom_columns($column) {
@@ -526,90 +553,78 @@ function event_details_meta() {
 	if (empty($date)) $date = time();
 	$date = date_i18n("d M Y", $date);
 	
+	$enddate = get_event_field('event_end_date');
+	
+	if (!empty($enddate)) $enddate = date_i18n("d M Y", $enddate);
+	
 	$output = '
 	<p><em>'.__('Empty fields are not displayed. See the plugin <a href="options-general.php?page=quick-event-manager/settings.php">settings</a> page for options.', 'quick-event-manager').'</em></p>
 	<p><label>'.__('Date:', 'quick-event-manager').' </label>
 	<input type="text" style="border:1px solid #415063;" id="qemdate" name="event_date" value="' . $date . '" /> <em>'.__('(Errors will reset to today&#146;s date.)', 'quick-event-manager').'</em>.</p>
 	<script type="text/javascript">jQuery(document).ready(function() {jQuery(\'#qemdate\').datepicker({dateFormat : \'dd M yy\'});});</script>
+	
+	<p><label>'.__('End Date:', 'quick-event-manager').' </label>
+	<input type="text" style="border:1px solid #415063;" id="qemenddate" name="event_end_date" value="' . $enddate . '" /> <em>'.__('(Leave blank for one day events.)', 'quick-event-manager').'</em>.</p>
+	<script type="text/javascript">jQuery(document).ready(function() {jQuery(\'#qemenddate\').datepicker({dateFormat : \'dd M yy\'});});</script>
 	<p><label>'.__('Short Description:', 'quick-event-manager').' </label><input type="text" style="border:1px solid #415063;" size="100" name="event_desc" value="' . get_event_field("event_desc") . '" /></p>
 	<p><label>'.__('Time', 'quick-event-manager').' <em>(hh:mm): ' . $event['start_label'] . ' </label><input type="text" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="border:1px solid #415063;"  name="event_finish" value="' . get_event_field("event_finish") . '" /></p>
 	<p><label>'.__('Location:', 'quick-event-manager').' </label><input type="text" style="border:1px solid #415063;" size="70" name="event_location" value="' . get_event_field("event_location") . '" /></p>
 	<p><label>'.__('Address:', 'quick-event-manager').' </label><input type="text" style="border:1px solid #415063;" size="100" name="event_address" value="' . get_event_field("event_address") . '" /></p>
 	<p><label>'.__('Website:', 'quick-event-manager').' </label><input type="text" style="border:1px solid #415063;" size="50" name="event_link" value="' . get_event_field("event_link") . '" /><label> '.__('Display As:', 'quick-event-manager').' </label><input type="text" style="border:1px solid #415063;" size="40" name="event_anchor" value="' . get_event_field("event_anchor") . '" /></p>
 	<p><label>'.__('Cost:', 'quick-event-manager').' </label><input type="text" style="border:1px solid #415063;" size="70" name="event_cost" value="' . get_event_field("event_cost") . '" /></p>';
-	
 	echo $output;
 }
-
 function get_event_field($event_field) {
 	global $post;
-	
 	$custom = get_post_custom($post->ID);
-	
 	if (isset($custom[$event_field]))
 		return $custom[$event_field][0];
 }
-
 function save_event_details() {
 	global $post;
-	
 	$event = event_get_stored_options();
-	
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	if ( get_post_type($post) != 'event') return;
-	
 	if(isset($_POST["event_date"])) $setdate = $_POST["event_date"];
 	update_post_meta($post->ID, "event_date", strtotime($setdate));
+	if(isset($_POST["event_end_date"])) $setenddate = $_POST["event_end_date"];
+	update_post_meta($post->ID, "event_end_date", strtotime($setenddate));
 	save_event_field("event_desc");
 	save_event_field("event_start");
 	save_event_field("event_finish");
 	save_event_field("event_location");
 	save_event_field("event_address");
 	save_event_field("event_link");
+	save_event_field("event_anchor");
 	save_event_field("event_cost");
 }
-
 function save_event_field($event_field) {
 	global $post;
-	
 	if(isset($_POST[$event_field])) update_post_meta($post->ID, $event_field, $_POST[$event_field]);
 }
-
 function action_add_meta_boxes() {
 	add_meta_box('event_sectionid',__('Event Details', 'quick-event-manager'),'event_details_meta','event', 'normal', 'high');
-	
 	global $_wp_post_type_features;
-	
 	if (isset($_wp_post_type_features['event']['editor']) && $_wp_post_type_features['event']['editor']) {
 		unset($_wp_post_type_features['event']['editor']);
 		add_meta_box('description_section', __('Event Description', 'quick-event-manager'),'inner_custom_box','event', 'normal', 'high');
 		}
 }
-
-function inner_custom_box( $post ) {
-	the_editor($post->post_content);
-}
+function inner_custom_box( $post ) {the_editor($post->post_content);}
 
 function qem_duplicate_month() {qem_duplicate_post($period = '+1month');}
-function qem_duplicate_week() {
-	$period = '+7days';
-	qem_duplicate_post($period);
-	}
-	
+function qem_duplicate_week() {$period = '+7days';qem_duplicate_post($period);}
 function qem_duplicate_post($period){
 	global $wpdb;
 	if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'] ) ) ) {
 		wp_die('No post to duplicate has been supplied!');
 	}
- 
 	$post_id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
 	$post = get_post( $post_id );
 	$current_user = wp_get_current_user();
 	$new_post_author = $current_user->ID;
- 
 	if (isset( $post ) && $post != null) {
- 
-	$args = array(
+		$args = array(
 			'comment_status' => $post->comment_status,
 			'ping_status'    => $post->ping_status,
 			'post_author'    => $new_post_author,
@@ -624,9 +639,7 @@ function qem_duplicate_post($period){
 			'to_ping'        => $post->to_ping,
 			'menu_order'     => $post->menu_order
 		);
- 
 		$new_post_id = wp_insert_post( $args );
- 
 		$taxonomies = get_object_taxonomies($post->post_type); // returns array of taxonomy names for post type, ex array("category", "post_tag");
 		foreach ($taxonomies as $taxonomy) {
 			$post_terms = wp_get_object_terms($post_id, $taxonomy);
@@ -634,7 +647,6 @@ function qem_duplicate_post($period){
 				wp_set_object_terms($new_post_id, $post_terms[$i]->slug, $taxonomy, true);
 			}
 		}
- 
 		$post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
 		if (count($post_meta_infos)!=0) {
 			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
@@ -647,8 +659,7 @@ function qem_duplicate_post($period){
 			$sql_query.= implode(" UNION ALL ", $sql_query_sel);
 			$wpdb->query($sql_query);
 		}
- 
-	wp_redirect( admin_url( 'edit.php?post_type=event' ) );
+		wp_redirect( admin_url( 'edit.php?post_type=event' ) );
 		exit;
 	} else {
 		wp_die('Post creation failed, could not find original post: ' . $post_id);
@@ -669,6 +680,61 @@ function duplicate_post_week( $actions, $post ) {
 	}
 	return $actions;
 }
- 
+
+function qem_admin_pointers_header() {
+	if ( qem_admin_pointers_check() ) {
+		add_action( 'admin_print_footer_scripts', 'qem_admin_pointers_footer' );
+		wp_enqueue_script( 'wp-pointer' );
+		wp_enqueue_style( 'wp-pointer' );
+		}
+	}
+function qem_admin_pointers_check() {
+	$admin_pointers = qem_admin_pointers();
+	foreach ( $admin_pointers as $pointer => $array ) {
+		if ( $array['active'] ) return true;
+		}
+	}
+function qem_admin_pointers_footer() {
+	$admin_pointers = qem_admin_pointers();
+	?>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	( function($) {
+   	<?php
+	foreach ( $admin_pointers as $pointer => $array ) {
+		if ( $array['active'] ) {
+		?>
+		$( '<?php echo $array['anchor_id']; ?>' ).pointer( {
+			content: '<?php echo $array['content']; ?>',
+			position: {
+			edge: '<?php echo $array['edge']; ?>',
+			align: '<?php echo $array['align']; ?>'
+			},
+		close: function() {
+		$.post( ajaxurl, {pointer: '<?php echo $pointer; ?>',action: 'dismiss-wp-pointer'} );
+		}
+	} ).pointer( 'open' );
+	<?php } } ?>
+	} )(jQuery);
+	/* ]]> */
+	</script>
+	<?php
+	}
+function qem_admin_pointers() {
+	$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+	$version = '5_0';
+	$prefix = 'qem_admin_pointers' . $version . '_';
+	$new_pointer_content = '<h3>Event Manager</h3>';
+	$new_pointer_content .= '<h4 style="margin:3px 15px">Upgrades from V4.2</h4><p style="margin:5px 0">All new <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Event Registration Form</a><br>Event Start and End Date fields<br>More <a href="options-general.php?page=quick-event-manager/settings.php&tab=calendar">Calendar</a> options</p><h4 style="margin:3px 15px">Get Started Guide</h4><p style="margin:5px 0">If you are new to the plugin then start <a href="options-general.php?page=quick-event-manager/settings.php">here</a>.</p>';
+	return array(
+		$prefix . 'new_items' => array(
+		'content' => $new_pointer_content,
+		'anchor_id' => '#menu-posts-event',
+		'edge' => 'left',
+		'align' => 'left',
+		'active' => ( ! in_array( $prefix . 'new_items', $dismissed ) )
+		),);
+	}
+
 add_filter( 'post_row_actions', 'duplicate_post_month', 10, 2 );
 add_filter( 'post_row_actions', 'duplicate_post_week', 10, 2 );

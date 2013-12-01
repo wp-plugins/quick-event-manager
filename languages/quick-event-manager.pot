@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 23:58+0100\n"
-"PO-Revision-Date: 2013-11-05 23:58+0100\n"
+"POT-Creation-Date: 2013-11-22 23:34+0100\n"
+"PO-Revision-Date: 2013-11-22 23:34+0100\n"
 "Last-Translator: dan <danco38@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,102 +17,102 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../quick-event-manager.php:44
+#: ../quick-event-manager.php:45
 msgid "Settings"
 msgstr ""
 
-#: ../quick-event-manager.php:52
+#: ../quick-event-manager.php:53
 msgctxt "post type general name"
 msgid "Events"
 msgstr ""
 
-#: ../quick-event-manager.php:53
+#: ../quick-event-manager.php:54
 msgctxt "post type singular name"
 msgid "Event"
 msgstr ""
 
-#: ../quick-event-manager.php:54
+#: ../quick-event-manager.php:55
 msgctxt "event"
 msgid "Add New"
 msgstr ""
 
-#: ../quick-event-manager.php:55
+#: ../quick-event-manager.php:56
 msgid "Add New Event"
 msgstr ""
 
-#: ../quick-event-manager.php:56
+#: ../quick-event-manager.php:57
 msgid "Edit Event"
 msgstr ""
 
-#: ../quick-event-manager.php:57
+#: ../quick-event-manager.php:58
 msgid "New Event"
 msgstr ""
 
-#: ../quick-event-manager.php:58
+#: ../quick-event-manager.php:59
 msgid "View Event"
 msgstr ""
 
-#: ../quick-event-manager.php:59
+#: ../quick-event-manager.php:60
 msgid "Search event"
 msgstr ""
 
-#: ../quick-event-manager.php:60
+#: ../quick-event-manager.php:61
 msgid "Nothing found"
 msgstr ""
 
-#: ../quick-event-manager.php:61
+#: ../quick-event-manager.php:62
 msgid "Nothing found in Trash"
 msgstr ""
 
-#: ../quick-event-manager.php:314
+#: ../quick-event-manager.php:338
 msgid "Add events to your sidebar"
 msgstr ""
 
-#: ../quick-event-manager.php:322
+#: ../quick-event-manager.php:346
 msgid "Number of posts to display: "
 msgstr ""
 
-#: ../quick-event-manager.php:323
+#: ../quick-event-manager.php:347
 msgid "Leave blank to use the default settings."
 msgstr ""
 
-#: ../quick-event-manager.php:324
+#: ../quick-event-manager.php:348
 msgid "All options for the quick events manager are changed on the plugin"
 msgstr ""
 
-#: ../quick-event-manager.php:324
+#: ../quick-event-manager.php:348
 msgid "setting page"
 msgstr ""
 
-#: ../quick-event-manager.php:520
+#: ../quick-event-manager.php:544
 msgid "&#9668; Prev"
 msgstr ""
 
-#: ../quick-event-manager.php:522
+#: ../quick-event-manager.php:546
 msgid "Next &#9658;"
 msgstr ""
 
-#: ../quick-event-manager.php:628
+#: ../quick-event-manager.php:723
 msgid "Short Description"
 msgstr ""
 
-#: ../quick-event-manager.php:629 ../settings.php:512
+#: ../quick-event-manager.php:724 ../settings.php:547
 msgid "Event Time"
 msgstr ""
 
-#: ../quick-event-manager.php:630 ../settings.php:513
+#: ../quick-event-manager.php:725 ../settings.php:548
 msgid "Location"
 msgstr ""
 
-#: ../quick-event-manager.php:631 ../settings.php:514
+#: ../quick-event-manager.php:726 ../settings.php:549
 msgid "Address"
 msgstr ""
 
-#: ../quick-event-manager.php:632
+#: ../quick-event-manager.php:727
 msgid "Event Website"
 msgstr ""
 
-#: ../quick-event-manager.php:633
+#: ../quick-event-manager.php:728
 msgid "Cost"
 msgstr ""
 
@@ -124,35 +124,39 @@ msgstr ""
 msgid "Event Management"
 msgstr ""
 
-#: ../settings.php:61
+#: ../settings.php:62
 msgid "Setup"
 msgstr ""
 
-#: ../settings.php:62
+#: ../settings.php:63
 msgid "Event Settings"
 msgstr ""
 
-#: ../settings.php:63
+#: ../settings.php:64
 msgid "Event Display"
 msgstr ""
 
-#: ../settings.php:64
+#: ../settings.php:65
 msgid "Event Styling"
 msgstr ""
 
-#: ../settings.php:65
+#: ../settings.php:66
 msgid "Calendar Options"
 msgstr ""
 
-#: ../settings.php:83
+#: ../settings.php:67
+msgid "Event Registration"
+msgstr ""
+
+#: ../settings.php:84
 msgid "Setting up and using the plugin"
 msgstr ""
 
-#: ../settings.php:84
+#: ../settings.php:85
 msgid "Important!"
 msgstr ""
 
-#: ../settings.php:84
+#: ../settings.php:85
 msgid ""
 "This plugin uses custom posts. For it to work properly you have to resave "
 "your <a href=\"options-permalink.php\">permalinks</a>. This is not a bug, "
@@ -160,80 +164,80 @@ msgid ""
 "will get a page not found on your events."
 msgstr ""
 
-#: ../settings.php:85
+#: ../settings.php:86
 msgid ""
 "Create new events using the <a href=\"edit.php?post_type=event\">Events</a> "
 "link on your dashboard menu."
 msgstr ""
 
-#: ../settings.php:86
+#: ../settings.php:87
 msgid ""
 "To display list of events use the shortcode: <code>[qem]</code>. To just "
 "display past events use the shortcode: <code>[qem id=\"archive\"]</code>."
 msgstr ""
 
-#: ../settings.php:87
+#: ../settings.php:88
 msgid ""
 "If you prefer to display your events as a calendar use the shortcode: <code>"
 "[qem-calendar]</code>."
 msgstr ""
 
-#: ../settings.php:88
+#: ../settings.php:89
 msgid ""
 "That&#39;s pretty much it. All you need to do now is <a href=\"edit.php?"
 "post_type=event\">create some events</a>."
 msgstr ""
 
-#: ../settings.php:89
+#: ../settings.php:90
 msgid "Plugin Options"
 msgstr ""
 
-#: ../settings.php:90
+#: ../settings.php:91
 msgid ""
 "To change what is displayed use the <a href=\"?page=quick-event-manager/"
 "settings.php&tab=settings\">Event Settings</a> pages."
 msgstr ""
 
-#: ../settings.php:91
+#: ../settings.php:92
 msgid ""
 "To change how events are displayed use the <a href=\"?page=quick-event-"
 "manager/settings.php&tab=display\">Event Display</a> page."
 msgstr ""
 
-#: ../settings.php:92
+#: ../settings.php:93
 msgid ""
 "To change the overall look of the events use the <a href=\"?page=quick-event-"
 "manager/settings.php&tab=styles\">Styles</a> page."
 msgstr ""
 
-#: ../settings.php:93
+#: ../settings.php:94
 msgid ""
 "To change calendar settings use the <a href=\"?page=quick-event-manager/"
 "settings.php&tab=calendar\">Calendar</a> page."
 msgstr ""
 
-#: ../settings.php:95
+#: ../settings.php:96
 msgid ""
 "There is some development info on <a href=\"http://quick-plugins.com/quick-"
 "event-manager/\" target=\"_blank\">quick-plugins.com</a> along with a "
 "feedback form. Or you can email me at "
 msgstr ""
 
-#: ../settings.php:128
+#: ../settings.php:129
 msgid "The form settings have been updated"
 msgstr ""
 
-#: ../settings.php:152
+#: ../settings.php:153
 msgid ""
 "Use the check boxes to select which fields to display in the event post and "
 "the event list."
 msgstr ""
 
-#: ../settings.php:153
+#: ../settings.php:154
 msgid "Drag and drop to change the order of the fields."
 msgstr ""
 
-#: ../settings.php:154
+#: ../settings.php:155
 msgid ""
 "The fields with the blue border are for optional captions. For example: "
 "<span style=\"border:1px solid blue;\">The cost is</span> {cost} will "
@@ -241,449 +245,462 @@ msgid ""
 "Zlotys</em> will display."
 msgstr ""
 
-#: ../settings.php:155
+#: ../settings.php:156
 msgid "Show in event post"
 msgstr ""
 
-#: ../settings.php:156
+#: ../settings.php:157
 msgid "Show in<br>event list"
 msgstr ""
 
-#: ../settings.php:157
+#: ../settings.php:158
 msgid "Colour"
 msgstr ""
 
-#: ../settings.php:158
+#: ../settings.php:159
 msgid "Font<br>size"
 msgstr ""
 
-#: ../settings.php:159
+#: ../settings.php:160
 msgid "Font<br>attributes"
 msgstr ""
 
-#: ../settings.php:160
+#: ../settings.php:161
 msgid "Caption and display options:"
 msgstr ""
 
-#: ../settings.php:175
+#: ../settings.php:176
 msgid "description"
 msgstr ""
 
-#: ../settings.php:179
+#: ../settings.php:180
 msgid "start time"
 msgstr ""
 
-#: ../settings.php:179
+#: ../settings.php:180
 msgid "end time"
 msgstr ""
 
-#: ../settings.php:183
+#: ../settings.php:184
 msgid "location"
 msgstr ""
 
-#: ../settings.php:187
+#: ../settings.php:188
 msgid "address"
 msgstr ""
 
-#: ../settings.php:187
+#: ../settings.php:188
 msgid "Show map (if address is given)"
 msgstr ""
 
-#: ../settings.php:191
+#: ../settings.php:192
 msgid "Link to website"
 msgstr ""
 
-#: ../settings.php:195
+#: ../settings.php:196
 msgid "cost"
 msgstr ""
 
-#: ../settings.php:224 ../settings.php:262 ../settings.php:377
-#: ../settings.php:452
+#: ../settings.php:225 ../settings.php:263 ../settings.php:378
+#: ../settings.php:453 ../settings.php:492
 msgid "Save Changes"
 msgstr ""
 
-#: ../settings.php:237
+#: ../settings.php:238
 msgid "The display settings have been updated."
 msgstr ""
 
-#: ../settings.php:242
+#: ../settings.php:243
 msgid "The display settings have been reset."
 msgstr ""
 
-#: ../settings.php:252
+#: ../settings.php:253
 msgid "Event Messages"
 msgstr ""
 
-#: ../settings.php:253
+#: ../settings.php:254
 msgid "Read more caption:"
 msgstr ""
 
-#: ../settings.php:254
+#: ../settings.php:255
 msgid "No events message:"
 msgstr ""
 
-#: ../settings.php:255
+#: ../settings.php:256
 msgid "Event List Options"
 msgstr ""
 
-#: ../settings.php:256
+#: ../settings.php:257
 msgid "List events in reverse order (from future to past)"
 msgstr ""
 
-#: ../settings.php:257
+#: ../settings.php:258
 msgid "Show past events in the events list"
 msgstr ""
 
-#: ../settings.php:258
+#: ../settings.php:259
 msgid ""
 "If you only want to display past events use the shortcode: <code>[qem id="
 "\"archive\"]</code>."
 msgstr ""
 
-#: ../settings.php:259
+#: ../settings.php:260
 msgid "Map Size"
 msgstr ""
 
-#: ../settings.php:260
+#: ../settings.php:261
 msgid "Width:"
 msgstr ""
 
-#: ../settings.php:260
+#: ../settings.php:261
 msgid "Height:"
 msgstr ""
 
-#: ../settings.php:261
+#: ../settings.php:262
 msgid ""
 "Note: the map will only display if you have a valid address and the &#146;"
 "show map&#146; checkbox is ticked."
 msgstr ""
 
-#: ../settings.php:262 ../settings.php:377 ../settings.php:452
+#: ../settings.php:263 ../settings.php:378 ../settings.php:453
+#: ../settings.php:492
 msgid "Reset"
 msgstr ""
 
-#: ../settings.php:262
+#: ../settings.php:263
 msgid "Are you sure you want to reset the display settings?"
 msgstr ""
 
-#: ../settings.php:292
+#: ../settings.php:293
 msgid "The form styles have been updated."
 msgstr ""
 
-#: ../settings.php:297
+#: ../settings.php:298
 msgid "The style settings have been reset."
 msgstr ""
 
-#: ../settings.php:313
+#: ../settings.php:314
 msgid "Event Width"
 msgstr ""
 
-#: ../settings.php:315
+#: ../settings.php:316
 msgid "100% (fill the available space)"
 msgstr ""
 
-#: ../settings.php:316
+#: ../settings.php:317
 msgid "Pixel (fixed)"
 msgstr ""
 
-#: ../settings.php:317
+#: ../settings.php:318
 msgid "Enter the width in pixels:"
 msgstr ""
 
-#: ../settings.php:317
+#: ../settings.php:318
 msgid "(Just enter the value, no need to add 'px')."
 msgstr ""
 
-#: ../settings.php:320
+#: ../settings.php:321
 msgid "Font Options"
 msgstr ""
 
-#: ../settings.php:321
+#: ../settings.php:322
 msgid "Use your theme font styles"
 msgstr ""
 
-#: ../settings.php:322
+#: ../settings.php:323
 msgid "Use Plugin font styles (enter font family and size below)"
 msgstr ""
 
-#: ../settings.php:323
+#: ../settings.php:324
 msgid "Font Family:"
 msgstr ""
 
-#: ../settings.php:324
+#: ../settings.php:325
 msgid "Font Size:"
 msgstr ""
 
-#: ../settings.php:327
+#: ../settings.php:328
 msgid "Calender Icon"
 msgstr ""
 
-#: ../settings.php:330
+#: ../settings.php:331
 msgid "Size"
 msgstr ""
 
-#: ../settings.php:332
+#: ../settings.php:333
 msgid "Small"
 msgstr ""
 
-#: ../settings.php:333
+#: ../settings.php:334
 msgid "Medium"
 msgstr ""
 
-#: ../settings.php:334
+#: ../settings.php:335
 msgid "Large"
 msgstr ""
 
-#: ../settings.php:337
+#: ../settings.php:338
 msgid "Border Thickeness"
 msgstr ""
 
-#: ../settings.php:339
+#: ../settings.php:340
 msgid "Border Colour"
 msgstr ""
 
-#: ../settings.php:343
+#: ../settings.php:344
 msgid "Date Background colour"
 msgstr ""
 
-#: ../settings.php:345
+#: ../settings.php:346
 msgid "Grey"
 msgstr ""
 
-#: ../settings.php:346
+#: ../settings.php:347
 msgid "Red"
 msgstr ""
 
-#: ../settings.php:347 ../settings.php:368
+#: ../settings.php:348 ../settings.php:369
 msgid "Set your own (enter HEX code or color name below)"
 msgstr ""
 
-#: ../settings.php:351
+#: ../settings.php:352
 msgid "Date Text Colour"
 msgstr ""
 
-#: ../settings.php:353
+#: ../settings.php:354
 msgid "Month Text Style"
 msgstr ""
 
-#: ../settings.php:354
+#: ../settings.php:355
 msgid "Bold"
 msgstr ""
 
-#: ../settings.php:355
+#: ../settings.php:356
 msgid "Italic"
 msgstr ""
 
-#: ../settings.php:358
+#: ../settings.php:359
 msgid "Event Content"
 msgstr ""
 
-#: ../settings.php:360
+#: ../settings.php:361
 msgid "Event Border"
 msgstr ""
 
-#: ../settings.php:361
+#: ../settings.php:362
 msgid "Add a border to the event post"
 msgstr ""
 
-#: ../settings.php:362
+#: ../settings.php:363
 msgid "Thickness and colour will be the same as the calendar icon."
 msgstr ""
 
-#: ../settings.php:365
+#: ../settings.php:366
 msgid "Event Background colour"
 msgstr ""
 
-#: ../settings.php:366
+#: ../settings.php:367
 msgid "White"
 msgstr ""
 
-#: ../settings.php:367
+#: ../settings.php:368
 msgid "Use theme colours"
 msgstr ""
 
-#: ../settings.php:372
+#: ../settings.php:373
 msgid "Custom CSS"
 msgstr ""
 
-#: ../settings.php:373
+#: ../settings.php:374
 msgid "Use Custom CSS"
 msgstr ""
 
-#: ../settings.php:375
+#: ../settings.php:376
 msgid ""
 "To see all the styling use the <a href=\"plugin-editor.php?file=quick-event-"
 "manager/quick-event-manager-style.css\">CSS editor</a>."
 msgstr ""
 
-#: ../settings.php:376
+#: ../settings.php:377
 msgid "The main style wrapper is the <code>.qem</code> class."
 msgstr ""
 
-#: ../settings.php:377
+#: ../settings.php:378
 msgid "Are you sure you want to reset the style settings?"
 msgstr ""
 
-#: ../settings.php:381
+#: ../settings.php:382
 msgid "Event List Preview"
 msgstr ""
 
-#: ../settings.php:410
+#: ../settings.php:411
 msgid "The calendar settings have been updated."
 msgstr ""
 
-#: ../settings.php:415
+#: ../settings.php:416
 msgid "The calendar settings have been reset."
 msgstr ""
 
-#: ../settings.php:422
+#: ../settings.php:423
 msgid ""
 "This is a new feature in the plugin. It does work but may need some tweaks. "
 "If you want something just let me know:"
 msgstr ""
 
-#: ../settings.php:423
+#: ../settings.php:424
 msgid ""
-"To add the calendar to your site use the shortcode: <code>[qem-calendar]</"
+"To add the calendar to your site use the shortcode: <code>[qemcalendar]</"
 "code>."
 msgstr ""
 
-#: ../settings.php:425
+#: ../settings.php:426
 msgid "Event Links"
 msgstr ""
 
-#: ../settings.php:426
+#: ../settings.php:427
 msgid "Link opens event summary in a popup"
 msgstr ""
 
-#: ../settings.php:428
+#: ../settings.php:429
 msgid "Link opens event page"
 msgstr ""
 
-#: ../settings.php:429
+#: ../settings.php:430
 msgid ""
 "Link Event List to Calendar Page (you will need to create a page for the "
 "calendar)."
 msgstr ""
 
-#: ../settings.php:431
+#: ../settings.php:432
 msgid "Calendar link text"
 msgstr ""
 
-#: ../settings.php:432
+#: ../settings.php:433
 msgid "Calendar page URL"
 msgstr ""
 
-#: ../settings.php:433
+#: ../settings.php:434
 msgid "Event list link text"
 msgstr ""
 
-#: ../settings.php:434
+#: ../settings.php:435
 msgid "Event list page"
 msgstr ""
 
-#: ../settings.php:436
+#: ../settings.php:437
 msgid "Calendar Colours"
 msgstr ""
 
-#: ../settings.php:438
+#: ../settings.php:439
 msgid "Items"
 msgstr ""
 
-#: ../settings.php:438
+#: ../settings.php:439
 msgid "Background"
 msgstr ""
 
-#: ../settings.php:438
+#: ../settings.php:439
 msgid "Text"
 msgstr ""
 
-#: ../settings.php:439
+#: ../settings.php:440
 msgid "Days of the Week"
 msgstr ""
 
-#: ../settings.php:441
+#: ../settings.php:442
 msgid "Normal Date"
 msgstr ""
 
-#: ../settings.php:442 ../settings.php:511
+#: ../settings.php:443 ../settings.php:546
 msgid "Event Date"
 msgstr ""
 
-#: ../settings.php:444
+#: ../settings.php:445
 msgid "Past Date"
 msgstr ""
 
-#: ../settings.php:446
+#: ../settings.php:447
 msgid "Event Hover"
 msgstr ""
 
-#: ../settings.php:450
+#: ../settings.php:451
 msgid "On Sunday"
 msgstr ""
 
-#: ../settings.php:451
+#: ../settings.php:452
 msgid "On Monday"
 msgstr ""
 
-#: ../settings.php:452
+#: ../settings.php:453 ../settings.php:492
 msgid "Are you sure you want to reset the calendar settings?"
 msgstr ""
 
-#: ../settings.php:456
+#: ../settings.php:457
 msgid "Calendar Preview"
 msgstr ""
 
-#: ../settings.php:510
+#: ../settings.php:478
+msgid "Add a registration form to your events"
+msgstr ""
+
+#: ../settings.php:545
 msgid "Event"
 msgstr ""
 
-#: ../settings.php:530
+#: ../settings.php:569
 msgid ""
 "Empty fields are not displayed. See the plugin <a href=\"options-general.php?"
 "page=quick-event-manager/settings.php\">settings</a> page for options."
 msgstr ""
 
-#: ../settings.php:531
+#: ../settings.php:570
 msgid "Date:"
 msgstr ""
 
-#: ../settings.php:532
+#: ../settings.php:571
 msgid "(Errors will reset to today&#146;s date.)"
 msgstr ""
 
-#: ../settings.php:534
+#: ../settings.php:574
+msgid "End Date:"
+msgstr ""
+
+#: ../settings.php:575
+msgid "(Leave blank for one day events.)"
+msgstr ""
+
+#: ../settings.php:578
 msgid "Short Description:"
 msgstr ""
 
-#: ../settings.php:535
+#: ../settings.php:579
 msgid "Time"
 msgstr ""
 
-#: ../settings.php:536
+#: ../settings.php:580
 msgid "Location:"
 msgstr ""
 
-#: ../settings.php:537
+#: ../settings.php:581
 msgid "Address:"
 msgstr ""
 
-#: ../settings.php:538
+#: ../settings.php:582
 msgid "Website:"
 msgstr ""
 
-#: ../settings.php:538
+#: ../settings.php:582
 msgid "Display As:"
 msgstr ""
 
-#: ../settings.php:539
+#: ../settings.php:583
 msgid "Cost:"
 msgstr ""
 
-#: ../settings.php:579
+#: ../settings.php:625
 msgid "Event Details"
 msgstr ""
 
-#: ../settings.php:585
+#: ../settings.php:631
 msgid "Event Description"
 msgstr ""
