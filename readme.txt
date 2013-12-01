@@ -10,13 +10,14 @@ Simple event manager. No messing about, just add events and a shortcode and the 
 
 == Description ==
 
-A really, really simple event creator. Just add new events and publish. The shortcode lists all the events. The settings page lets you select how you want the event displayed.
+A really, really simple event creator. Just add new events and publish. The shortcode lists all the events. The settings pages let you select how you want the event displayed.
 
 = Features =
 
 *	Event posts created from your dashboard
 *	Loads of layout and styling options
 *	Show events as a list or a calendar
+*	Built in event registration form
 *	Event maps
 *	Widgets and Shortcode options
 *	Archive post options
@@ -60,7 +61,6 @@ In the main dashboard, click on 'event' then 'add new'.
 
 = What's the shortcode? =
 [qem]
-If you just want old events use the shortcode [qem id="archive"]
 If you just want a calendar use the shortcode [qemcalendar"]
 
 = How do I change the colours and things? =
