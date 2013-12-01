@@ -446,8 +446,8 @@ function qem_calendar() {
 	</form>
 	</div>
 	<div class="qem-options">
-	<h2>'.__('Calendar Preview', 'quick-event-manager').'</h2>';
-
+	<h2>'.__('Calendar Preview', 'quick-event-manager').'</h2>
+	<p>'.__('The <em>prev</em> and <em>next</em> buttons only work on your Posts and Pages - so don&#146;t click on them!', 'quick-event-manager').'</p>';
 	$content .= qem_show_calendar();
 	$content .= '</div>';
 	
