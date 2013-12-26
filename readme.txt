@@ -3,7 +3,7 @@
 Contributors: 
 Tags: event manager, calendar
 Requires at least: 2.7
-Tested up to: 3.6
+Tested up to: 3.8
 Stable tag: trunk
 
 Simple event manager. No messing about, just add events and a shortcode and the plugin does the rest for you. 
@@ -73,6 +73,12 @@ No.
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 == Changelog ==
+
+= 5.1 =
+*	Updated for Wordpress 3.8 compatibility
+*	Added colour options for calendar events
+*	Improved event title display on calendar
+*	Code reduction
 
 = 5.0 =
 *	Extracted scrpts and styles to external files
