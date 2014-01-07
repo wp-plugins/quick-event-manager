@@ -17,3 +17,6 @@
 #qem_sort li div {overflow:hidden;}
 .qem-details {border:1px solid blue;}
 .qem-details p {margin: 4px 0;padding: 0;}
+@media screen and (max-width: 600px) {
+	.qem-options {width: calc(100% - 22px);width: -webkit-calc(100% - 22px);}
+	}

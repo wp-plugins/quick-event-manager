@@ -61,10 +61,11 @@ In the main dashboard, click on 'event' then 'add new'.
 
 = What's the shortcode? =
 [qem]
-If you just want a calendar use the shortcode [qemcalendar"]
+If you just want a calendar use the shortcode [qemcalendar]
 
 = How do I change the colours and things? =
 Use the plugin settings page. You can't style individual events, they all look the same.
+But you can change lots of colours on the calendar
 
 = Can I add more fields? =
 No.
@@ -73,6 +74,9 @@ No.
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 == Changelog ==
+
+= 5.2 =
+*	Removed the need to resave permalinks.
 
 = 5.1 =
 *	Updated for Wordpress 3.8 compatibility
