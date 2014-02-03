@@ -1,39 +1,34 @@
-.qem {margin-bottom:12px;}
+.qem {margin-bottom:40px;}
 .qem-large {margin-left: 100px;}
 .qem-medium {margin-left: 75px;}
 .qem-small {margin-left: 50px;}
-.qem-calendar-large {color: #343838;font-size: 120%;text-align: center;background: #FFF;width: 80px;margin: 0 0 10px 0;padding: 0 0 5px 0;}
+.qem-calendar-large {color: #343838;font-size: 120%;text-align: center;background: #FFF;width: 80px;margin: 0;padding: 0 0 5px 0;}
 .qem-calendar-large .day {font-size: 140%;color: white;display: block;padding: 4px 0;}
 .qem-calendar-large .month {font-size: 200%;display: block;padding: 5px 0;}
-.qem-calendar-medium {color: #343838;text-align: center;background: #FFF;width: 60px;margin: 0 0 10px 0;padding: 0 0 3px 0;}
+.qem-calendar-medium {color: #343838;text-align: center;background: #FFF;width: 60px;margin: 0;padding: 0 0 3px 0;}
 .qem-calendar-medium .day {background: red;font-size: 120%;color: white;display: block;padding: 3px 0;}
 .qem-calendar-medium .month {font-size: 150%;display: block;padding: 3px 0;}
-.qem-calendar-small {color: #343838;font-size: 80%;text-align: center;background: #FFF;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
-.qem-calendar-small .day {background: #343838color: white;display: block;padding: 2px 0;}
+.qem-calendar-small {color: #343838;font-size: 80%;text-align: center;background: #FFF;width: 40px;margin: 0;padding: 0 0 2px 0;}
+.qem-calendar-small .day {background: #343838;color: white;display: block;padding: 2px 0;}
 .qem-calendar-small .month {font-size: 140%;display: block;padding: 2px 0;text-align: center;}
-@media only screen and (max-width: 480px) {
-	.qem-large, .qem-medium {margin-left: 50px;}
-	.qem-calendar-large, .qem-calendar-medium  {color: #343838;font-size: 80%;text-align: center;background: #FFF;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
-	.qem-calendar-large .day, .qem-calendar-medium .day {background: #343838color: white;display: block;padding: 2px 0;}
-	.qem-calendar-large .month, .qem-calendar-medium .month {font-size: 140%;display: block;padding: 2px 0;text-align: center;}
-	}
+
 .qem .qemmap {float:right; margin: 0 0 10px 10px;}
 .qem .qemmap {max-width:100%;height:auto;overflow: hidden;}
 .qem_input {width:40%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;overflow:hidden;}
-#qem-calendar {margin: 0 0 12px 0;}	
+#qem-calendar {margin: 0 0 12px 0;width:100%;height:auto;overflow:hidden;}	
 #qem-calendar .top {margin-bottom: 4px;}
 #qem-calendar .calday {text-align:center;padding:3px;background: #EBEFC9;font-weight:bold}
 #qem-calendar .day {height:3em;padding:2px;text-align:left;background:#EBEFC9;}
 #qem-calendar .oldday {background:#CCC;}
 #qem-calendar .eventday {background:#EED1AC;padding-bottom:4px;}
-#qem-calendar .day span, #qem-calendar .eventday span, .popdate {font-size:160%;color: #D75231;}
+#qem-calendar .day span, .popdate {font-size:160%;color: #D75231;}
 #qem-calendar h2 {padding:0;margin:0;}
 #qem-calendar .eventday a {display:block;margin: 3px 2px;border:1px solid #D75231;color:#343838;padding: 4px;text-decoration:none;background:#FFF;cursor: pointer;-webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;font-size:90%;}
 #qem-calendar td {width:14.2%;vertical-align:top;}
 #qem-calendar td a:hover {background:#F2F2E6; }
 #qem-calendar a.calnav {text-decoration:none;padding:4px;border:1px solid #CCC;display:block;text-align:center;}
 #qem-calendar .calmonth h2 {text-align:center;}
-.qempop {max-width:800px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;}
+.qempop {max-width:800px;min-width:280px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;}
 @media screen and (
 	max-width: 768px) {.qem-options {width: calc(100% - 20px);}
 	}
@@ -43,3 +38,13 @@
 .qem-register input:focus {background:#FFFFCC;}
 .qem-register p {margin: 4px 0;}
 .qem-register #submit {color: #FFF;background: #343838;text-align: center;cursor: pointer;}
+@media only screen and (max-width: 480px) {
+	.qem-large, .qem-medium {margin-left: 50px;}
+	.qem-calendar-large, .qem-calendar-medium  {color: #343838;font-size: 80%;text-align: center;background: #FFF;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
+	.qem-calendar-large .day, .qem-calendar-medium .day {background: #343838;color: white;display: block;padding: 2px 0;}
+	.qem-calendar-large .month, .qem-calendar-medium .month {font-size: 140%;display: block;padding: 2px 0;text-align: center;}
+	#qem-calendar td {width:14%;}
+    #qem-calendar .eventday a {text-align:center;}
+    .qemtrim span {display:none;}
+    .qemtrim:after{content:" \25b6";font-size:150%;}
+	}

@@ -34,4 +34,3 @@ function pseudo_popup(content) {
 	popup.style.left = x + "px";
 	return false;
 	}
-

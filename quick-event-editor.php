@@ -82,17 +82,10 @@ function event_details_meta() {
 		<td width="20%"><label>'.__('Cost:', 'quick-event-manager').' </label></td>
 		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td>
 		</td></tr>
-		<tr><td width="20%">Event Image (replaces the event map)</td><td>
-		<div style="float:right"><img src=' . get_event_field("event_image") . '></div>
-		<input id="upload_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" /><br>
-   		<input id="upload_media_button" class="button" type="button" value="Upload Image" />
-		</td></tr>
-		</table>
-		
-		
-		
-		
-		';
+		<tr><td width="20%">Event Image (replaces the event map)</td><td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
+   		<input id="upload_event_image" class="button" type="button" value="Upload Image" /></td></tr>';
+     if (get_event_field("event_image")) $output .= '<tr><td></td><td><img src=' . get_event_field("event_image") . '></td></tr>';
+		$output .='</table>';
 	echo $output;
 	}
 function get_event_field($event_field) {

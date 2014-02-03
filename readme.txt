@@ -75,8 +75,17 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.3 =
+*	Introduction of a color picker
+*   Add images to events
+*   Display start and end dates side by side
+*   Colour coding for event
+*   Better event styling
+*   Cleaned out a load of duplicate code
+*	Better Wordpress 3.8 support
+
 = 5.2 =
-*	Removed the need to resave permalinks.
+*	Removed the need to resave permalinks
 
 = 5.1 =
 *	Updated for Wordpress 3.8 compatibility
