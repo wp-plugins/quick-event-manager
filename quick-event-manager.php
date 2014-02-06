@@ -145,6 +145,7 @@ function qem_event_construct ($links,$size,$headersize,$settings,$fullevent){
 	$style = qem_get_stored_style();
 	$cal = qem_get_stored_calendar();
 	$custom = get_post_custom();
+$register = qem_get_stored_register();
 	$link = get_post_meta($post->ID, 'event_link', true);
 	$endtime = get_post_meta($post->ID, 'event_end_time', true);
 	$unixtime = get_post_meta($post->ID, 'event_date', true);
@@ -230,7 +231,7 @@ function build_event ($name,$event,$custom,$settings) {
 			break;
 		case 'field5':
 			if (!empty($event['url_label'])) $caption = $event['url_label'].' ';
-if ($event['target_link']) $target = 'target="_blank"';
+            if ($event['target_link']) $target = 'target="_blank"';
 			if (!preg_match("~^(?:f|ht)tps?://~i", $custom['event_link'][0])) $url = 'http://' . $custom['event_link'][0]; else  $url = $custom['event_link'][0];
 			if (empty($custom['event_anchor'][0])) $custom['event_anchor'][0] = $custom['event_link'][0];
 			if (!empty ( $custom['event_link'][0] )) $output .= '<p ' . $style . '>' . $caption .  '<a ' . $style .' '.$target.' href="' . $url . '">' . $custom['event_anchor'][0]  . '</a></p>';
@@ -398,7 +399,7 @@ function qem_show_calendar() {
    			$length = $cal['eventlength'];
    			if(strlen($eventtitle[$key]) > $length) $trim = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1...', $eventtitle[$key]);
 			else $trim = $eventtitle[$key];
-			if ($cal['eventlink'] == 'linkpopup' ) $tdcontent .= '<a class="event ' . $eventslug[$key] . '" onclick=\'pseudo_popup("<div class =\"qempop\">'.$eventsummary[$key].'</div>")\'>'.$trim.'</a>';
+			if ($cal['eventlink'] == 'linkpopup' ) $tdcontent .= '<a class="event ' . $eventslug[$key] . '" onclick=\'pseudo_popup("<div class =\"qempop\">'.$eventsummary[$key].'</div>")\'><div class="qemtrim"><span>'.$trim.'</span></div></a>';
 			else $tdcontent .= '<a class="' . $eventslug[$key] . '" href="' . $eventlinks[$key] . '"><div class="qemtrim"><span>' . $trim . '</span></div></a>';
 			}
 		}
@@ -433,6 +434,7 @@ function get_calendar_details($thedate) {
 function qem_generate_css() {
 	$style = qem_get_stored_style();
 	$cal = qem_get_stored_calendar();
+    $register = qem_get_stored_register();
 	if ($style['calender_size'] == 'small') {$width = 'small';$radius = 5;$rm = '45'+(3*$style['date_border_width']).'px';}
 	if ($style['calender_size'] == 'medium') {$width = 'medium';$radius = 7;$rm = '65'+(3*$style['date_border_width']).'px';}
 	if ($style['calender_size'] == 'large') {$width = 'large';$radius = 10;$rm = '85'+(3*$style['date_border_width']).'px';}
@@ -454,10 +456,12 @@ function qem_generate_css() {
 	$calendarborder = 'border: '. $style['date_border_width']. 'px solid ' .$style['date_border_colour'].';'.$calendarbordercorner;
 	$eventbackground = 'background:'.$background.';'.$eventbackgroundcorner;
 	if ($style['event_border']) $eventborder = $calendarborder.'padding:'.$radius;
+	if ($register['formborder']) $formborder = $calendarborder.'padding:'.$radius;
 	if ($style['widthtype'] == 'pixel') $eventwidth = preg_replace("/[^0-9]/", "", $style['width']) . 'px;';
 	else $eventwidth = '100%';
 	$script .= ".qem {width:".$eventwidth.";".$style['event_margin'].";}\r\n";
 	$script .= ".qem-small, .qem-medium, .qem-large {".$eventborder.";".$eventbackground."}\r\n";
+    $script .= ".qem-register {".$formborder.";}\r\n";
     $script .= ".qem-".$width."{margin-left:".$rm.";}\r\n";
 	$script .= ".qem-calendar-small, .qem-calendar-medium, .qem-calendar-large {".$calendarborder."}\r\n";
 	$script .= ".qem-calendar-small .day, .qem-calendar-medium .day, .qem-calendar-large .day {".$daycolour.$daybackground."}\r\n";
@@ -504,21 +508,21 @@ function qem_display_form( $values, $errors ) {
 	$content .= '<div class="qem-register">';
 	if (count($errors) > 0) $content .= "<h2>" . $register['error'] . "</h2>\r\t";
 	else $content .= "<h2>".$register['title'] . "</h2><p>" . $register['blurb'] . "</p>";	
-	$content .= '<form action="" method="POST" enctype="multipart/form-data">
-	<p><input id="yourname" name="yourname" type="text" value="'.$register['yourname'].'" onblur="if (this.value == \'\') {this.value = \''.$register['yourname'].'\';}" onfocus="if (this.value == \''.$register['yourname'].'\') {this.value = \'\';}" /><br>
-	<input id="email" name="youremail" type="text" value="'.$register['youremail'].'" onblur="if (this.value == \'\') {this.value = \''.$register['youremail'].'\';}" onfocus="if (this.value == \''.$register['youremail'].'\') {this.value = \'\';}" /><br>
-	<input type="submit" value="'.$register['qemsubmit'].'" id="submit" name="qemsubmit" /></p>
+	$content .= '<form action="" method="POST" enctype="multipart/form-data">';
+    if ($register['usename']) $content .= '<p><input id="yourname" name="yourname" type="text" value="'.$register['yourname'].'" onblur="if (this.value == \'\') {this.value = \''.$register['yourname'].'\';}" onfocus="if (this.value == \''.$register['yourname'].'\') {this.value = \'\';}" /><br>';
+	if ($register['usemail']) $content .= '<input id="email" name="youremail" type="text" value="'.$register['youremail'].'" onblur="if (this.value == \'\') {this.value = \''.$register['youremail'].'\';}" onfocus="if (this.value == \''.$register['youremail'].'\') {this.value = \'\';}" /><br>';
+	$content .= '<input type="submit" value="'.$register['qemsubmit'].'" id="submit" name="qemsubmit" /></p>
 	</form>
 	<div style="clear:both;"></div></div>';
 	echo $content;
 	}
 function qem_verify_form(&$values, &$errors) {
 	$register = qem_get_stored_register();
-	if (!filter_var($values['youremail'], FILTER_VALIDATE_EMAIL)) $errors = 'error';
+	if ($register['usemail'] && !filter_var($values['youremail'], FILTER_VALIDATE_EMAIL)) $errors = 'error';
 	$values['yourname'] = filter_var($values['yourname'], FILTER_SANITIZE_STRING);
-	if (empty($values['yourname']) || $values['yourname'] == $register['yourname']) $errors = 'error';
+	if ($register['usename'] && (empty($values['yourname']) || $values['yourname'] == $register['yourname'])) $errors = 'error';
 	$values['youremail'] = filter_var($values['youremail'], FILTER_SANITIZE_STRING);
-	if (empty($values['youremail']) || $values['youremail'] == $register['youremail']) $errors = 'error';
+	if ($register['usemail'] && (empty($values['youremail']) || $values['youremail'] == $register['youremail'])) $errors = 'error';
 	return (count($errors) == 0);	
 	}
 function qem_process_form($values) {
@@ -527,7 +531,10 @@ function qem_process_form($values) {
 	else $qem_email = $register['sendemail'];
 	$subject = get_the_title().' '.$register['title'];
 	if (empty($subject)) $subject = 'Event Register';
-	$content .= '<html><p><b>' . $register['yourname'] . ': </b>' . strip_tags(stripslashes($values['yourname'])) . '</p><p><b>' . $register['youremail'] . ': </b>' . strip_tags(stripslashes($values['youremail'])) . '</p></html>';
+	$content .= '<html>';
+    if ($register['usename']) $content .= '<p><b>' . $register['yourname'] . ': </b>' . strip_tags(stripslashes($values['yourname'])) . '</p>';
+    if ($register['usemail']) $content .= '<p><b>' . $register['youremail'] . ': </b>' . strip_tags(stripslashes($values['youremail'])) . '</p>';
+    $content .= '</html>';
 	$headers = "From: {$values['yourname']} <{$values['youremail']}>\r\n"
         . "MIME-Version: 1.0\r\n"
         . "Content-Type: text/html; charset=\"utf-8\"\r\n";	
@@ -648,13 +655,16 @@ function qem_get_stored_register () {
 	}
 function qem_get_default_register () {
 	$register = array();
+	$register['usename'] = 'checked';
+	$register['usemail'] = 'checked';
+    $register['formborder'] = '';
 	$register['title'] = 'Register for this event';
 	$register['blurb'] = 'Enter your details below';
 	$register['replytitle'] = 'Thank you for registering';
 	$register['replyblurb'] = 'We will be in contact soon';
 	$register['yourname'] = 'Your Name';
 	$register['youremail'] = 'Email Address';
-	$register['error'] = 'Please complete both fields';
+	$register['error'] = 'Please complete the form';
 	$register['qemsubmit'] = 'Register';
 	return $register;
 	}

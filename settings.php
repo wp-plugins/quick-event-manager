@@ -449,9 +449,10 @@ function qem_categories ($catxxx,$thecat) {
 	}
 function qem_register (){
 	if( isset( $_POST['Submit'])) {
-		$options = array('useform','sendemail','title','blurb','yourname','youremail','qemsubmit','error','replytitle','replyblurb');
+		$options = array('useform','usename','usemail','formborder','sendemail','title','blurb','yourname','youremail','qemsubmit','error','replytitle','replyblurb');
 		foreach ($options as $item) $register[$item] = stripslashes( $_POST[$item]);
 		update_option('qem_register', $register);
+		qem_create_css_file ('update');
 		qem_admin_notice(__('The registration form settings have been updated.', 'quick-event-manager'));
 		}
 	if( isset( $_POST['Reset'])) {
@@ -462,6 +463,9 @@ function qem_register (){
 	$content = '<div class="qem-settings"><div class="qem-options">
 		<form id="" method="post" action="">
 		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="useform"' . $register['useform'] . ' value="checked" /> '.__('Add a registration form to your events', 'quick-event-manager').'</p>
+    <p><input type="checkbox" style="margin:0; padding: 0; border: none" name="usename"' . $register['usename'] . ' value="checked" /> '.__('Use the name field', 'quick-event-manager').'</p>
+    <p><input type="checkbox" style="margin:0; padding: 0; border: none" name="usemail"' . $register['usemail'] . ' value="checked" /> '.__('Use the email field', 'quick-event-manager').'</p>
+    <p><input type="checkbox" style="margin:0; padding: 0; border: none" name="formborder"' . $register['formborder'] . ' value="checked" /> '.__('Add a border to the form', 'quick-event-manager').'</p>
 		<table width="100%">
 		<tr><td width="30%">'.__('Your Email Address', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="sendemail" value="' . $register['sendemail'] . '" /></td></tr>
 		<tr><td colspan="2"><h2>'.__('Registration From', 'quick-event-manager').'</h2></td></tr>
@@ -475,7 +479,7 @@ function qem_register (){
 		<tr><td width="30%">'.__('Thank you message title', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="replytitle" value="' . $register['replytitle'] . '" /></td></tr>
 		<tr><td width="30%">'.__('Thank you message blurb', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="replyblurb" value="' . $register['replyblurb'] . '" /></td></tr>
 		</table>
-		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \''.__('Are you sure you want to reset the calendar settings?', 'quick-event-manager').'\' );"/></p>
+		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \''.__('Are you sure you want to reset the registration form?', 'quick-event-manager').'\' );"/></p>
 		</form></div>
 		<div class="qem-options" style="float:right">
 		<h2>'.__('Example form', 'quick-event-manager').'</h2>
