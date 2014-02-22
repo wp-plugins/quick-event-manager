@@ -1,5 +1,4 @@
 <?php
-
 function event_custom_columns($column) {
 	global $post;
 	$custom = get_post_custom();
@@ -60,43 +59,50 @@ function event_details_meta() {
 		</tr>
 		<tr>
 		<td width="20%"><label>'.__('Short Description:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_desc" value="' . get_event_field("event_desc") . '" /></td>
+		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_desc" value="' . get_event_field("event_desc") . '" />
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Time', 'quick-event-manager').' <em>(hh:mm): ' . $event['start_label'] . ' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"   name="event_finish" value="' . get_event_field("event_finish") . '" /></td>
+		<td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"   name="event_finish" value="' . get_event_field("event_finish") . '" />
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Location:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_location" value="' . get_event_field("event_location") . '" /></td>
+		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_location" value="' . get_event_field("event_location") . '" />
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Address:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_address" value="' . get_event_field("event_address") . '" /></td>
+		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_address" value="' . get_event_field("event_address") . '" />
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Website:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_link" value="' . get_event_field("event_link") . '" /><label> '.__('Display As:', 'quick-event-manager').' </label><input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"  name="event_anchor" value="' . get_event_field("event_anchor") . '" /></td>
+		<td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_link" value="' . get_event_field("event_link") . '" /><label> '.__('Display As:', 'quick-event-manager').' </label><input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"  name="event_anchor" value="' . get_event_field("event_anchor") . '" />
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Cost:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td>
+		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" />
 		</td></tr>
 		<tr><td width="20%">Event Image (replaces the event map)</td><td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
    		<input id="upload_event_image" class="button" type="button" value="Upload Image" /></td></tr>';
-     if (get_event_field("event_image")) $output .= '<tr><td></td><td><img src=' . get_event_field("event_image") . '></td></tr>';
-		$output .='</table>';
+    if (get_event_field("event_image")) $output .= '<tr><td></td><td><img src=' . get_event_field("event_image") . '></td></tr>';
+    $event = get_the_ID();
+    $whoscoming = get_option($event);
+    if ($whoscoming){
+        foreach(array_keys($whoscoming) as $item) $event_names = $event_names.$item.', ';
+        $event_names = substr($event_names, 0, -2); 
+        $output .= '<tr><td>Attendees (names and emails collected from the <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">registration form</a>)</td><td><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_names" value="' . $event_names.'" />
+    </td></tr>';}
+    $output .='</table>';
 	echo $output;
 	}
 function get_event_field($event_field) {
 	global $post;
 	$custom = get_post_custom($post->ID);
-	if (isset($custom[$event_field]))
-		return $custom[$event_field][0];
+	if (isset($custom[$event_field])) return $custom[$event_field][0];
 	}
 function save_event_details() {
 	global $post;
-	$event = event_get_stored_options();
+    $event = get_the_ID();
+    $whoscoming = get_option($event);
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	if ( get_post_type($post) != 'event') return;
 	if(isset($_POST["event_date"])) $setdate = $_POST["event_date"];
@@ -111,7 +117,13 @@ function save_event_details() {
 	save_event_field("event_link");
 	save_event_field("event_anchor");
 	save_event_field("event_cost");
-	if ($_POST['event_image']) update_post_meta($post->ID, 'event_image', $_POST['event_image']);
+	update_post_meta($post->ID, 'event_image', $_POST['event_image']);
+    if(isset($_POST["event_names"])) {
+        $event_names = $_POST['event_names'];
+        foreach(array_keys($whoscoming) as $item) {if (!strrchr($event_names,$item)) $whoscoming[$item] = '';}
+        $whoscoming = array_filter($whoscoming);
+        update_option( $event, $whoscoming );
+        }
 	}
 function save_event_field($event_field) {
 	global $post;
@@ -134,11 +146,10 @@ function qem_duplicate_month() {
 function qem_duplicate_week() {
 	$period = '+7days';qem_duplicate_post($period);
 	}
-function qem_duplicate_post($period){
+function qem_duplicate_post($period) {
 	global $wpdb;
-	if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'] ) ) ) {
-		wp_die('No post to duplicate has been supplied!');
-		}
+	if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'] ) ) )
+        wp_die('No post to duplicate has been supplied!');
 	$post_id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
 	$post = get_post( $post_id );
 	$current_user = wp_get_current_user();
@@ -158,15 +169,15 @@ function qem_duplicate_post($period){
 			'post_type'      => $post->post_type,
 			'to_ping'        => $post->to_ping,
 			'menu_order'     => $post->menu_order
-		);
+		  );
 		$new_post_id = wp_insert_post( $args );
-		$taxonomies = get_object_taxonomies($post->post_type); // returns array of taxonomy names for post type, ex array("category", "post_tag");
+		$taxonomies = get_object_taxonomies($post->post_type);
 		foreach ($taxonomies as $taxonomy) {
 			$post_terms = wp_get_object_terms($post_id, $taxonomy);
 			for ($i=0; $i<count($post_terms); $i++) {
 				wp_set_object_terms($new_post_id, $post_terms[$i]->slug, $taxonomy, true);
-			}
-		}
+                }
+            }
 		$post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
 		if (count($post_meta_infos)!=0) {
 			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
@@ -175,16 +186,16 @@ function qem_duplicate_post($period){
 				if ($meta_key == 'event_date') {$meta_value = strtotime($period, $meta_info->meta_value);}
 				else $meta_value = addslashes($meta_info->meta_value);
 				$sql_query_sel[]= "SELECT $new_post_id, '$meta_key', '$meta_value'";
-			}
+                }
 			$sql_query.= implode(" UNION ALL ", $sql_query_sel);
 			$wpdb->query($sql_query);
-		}
+            }
 		wp_redirect( admin_url( 'edit.php?post_type=event' ) );
 		exit;
-	} else {
-		wp_die('Post creation failed, could not find original post: ' . $post_id);
-	}
-}
+        } else {
+            wp_die('Post creation failed, could not find original post: ' . $post_id);
+        }
+    }
 add_action( 'admin_action_qem_duplicate_month', 'qem_duplicate_month' );
 add_action( 'admin_action_qem_duplicate_week', 'qem_duplicate_week' );
  

@@ -27,19 +27,17 @@ add_action('admin_enqueue_scripts', 'qem_settings_scripts');
 
 function event_page_init() {
 	add_options_page( __('Event Manager', 'quick-event-manager'), __('Event Manager', 'quick-event-manager'), 'manage_options', __FILE__, 'qem_tabbed_page');
-}
+    }
 function qem_admin_notice($message) {
 	if (!empty( $message)) echo '<div class="updated"><p>'.$message.'</p></div>';
-}
+    }
 function qem_tabbed_page() {
 	echo '<div class="wrap">';
 	echo '<h1>Quick Event Manager</h1>';
 	if ( isset ($_GET['tab'])) {
 		qem_admin_tabs($_GET['tab']); 
 		$tab = $_GET['tab'];
-		} else {
-			qem_admin_tabs('setup'); $tab = 'setup';
-			}
+		} else {qem_admin_tabs('setup'); $tab = 'setup';}
 		switch ($tab) {
 			case 'setup' : qem_setup(); break;
 			case 'settings' : qem_event_settings(); break;
@@ -66,7 +64,7 @@ function qem_admin_tabs($current = 'settings') {
 		echo "<a class='nav-tab$class' href='?page=quick-event-manager/settings.php&tab=$tab'>$name</a>";
 		}
 	echo '</h2>';
-}
+    }
 function qem_setup() {
 	$content = '<div class="qem-settings"><div class="qem-options">
 	<h2>'.__('Setting up and using the plugin', 'quick-event-manager').'</h2>
@@ -105,7 +103,7 @@ function qem_setup() {
 	$content .= qemdonate_loop();
 	$content .= '</div></div>';
 	echo $content;
-}
+    }
 function qem_event_settings() {
 	$active_buttons = array('field1','field2','field3','field4','field5','field6');	
 	if( isset( $_POST['Submit'])) {
@@ -299,7 +297,6 @@ function qem_styles() {
 	<h3>'.__('Size', 'quick-event-manager').'</h3>
 	<p>
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="small" ' . $small . ' /> '.__('Small', 'quick-event-manager').' (40px)<br />
-
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="medium" ' . $medium . ' /> '.__('Medium', 'quick-event-manager').' (60px)<br />
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="large" ' . $large . ' /> '.__('Large', 'quick-event-manager').'(80px)</p>
 	<h3>'.__('Corners', 'quick-event-manager').'</h3>
@@ -357,10 +354,9 @@ function qem_styles() {
 	}
 function qem_calendar() {
 	if( isset( $_POST['Submit'])) {
-		$options = array('calday','caldaytext','day','eventday','oldday','eventhover','eventdaytext','eventlink','connect','calendar_text','calendar_url','eventlist_text','eventlist_url','startday','eventlength',
-		'cata','catatext','cataback','catb','catbtext','catbback','catc','catctext','catcback','catd','catdtext','catdback','cate','catetext','cateback','catf','catftext','catfback');
+		$options = array('calday','caldaytext','day','eventday','oldday','eventhover','eventdaytext','eventlink','connect','calendar_text','calendar_url','eventlist_text','eventlist_url','startday','eventlength','archive','archivelinks','cata','catatext','cataback','catb','catbtext','catbback','catc','catctext','catcback','catd','catdtext','catdback','cate','catetext','cateback','catf','catftext','catfback');
 		foreach ( $options as $item) $calendar[$item] = stripslashes($_POST[$item]);
-$calendar['catnamea'] = $_POST['catnamea'];
+		$calendar['catnamea'] = $_POST['catnamea'];
 		update_option('qem_calendar', $calendar);
 		qem_create_css_file ('update');
 		qem_admin_notice (__('The calendar settings have been updated.', 'quick-event-manager'));
@@ -376,17 +372,17 @@ $calendar['catnamea'] = $_POST['catnamea'];
 	$content = '<div class="qem-settings"><div class="qem-options">';
      		$content .= '<p>'.__('To add the calendar to your site use the shortcode: <code>[qemcalendar]</code>.', 'quick-event-manager').'</p>
 		<form method="post" action="">';
-		$content .= '<h2>'.__('Event Links', 'quick-event-manager').'</h2>
+		$content .= '<h2>'.__('Calendar Options', 'quick-event-manager').'</h2>
 		<p><input style="margin:0; padding:0; border:none;" type="radio" name="eventlink" value="linkpopup" ' . $linkpopup . ' /> '.__('Link opens event summary in a popup', 'quick-event-manager').'<br />
 		<input style="margin:0; padding:0; border:none;" type="radio" name="eventlink" value="linkpage" ' . $linkpage . ' /> '.__('Link opens event page' ,'quick-event-manager').'<br />
 		<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="connect"' . $calendar['connect'] . ' value="checked" /> '.__('Link Event List to Calendar Page (you will need to create a pages for the calendar and the event list).', 'quick-event-manager').'</p>
+<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="archive" ' . $calendar['archive'] . ' value="checked" /> '.__('Show past events in the calendar.', 'quick-event-manager').'</p>
 		<table width="100%">
 		<tr><td width="30%">'.__('Calendar link text', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" label="calendar_text" name="calendar_text" value="' . $calendar['calendar_text'] . '" /></td></tr>
 		<tr><td width="30%">'.__('Calendar page URL', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" label="calendar_url" name="calendar_url" value="' . $calendar['calendar_url'] . '" /></td></tr>
 		<tr><td width="30%">'.__('Event list link text', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" label="eventlist_text" name="eventlist_text" value="' . $calendar['eventlist_text'] . '" /></td></tr>
 		<tr><td width="30%">'.__('Event list page', 'quick-event-manager').' URL</td><td><input type="text" style="border:1px solid #415063;" label="eventlist_url" name="eventlist_url" value="' . $calendar['eventlist_url'] . '" /></td></tr>
 		</table>
-		
 		<h2>'.__('Calendar Colours', 'quick-event-manager').'</h2><div class="qem-calcolor">
 		<p style="font-weight:bold"><span style="float:left;width:10em;">'.__('Items', 'quick-event-manager').'</span>'.__('Background', 'quick-event-manager').' / '.__('Text', 'quick-event-manager').'</p>
 		<p><span style="float:left;width:10em">'.__('Days of the Week', 'quick-event-manager').'</span>&nbsp;<input type="text" class="qem-color" label="background" name="calday" value="' . $calendar['calday'] . '" /><input type="text" class="qem-color" label="text" name="caldaytext" value="' . $calendar['caldaytext'] . '" /></p>
@@ -442,14 +438,14 @@ function qem_categories ($catxxx,$thecat) {
 	$content .= '<option value=""></option>';
     foreach($arr as $option){
 		if ($thecat == $option->slug) $selected = 'selected'; else $selected = '';
-        $content .= '<option value="'.$option->slug.'" '.$selected.'>'.$option->name.'</option>';   
-    }
+        $content .= '<option value="'.$option->slug.'" '.$selected.'>'.$option->name.'</option>';
+        }
     $content .= '</select>';
 	return $content;
 	}
 function qem_register (){
 	if( isset( $_POST['Submit'])) {
-		$options = array('useform','usename','usemail','formborder','sendemail','title','blurb','yourname','youremail','qemsubmit','error','replytitle','replyblurb');
+		$options = array('useform','usename','usemail','formborder','sendemail','title','blurb','yourname','youremail','qemsubmit','error','replytitle','replyblurb','whoscoming','whosavatar','whoscomingmessage');
 		foreach ($options as $item) $register[$item] = stripslashes( $_POST[$item]);
 		update_option('qem_register', $register);
 		qem_create_css_file ('update');
@@ -478,6 +474,11 @@ function qem_register (){
 		<tr><td width="30%">'.__('Error Message', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="error" value="' . $register['error'] . '" /></td></tr>
 		<tr><td width="30%">'.__('Thank you message title', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="replytitle" value="' . $register['replytitle'] . '" /></td></tr>
 		<tr><td width="30%">'.__('Thank you message blurb', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="replyblurb" value="' . $register['replyblurb'] . '" /></td></tr>
+        <tr><td colspan="2"><h2>'.__('Show Attendees', 'quick-event-manager').'</h2></td></tr>
+        <tr><td width="30%"></td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="whoscoming"' . $register['whoscoming'] . ' value="checked" /> '.__('List attendees', 'quick-event-manager').'<br>
+        <input type="checkbox" style="margin:0; padding: 0; border: none" name="whosavatar"' . $register['whosavatar'] . ' value="checked" /> '.__('Show avatars', 'quick-event-manager').'
+        </td></tr>
+        <tr><td width="30%">'.__('Message', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="whoscomingmessage" value="' . $register['whoscomingmessage'] . '" /></td></tr>
 		</table>
 		<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \''.__('Are you sure you want to reset the registration form?', 'quick-event-manager').'\' );"/></p>
 		</form></div>
@@ -506,7 +507,7 @@ function qemdonate_display( $values, $errors ) {
 	function donateclear(thisfield, defaulttext) {if (thisfield.value == defaulttext) {thisfield.value = '';}}\r\t
 	function donaterecall(thisfield, defaulttext) {if (thisfield.value == '') {thisfield.value = defaulttext;}}\r\t
 	</script>\r\t
-	<div class='qem-style'>\r\t<div id='round'>\r\t";
+	<div class='qem-style' style='width:50%'>\r\t<div id='round'>\r\t";
 	if ($errors) $content .= "<h2 class='error'>Feed me...</h2>\r\t<p class='error'>...your donation details</p>\r\t";
 	else $content .= "<h2>Make a donation</h2>\r\t<p>Whilst I enjoy creating these plugins they don't pay the bills. So a paypal donation will always be gratefully received</p>\r\t";
 	$content .= '<form method="post" action="" >

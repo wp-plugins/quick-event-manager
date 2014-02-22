@@ -75,6 +75,11 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.4 =
+*   Display atttendees on events
+*   Fixed issue with clearind event image
+*   Option to display old events on the calendar
+
 = 5.3 =
 *	Introduction of a color picker
 *   Add images to events
