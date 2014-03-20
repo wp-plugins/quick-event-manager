@@ -75,18 +75,26 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.5 =
+*	Optional payment form
+*	Whole bunch of ways to display dates
+*	Show calendar categories
+*	Fixed number of bugs with event images
+*	More fields on the registration form
+*	Cleaned up a lot of the code
+
 = 5.4 =
-*   Display atttendees on events
-*   Fixed issue with clearind event image
-*   Option to display old events on the calendar
+*	Display atttendees on events
+*	Fixed issue with clearind event image
+*	Option to display old events on the calendar
 
 = 5.3 =
 *	Introduction of a color picker
-*   Add images to events
-*   Display start and end dates side by side
-*   Colour coding for event
-*   Better event styling
-*   Cleaned out a load of duplicate code
+*	Add images to events
+*	Display start and end dates side by side
+*	Colour coding for event
+*	Better event styling
+*	Cleaned out a load of duplicate code
 *	Better Wordpress 3.8 support
 
 = 5.2 =

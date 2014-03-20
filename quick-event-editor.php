@@ -79,11 +79,15 @@ function event_details_meta() {
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Cost:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" />
+		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td></tr>
+        <tr>
+		<td width="20%"><label>'.__('Event forms:', 'quick-event-manager').' </label></td>
+        <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . get_event_field("event_register") . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
+        <input type="checkbox" style="" name="event_pay" value="checked" ' . get_event_field("event_pay") . '> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>
 		</td></tr>
 		<tr><td width="20%">Event Image (replaces the event map)</td><td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
    		<input id="upload_event_image" class="button" type="button" value="Upload Image" /></td></tr>';
-    if (get_event_field("event_image")) $output .= '<tr><td></td><td><img src=' . get_event_field("event_image") . '></td></tr>';
+    if (get_event_field("event_image")) $output .= '<tr><td></td><td><img class="qem-image" src=' . get_event_field("event_image") . '></td></tr>';
     $event = get_the_ID();
     $whoscoming = get_option($event);
     if ($whoscoming){
@@ -117,7 +121,15 @@ function save_event_details() {
 	save_event_field("event_link");
 	save_event_field("event_anchor");
 	save_event_field("event_cost");
-	update_post_meta($post->ID, 'event_image', $_POST['event_image']);
+    $old = get_event_field("event_register");
+    $new = $_POST["event_register"];
+    if ($new && $new != $old) update_post_meta($post->ID, "event_register", $new);
+    elseif ('' == $new && $old) delete_post_meta($post->ID, "event_register", $old);
+    $old = get_event_field("event_pay");
+    $new = $_POST["event_pay"];
+    if ($new && $new != $old) update_post_meta($post->ID, "event_pay", $new);
+    elseif ('' == $new && $old) delete_post_meta($post->ID, "event_pay", $old);
+    update_post_meta($post->ID, 'event_image', $_POST['event_image']);
     if(isset($_POST["event_names"])) {
         $event_names = $_POST['event_names'];
         foreach(array_keys($whoscoming) as $item) {if (!strrchr($event_names,$item)) $whoscoming[$item] = '';}
@@ -136,9 +148,10 @@ function action_add_meta_boxes() {
 		unset($_wp_post_type_features['event']['editor']);
 		add_meta_box('description_section', __('Event Description', 'quick-event-manager'),'inner_custom_box','event', 'normal', 'high');
 		}
-	}
+    }
 function inner_custom_box( $post ) {
-	the_editor($post->post_content);
+    $settings = array('wpautop'=>false);
+    wp_editor($post->post_content, 'post_content', $settings);
 	}
 function qem_duplicate_month() {
 	qem_duplicate_post($period = '+1month');
