@@ -62,8 +62,8 @@ function event_details_meta() {
 		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_desc" value="' . get_event_field("event_desc") . '" />
 		</td></tr>
 		<tr>
-		<td width="20%"><label>'.__('Time', 'quick-event-manager').' <em>(hh:mm): ' . $event['start_label'] . ' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"   name="event_finish" value="' . get_event_field("event_finish") . '" />
+		<td width="20%"><label>'.__('Time', 'quick-event-manager').'</label></td>
+		<td width="80%">' . $event['start_label'] . ' <input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"   name="event_finish" value="' . get_event_field("event_finish") . '" />
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Location:', 'quick-event-manager').' </label></td>
@@ -88,6 +88,12 @@ function event_details_meta() {
 		<tr><td width="20%">Event Image (replaces the event map)</td><td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
    		<input id="upload_event_image" class="button" type="button" value="Upload Image" /></td></tr>';
     if (get_event_field("event_image")) $output .= '<tr><td></td><td><img class="qem-image" src=' . get_event_field("event_image") . '></td></tr>';
+       $output .= '<tr><td style="vertical-align:top">Repeat Event:</td>
+    <td><span style="color:red;font-weight:bold;">Warning:</span> Only use once or you will get lots of duplicated events<br />
+    <input style="margin:0; padding:0; border:none" type="radio" name="event_repeat" value="repeatweekly" /> '.__('Weekly', 'quick-event-manager').'<br />
+	<input style="margin:0; padding:0; border:none" type="radio" name="event_repeat" value="repeatmonthly" /> '.__('Monthly', 'quick-event-manager').'<br>
+    Number of repetitions: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="repeatnumber" value="12" /> (maximum 52)</td></tr>';
+    
     $event = get_the_ID();
     $whoscoming = get_option($event);
     if ($whoscoming){
@@ -136,7 +142,11 @@ function save_event_details() {
         $whoscoming = array_filter($whoscoming);
         update_option( $event, $whoscoming );
         }
-	}
+    $harry = $_POST["repeatnumber"];
+    $number =  (($harry > 52 || $harry == 0) ? 52 :  $harry);
+    if ($_POST["event_repeat"] == 'repeatmonthly') {$_POST["event_repeat"] = ''; qem_duplicate_new_post($event,$number,'months');}
+    if ($_POST["event_repeat"] == 'repeatweekly') {$_POST["event_repeat"] = ''; qem_duplicate_new_post($event,$number,'weeks');}
+    }
 function save_event_field($event_field) {
 	global $post;
 	if(isset($_POST[$event_field])) update_post_meta($post->ID, $event_field, $_POST[$event_field]);
@@ -148,23 +158,36 @@ function action_add_meta_boxes() {
 		unset($_wp_post_type_features['event']['editor']);
 		add_meta_box('description_section', __('Event Description', 'quick-event-manager'),'inner_custom_box','event', 'normal', 'high');
 		}
-    }
+}
 function inner_custom_box( $post ) {
     $settings = array('wpautop'=>false);
     wp_editor($post->post_content, 'post_content', $settings);
 	}
 function qem_duplicate_month() {
-	qem_duplicate_post($period = '+1month');
+	qem_duplicate_post('+1month');
 	}
 function qem_duplicate_week() {
-	$period = '+7days';qem_duplicate_post($period);
+	qem_duplicate_post('+7days');
 	}
 function qem_duplicate_post($period) {
-	global $wpdb;
-	if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'] ) ) )
+    global $wpdb;
+    if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'] ) ) )
         wp_die('No post to duplicate has been supplied!');
 	$post_id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
 	$post = get_post( $post_id );
+    qem_create_duplicate_post($period,$post_id,$post);
+    wp_redirect( admin_url( 'edit.php?post_type=event' ) );
+    exit;
+    }
+function qem_duplicate_new_post($post_id,$number,$word) {
+    global $wpdb;
+	$post = get_post( $post_id );
+for ($i=1;$i<=$number;$i++)
+             qem_create_duplicate_post('+'.$i.$word,$post_id,$post);
+
+    }
+function qem_create_duplicate_post($period,$post_id,$post) {
+	global $wpdb;
 	$current_user = wp_get_current_user();
 	$new_post_author = $current_user->ID;
 	if (isset( $post ) && $post != null) {
@@ -190,9 +213,9 @@ function qem_duplicate_post($period) {
 			for ($i=0; $i<count($post_terms); $i++) {
 				wp_set_object_terms($new_post_id, $post_terms[$i]->slug, $taxonomy, true);
                 }
-            }
-		$post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
-		if (count($post_meta_infos)!=0) {
+        }
+    $post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
+        if (count($post_meta_infos)!=0) {
 			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
 			foreach ($post_meta_infos as $meta_info) {
 				$meta_key = $meta_info->meta_key;
@@ -203,8 +226,6 @@ function qem_duplicate_post($period) {
 			$sql_query.= implode(" UNION ALL ", $sql_query_sel);
 			$wpdb->query($sql_query);
             }
-		wp_redirect( admin_url( 'edit.php?post_type=event' ) );
-		exit;
         } else {
             wp_die('Post creation failed, could not find original post: ' . $post_id);
         }
