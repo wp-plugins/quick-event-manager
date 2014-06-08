@@ -75,6 +75,12 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.7 =
+*   Event key on the calendar
+*   Fixed calendar bug if permalinks aren't used
+*   Styling options to fix padding/margins
+*   Attendee Counter
+
 = 5.6 =
 *   Repeat Events
 *   More styling options on the Calendar

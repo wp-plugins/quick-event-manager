@@ -83,6 +83,7 @@ function event_details_meta() {
         <tr>
 		<td width="20%"><label>'.__('Event forms:', 'quick-event-manager').' </label></td>
         <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . get_event_field("event_register") . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
+        <input type="checkbox" style="" name="event_counter" value="checked" ' . get_event_field("event_counter") . '> Add an attendee counter to this form. Number of places available: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="event_number" value="' . get_event_field("event_number") . '" /><br>
         <input type="checkbox" style="" name="event_pay" value="checked" ' . get_event_field("event_pay") . '> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>
 		</td></tr>
 		<tr><td width="20%">Event Image (replaces the event map)</td><td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
@@ -113,6 +114,7 @@ function save_event_details() {
 	global $post;
     $event = get_the_ID();
     $whoscoming = get_option($event);
+    $number = get_option($event.'places');
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	if ( get_post_type($post) != 'event') return;
 	if(isset($_POST["event_date"])) $setdate = $_POST["event_date"];
@@ -127,10 +129,20 @@ function save_event_details() {
 	save_event_field("event_link");
 	save_event_field("event_anchor");
 	save_event_field("event_cost");
+    $old = get_event_field("event_number");
+    $new = $_POST["event_number"];
+    if ($new && $new != $old) {
+        $number = $new - $old + $number; update_option($event.'places',$number);
+        update_post_meta($post->ID, "event_number", $new);}
+    elseif ('' == $new && $old) delete_post_meta($post->ID, "event_number", $old);
     $old = get_event_field("event_register");
     $new = $_POST["event_register"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_register", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_register", $old);
+    $old = get_event_field("event_counter");
+    $new = $_POST["event_counter"];
+    if ($new && $new != $old) update_post_meta($post->ID, "event_counter", $new);
+    elseif ('' == $new && $old) delete_post_meta($post->ID, "event_counter", $old);
     $old = get_event_field("event_pay");
     $new = $_POST["event_pay"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_pay", $new);
@@ -147,10 +159,12 @@ function save_event_details() {
     if ($_POST["event_repeat"] == 'repeatmonthly') {$_POST["event_repeat"] = ''; qem_duplicate_new_post($event,$number,'months');}
     if ($_POST["event_repeat"] == 'repeatweekly') {$_POST["event_repeat"] = ''; qem_duplicate_new_post($event,$number,'weeks');}
     }
+
 function save_event_field($event_field) {
 	global $post;
 	if(isset($_POST[$event_field])) update_post_meta($post->ID, $event_field, $_POST[$event_field]);
 	}
+
 function action_add_meta_boxes() {
 	add_meta_box('event_sectionid',__('Event Details', 'quick-event-manager'),'event_details_meta','event', 'normal', 'high');
 	global $_wp_post_type_features;
@@ -159,16 +173,20 @@ function action_add_meta_boxes() {
 		add_meta_box('description_section', __('Event Description', 'quick-event-manager'),'inner_custom_box','event', 'normal', 'high');
 		}
 }
+
 function inner_custom_box( $post ) {
     $settings = array('wpautop'=>false);
     wp_editor($post->post_content, 'post_content', $settings);
 	}
+
 function qem_duplicate_month() {
 	qem_duplicate_post('+1month');
 	}
+
 function qem_duplicate_week() {
 	qem_duplicate_post('+7days');
 	}
+
 function qem_duplicate_post($period) {
     global $wpdb;
     if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'] ) ) )
@@ -179,13 +197,13 @@ function qem_duplicate_post($period) {
     wp_redirect( admin_url( 'edit.php?post_type=event' ) );
     exit;
     }
+
 function qem_duplicate_new_post($post_id,$number,$word) {
     global $wpdb;
 	$post = get_post( $post_id );
-for ($i=1;$i<=$number;$i++)
-             qem_create_duplicate_post('+'.$i.$word,$post_id,$post);
-
+    for ($i=1;$i<=$number;$i++) qem_create_duplicate_post('+'.$i.$word,$post_id,$post);
     }
+
 function qem_create_duplicate_post($period,$post_id,$post) {
 	global $wpdb;
 	$current_user = wp_get_current_user();
@@ -214,13 +232,14 @@ function qem_create_duplicate_post($period,$post_id,$post) {
 				wp_set_object_terms($new_post_id, $post_terms[$i]->slug, $taxonomy, true);
                 }
         }
-    $post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
+        $post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
         if (count($post_meta_infos)!=0) {
 			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
 			foreach ($post_meta_infos as $meta_info) {
 				$meta_key = $meta_info->meta_key;
 				if ($meta_key == 'event_date') {$meta_value = strtotime($period, $meta_info->meta_value);}
-				else $meta_value = addslashes($meta_info->meta_value);
+				elseif ($meta_key == 'event_end_date'  && $meta_info->meta_value) {$meta_value = strtotime($period, $meta_info->meta_value);}
+                else $meta_value = addslashes($meta_info->meta_value);
 				$sql_query_sel[]= "SELECT $new_post_id, '$meta_key', '$meta_value'";
                 }
 			$sql_query.= implode(" UNION ALL ", $sql_query_sel);
@@ -239,6 +258,7 @@ function duplicate_post_month( $actions, $post ) {
 		}
 	return $actions;
 	}
+
 function duplicate_post_week( $actions, $post ) {
 	if (current_user_can('edit_posts') && 'event' == get_post_type() ) {
 		$actions['duplicate2'] = '<a href="admin.php?action=qem_duplicate_week&amp;post=' . $post->ID . '" title="Duplicate this item" rel="permalink">Weekly</a>';

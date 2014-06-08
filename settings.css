@@ -10,7 +10,7 @@
 .qem-options submit input:focus {color: #FFF;}
 .qem-options ul {margin: 0;padding: 0;}
 .qem-options th {text-align:left;}
-.qem-options td {vertical-align:center;}
+.qem-options td {vertical-align:center;padding-bottom: 8px;line-height: 1em;}
 #qem_sort {list-style-type: none; margin: 0; padding: 0; width:95%;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
 #qem_sort li { margin: 3px 0; padding: 0.3em 0.8em 0.3em 0.5em; height: min-height:1.6em; cursor:pointer; border:1px solid #888; clear:left}
 #qem_sort li.button_active { background-color: white;}

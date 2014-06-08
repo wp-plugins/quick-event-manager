@@ -45,11 +45,8 @@ img.qem-image {max-width:300px;height:auto;overflow:hidden;}
 .qem-register form, .qem-register p {margin: 0;padding: 0;}
 .qem-register input[type=text], .qem-register textarea, .qem-register #submit {margin: 5px 0 7px 0;padding: 4px;color: #465069;font-family: inherit;font-size: inherit;height:auto;border:1px solid #415063;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
 .qem-register p {margin: 4px 0;}
+.qem-register input[type=text] .required, .qem-register textarea .required {border:1px solid green;}
 .qem-register #submit {color: #FFF;background: #343838;text-align: center;cursor: pointer;}
-.qem-guestpost input[type=text], .qem-guestpost textarea, .qem-guestpost #submit {margin: 5px 0 7px 0;padding: 4px;color: #465069;font-family: inherit;font-size: inherit;height:auto;border:1px solid #415063;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
-.qem-guestpost p {margin: 4px 0;}
-.qem-guestpost #submit {padding: 6px 26px;height:auto;font-size: 1em;border:1px solid #415063;color: #FFF;background: #343838;text-align: center;cursor: pointer;}
-
 @media only screen and (max-width: 480px) {
 	.qem-large, .qem-medium {margin-left: 50px;}
 	.qem-calendar-large, .qem-calendar-medium  {color: #343838;font-size: 80%;text-align: center;background: #FFF;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
