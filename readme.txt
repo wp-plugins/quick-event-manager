@@ -75,6 +75,10 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.7.1 =
+*   Bug fix for the Registration form and Counter
+*   Option to link to an external website rather than the event post
+
 = 5.7 =
 *   Event key on the calendar
 *   Fixed calendar bug if permalinks aren't used

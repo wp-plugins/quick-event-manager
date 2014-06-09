@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 5.7
+Version: 5.7.1
 Author: aerin
 Author URI: http://www.quick-plugins.com
 Text Domain: qme
@@ -195,6 +195,13 @@ function event_shortcode($atts,$widget) {
 	return $output_string;
 	}	
 
+function qem_external_permalink( $link, $post ) 
+{
+    $meta = get_post_meta( $post->ID, 'event_link', TRUE );
+    $url  = esc_url( filter_var( $meta, FILTER_VALIDATE_URL ) );
+    return $url ? $url : $link;
+} 
+
 function qem_event_construct ($links,$size,$headersize,$settings,$fullevent){
 	global $post;
 	$event = event_get_stored_options();
@@ -212,7 +219,11 @@ function qem_event_construct ($links,$size,$headersize,$settings,$fullevent){
 	$cost = get_post_meta($post->ID, 'event_cost', true);
 	$usereg = get_post_meta($post->ID, 'event_register', true);
 	$usepay = get_post_meta($post->ID, 'event_pay', true);
-	if (($display['show_end_date'] && $display['sidebyside'] && $enddate) || ($display['sidebyside'] && $enddate && is_singular ('event'))) $join = 'checked';
+    $meta = get_post_meta( $post->ID, 'event_link', TRUE );
+    if ($display['external_link'] && $meta) {
+        add_filter( 'post_type_link', 'qem_external_permalink', 10, 2 );
+    }
+if (($display['show_end_date'] && $display['sidebyside'] && $enddate) || ($display['sidebyside'] && $enddate && is_singular ('event'))) $join = 'checked';
 	else $join='';	
 	if($size) $width = '-'.$size;
 	else {$size = $style['calender_size']; $width = '-'.$style['calender_size'];}
@@ -666,8 +677,8 @@ function qem_whoscoming($register) {
 function qem_numberscoming($register,$values) {
 	$event = get_the_ID();
     global $post;
-    $check = get_post_meta($post->ID, 'event_counter', true);
     $number = get_post_meta($post->ID, 'event_number', true);
+    $check = get_post_meta($post->ID, 'event_counter', true);
     $eventnumber = get_option($event.'places');
     if ($eventnumber == 'full') return '';
     if (!$eventnumber) $eventnumber = $number;
@@ -679,8 +690,10 @@ function qem_numberscoming($register,$values) {
 
 function qem_display_form( $values, $errors ) {
     $register = qem_get_stored_register();
+    global $post;
+    $check = get_post_meta($post->ID, 'event_counter', true);
     $num = qem_numberscoming($register,$values);
-    if (!$num) $content = '<h2>' . $register['eventfullmessage'] . '</h2>';
+    if (!$num && $check) $content = '<h2>' . $register['eventfullmessage'] . '</h2>';
     else {
         if (!empty($register['title'])) $register['title'] = '<h2>' . $register['title'] . '</h2>';
         if (!empty($register['blurb'])) $register['blurb'] = '<p>' . $register['blurb'] . '</p>';

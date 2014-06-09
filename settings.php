@@ -118,7 +118,7 @@ function qem_event_settings() {
 			$event['size'][$item] = $_POST['size_'.$item];
 			if (!empty ( $_POST['label_'.$item])) $event['label'][$item] = $_POST['label_'.$item];
 			}
-		$option = array('sort','description_label','address_label','url_label','cost_label','start_label','finish_label','location_label','show_map','read_more','noevent','dateformat','address_style','website_link','date_background','background_hex','event_order','event_archive','event_descending','calender_size','map_width','map_height','date_bold','date_italic','styles','custom','number_of_posts','target_link');
+		$option = array('sort','description_label','address_label','url_label','cost_label','start_label','finish_label','location_label','show_map','read_more','noevent','dateformat','address_style','website_link','date_background','background_hex','event_order','event_archive','event_descending','calender_size','map_width','map_height','date_bold','date_italic','styles','custom','number_of_posts','target_link','external_link');
 		foreach ($option as $item)$event[$item] = $_POST[$item];
 		update_option( 'event_settings', $event);
 		qem_admin_notice(__('The form settings have been updated', 'quick-event-manager'));
@@ -171,10 +171,10 @@ function qem_event_settings() {
 				$options = '<input type="text" style="border:1px solid blue; width:6em; padding: 1px; margin:0;" name="location_label" . value ="' . $event['location_label'] . '" /> {'.__('location', 'quick-event-manager').'}';
 				break;
 			case 'field4':
-				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="address_label" . value ="' . $event['address_label'] . '" /> {'.__('address', 'quick-event-manager').'}&nbsp;&nbsp;<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="show_map"' . $event['show_map'] . ' value="checked" /> '.__('Show map (if address is given)', 'quick-event-manager').' ';
+				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="address_label" . value ="' . $event['address_label'] . '" /> {'.__('address', 'quick-event-manager').'}&nbsp;<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="show_map"' . $event['show_map'] . ' value="checked" /> '.__('Show map (if address is given)', 'quick-event-manager').' ';
 				break;
 			case 'field5':
-				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="url_label" . value ="' . $event['url_label'] . '" /> {url}&nbsp;&nbsp;&nbsp;<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="target_link"' . $event['target_link'] . ' value="checked" />'.__('Open in new page', 'quick-event-manager');
+				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="url_label" . value ="' . $event['url_label'] . '" /> {url}&nbsp;<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="target_link"' . $event['target_link'] . ' value="checked" />'.__('Open in new page', 'quick-event-manager');
 				break;
 			case 'field6':
 				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="cost_label" . value ="' . $event['cost_label'] . '" /> {'.__('cost', 'quick-event-manager').'}';
@@ -218,10 +218,10 @@ function qem_display_page() {
                         'noevent',
                         'event_archive',
                         'event_descending',
+                        'external_link',
                         'event_image',
                         'map_width','map_height',
                         'sidebyside',
-                        'f',
                         'event_image_width',
                         'image_width',
                         'combined');
@@ -252,7 +252,8 @@ function qem_display_page() {
 		<p>'.__('No events message:', 'quick-event-manager').' <input type="text" style="width:20em;border:1px solid #415063;" label="noevent" name="noevent" value="' . $display['noevent'] . '" /></p>
 		<h2>'.__('Event List Options', 'quick-event-manager').'</h2>
 		<p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_descending" value="checked" ' . $display['event_descending'] . ' /> '.__('List events in reverse order (from future to past)', 'quick-event-manager').'<br>
-		<input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_archive" value="checked" ' . $display['event_archive'] . ' /> '.__('Show past events in the events list', 'quick-event-manager').'<br><span class="description">'.__('If you only want to display past events use the shortcode: <code>[qem id="archive"]</code>.', 'quick-event-manager').'</span></p>
+		<input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_archive" value="checked" ' . $display['event_archive'] . ' /> '.__('Show past events in the events list', 'quick-event-manager').'<br><span class="description">'.__('If you only want to display past events use the shortcode: <code>[qem id="archive"]</code>.', 'quick-event-manager').'</span><br>
+        <input type="checkbox" style="margin: 0; padding: 0; border: none;" name="external_link"' . $display['external_link'] . ' value="checked" />&nbsp;'.__('Link to external website', 'quick-event-manager').'<br><span class="description">'.__('Use this to link to the event website rather than the event post', 'quick-event-manager').'</span></p>
         <h2>'.__('Event Image', 'quick-event-manager').'</h2>
         <p>'.__('Max Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="event_image_width" . value ="' . $display['event_image_width'] . '" /> px</p>
        <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_image" value="checked" ' . $display['event_image'] . ' /> '.__('Show event image in event list', 'quick-event-manager').'</p>
