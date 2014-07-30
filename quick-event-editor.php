@@ -63,7 +63,8 @@ function event_details_meta() {
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Time', 'quick-event-manager').'</label></td>
-		<td width="80%">' . $event['start_label'] . ' <input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"   name="event_finish" value="' . get_event_field("event_finish") . '" />
+		<td width="80%">' . $event['start_label'] . ' <input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"   name="event_finish" value="' . get_event_field("event_finish") . '" /><br>
+<span class="description">Start times in the format 8.23 am/pm, 8.23, 8:23 and 08:23 will be used to order events by time and date. All other formats will display but won\'t contribute to the event ordering.</span> 
 		</td></tr>
 		<tr>
 		<td width="20%"><label>'.__('Location:', 'quick-event-manager').' </label></td>
@@ -105,6 +106,20 @@ function event_details_meta() {
     $output .='</table>';
 	echo $output;
 	}
+
+function qem_time ($starttime) {
+    $starttime = str_replace('AM','',strtoupper($starttime));
+	if (strpos($starttime,':')) $needle = ':';
+	if (strpos($starttime,'.')) $needle = '.';
+	if (strpos($starttime,' ')) $needle = ' ';
+    if (strpos(strtoupper($starttime),'PM')) $afternoon = 49680;
+	if ($needle) list($hours, $minutes) = explode($needle, $starttime);
+    else $hours = $starttime;
+    if (strlen($starttime) == 4 && is_numeric($starttime)) {$hours = substr($starttime, 0, 2);$minutes = substr($starttime, 3);}
+    $seconds=$hours*3600+$minutes*60+$afternoon;
+	return $seconds;
+	}
+
 function get_event_field($event_field) {
 	global $post;
 	$custom = get_post_custom($post->ID);
@@ -117,10 +132,11 @@ function save_event_details() {
     $number = get_option($event.'places');
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	if ( get_post_type($post) != 'event') return;
-	if(isset($_POST["event_date"])) $setdate = $_POST["event_date"];
-	update_post_meta($post->ID, "event_date", strtotime($setdate));
-	if(isset($_POST["event_end_date"])) $setenddate = $_POST["event_end_date"];
-	update_post_meta($post->ID, "event_end_date", strtotime($setenddate));
+$startdate = strtotime($_POST["event_date"]);
+	$starttime = qem_time($_POST["event_start"]);
+$newdate = $startdate+$starttime;
+	if(isset($_POST["event_date"])) update_post_meta($post->ID, "event_date", $newdate);
+	if(isset($_POST["event_end_date"])) update_post_meta($post->ID, "event_end_date", strtotime($_POST["event_end_date"]));
 	save_event_field("event_desc");
 	save_event_field("event_start");
 	save_event_field("event_finish");
@@ -129,25 +145,30 @@ function save_event_details() {
 	save_event_field("event_link");
 	save_event_field("event_anchor");
 	save_event_field("event_cost");
+    save_event_field("event_image");
+    
     $old = get_event_field("event_number");
     $new = $_POST["event_number"];
     if ($new && $new != $old) {
         $number = $new - $old + $number; update_option($event.'places',$number);
         update_post_meta($post->ID, "event_number", $new);}
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_number", $old);
+    
     $old = get_event_field("event_register");
     $new = $_POST["event_register"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_register", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_register", $old);
+    
     $old = get_event_field("event_counter");
     $new = $_POST["event_counter"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_counter", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_counter", $old);
+    
     $old = get_event_field("event_pay");
     $new = $_POST["event_pay"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_pay", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_pay", $old);
-    update_post_meta($post->ID, 'event_image', $_POST['event_image']);
+    
     if(isset($_POST["event_names"])) {
         $event_names = $_POST['event_names'];
         foreach(array_keys($whoscoming) as $item) {if (!strrchr($event_names,$item)) $whoscoming[$item] = '';}
@@ -189,7 +210,7 @@ function qem_duplicate_week() {
 
 function qem_duplicate_post($period) {
     global $wpdb;
-    if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'] ) ) )
+    if (!(isset( $_GET['post']) || isset($_POST['post'])  || (isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'])))
         wp_die('No post to duplicate has been supplied!');
 	$post_id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
 	$post = get_post( $post_id );
@@ -265,5 +286,6 @@ function duplicate_post_week( $actions, $post ) {
 		}
 	return $actions;
 	}
+
 add_filter( 'post_row_actions', 'duplicate_post_month', 10, 2 );
 add_filter( 'post_row_actions', 'duplicate_post_week', 10, 2 );

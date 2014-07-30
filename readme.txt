@@ -75,6 +75,17 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.8 =
+*   Option to edit 'prev' and 'next' anchor text in calendar
+*   Added shortcode to display images in event list
+*   Option to display month and year as separators in the event list
+*   Events now list by date and start time
+*   Lots of shortcode options to display list by month and year
+*   Fixed 'number of places bug'
+*   Improved registration form validation
+*   Option to add 'go back to event list' link on events.
+*   Calendar widget (might need a bit more work)
+
 = 5.7.1 =
 *   Bug fix for the Registration form and Counter
 *   Option to link to an external website rather than the event post

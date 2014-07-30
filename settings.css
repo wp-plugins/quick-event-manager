@@ -1,16 +1,16 @@
 .qem-settings {width: 100%;}
 .qem-options {border: 1px solid #B52C00;background:#FFF;padding: 0 10px 10px 10px;margin: 10px 0 0 0 ;float:left;width:46%;width: calc(50% - 30px);}
-.qem-options input[type=text], .qem-options textarea, .qem-options select, .qem-options #submit {margin: 5px 0 7px 0;padding: 2px;
+.qem-options input[type=text], .qem-options textarea, .qem-options select, .qem-options #submit {margin: 1px 0 1px 0;padding: 4px 2px;
 	color: #465069;font-size: 100%;border:1px solid #415063;width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; 
 	box-sizing: border-box;}
 .qem-options p {margin: 4px 0;padding: 0;}
 .qem-options h2, .qem-options h2 a{color: #005F6B;text-decoration:none;}
 .qem-options h3 {color: #717DD7;margin: 4px 0 0 0;padding: 0;}
-.qem-options #submit {color: #FFF;}
+.qem-options #submit {color: #FFF;background:#343838}
 .qem-options submit input:focus {color: #FFF;}
 .qem-options ul {margin: 0;padding: 0;}
 .qem-options th {text-align:left;}
-.qem-options td {vertical-align:center;padding-bottom: 8px;line-height: 1em;}
+.qem-options td {vertical-align:top;padding-bottom: 8px;line-height: 1em;}
 #qem_sort {list-style-type: none; margin: 0; padding: 0; width:95%;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
 #qem_sort li { margin: 3px 0; padding: 0.3em 0.8em 0.3em 0.5em; height: min-height:1.6em; cursor:pointer; border:1px solid #888; clear:left}
 #qem_sort li.button_active { background-color: white;}
