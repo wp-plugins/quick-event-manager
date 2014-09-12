@@ -41,7 +41,7 @@ img.qem-image {max-width:300px;height:auto;overflow:hidden;}
 @media screen and (
 	max-width: 768px) {.qem-options {width: calc(100% - 20px);}
 	}
-.qem-register {text-align: left;margin: 10px 0 10px 0;padding: 0; max-width:280px;overflow: hidden;}
+.qem-register {text-align: left;margin: 10px 0 10px 0;padding: 0; max-width:280px;overflow: hidden;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
 .qem-register form, .qem-register p {margin: 0;padding: 0;}
 .qem-register input[type=text], .qem-register textarea, .qem-register #submit {margin: 5px 0 7px 0;padding: 4px;color: #465069;font-family: inherit;font-size: inherit;height:auto;border:1px solid #415063;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
 .qem-register p {margin: 4px 0;}
@@ -55,3 +55,8 @@ img.qem-image {max-width:300px;height:auto;overflow:hidden;}
 	#qem-calendar td {width:14%;}
     #qem-calendar .eventday a {text-align:center;}
 	}
+
+#qem-calendar-widget #qem-calendar .calday {text-align:center;padding:1px;font-weight:normal}
+#qem-calendar-widget #qem-calendar a.calnav {padding:1px;}
+#qem-calendar-widget td a{text-align:center;}
+#qem-calendar-widget #qem-calendar .oldday, #qem-calendar-widget #qem-calendar .eventday {padding:1px;}

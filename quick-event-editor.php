@@ -18,6 +18,7 @@ function event_date_column_register_sortable( $columns ) {
 	$columns['event_address'] = 'event_address';
 	return $columns;
 	}
+
 function event_date_column_orderby($vars) {
 	if ( isset( $vars['orderby'] ) && 'event_date' == $vars['orderby'] ) {
 		$vars = array_merge( $vars, array(
@@ -26,6 +27,7 @@ function event_date_column_orderby($vars) {
 		}
 	return $vars;
 	}
+
 function event_edit_columns($columns) {
 	$columns = array(
 		"cb" => "<input type=\"checkbox\" />",
@@ -37,14 +39,18 @@ function event_edit_columns($columns) {
 		);
 	return $columns;
 	}
+
 function event_details_meta() {
 	global $post;
 	$event = event_get_stored_options();
-	$date = get_event_field('event_date');
+$register = qem_get_stored_register();
+ 	$date = get_event_field('event_date');
 	if (empty($date)) $date = time();
 	$date = date_i18n("d M Y", $date);
 	$enddate = get_event_field('event_end_date');
 	if (!empty($enddate)) $enddate = date_i18n("d M Y", $enddate);
+if ($register['useform'] && !get_event_field("event_register")) $useform = 'checked';
+else $useform = get_event_field("event_register");
 	$output = '<p><em>'.__('Empty fields are not displayed. See the plugin <a href="options-general.php?page=quick-event-manager/settings.php">settings</a> page for options.', 'quick-event-manager').'</em></p>
 		<table width="100%">
 		<tr>
@@ -65,44 +71,63 @@ function event_details_meta() {
 		<td width="20%"><label>'.__('Time', 'quick-event-manager').'</label></td>
 		<td width="80%">' . $event['start_label'] . ' <input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"   name="event_finish" value="' . get_event_field("event_finish") . '" /><br>
 <span class="description">Start times in the format 8.23 am/pm, 8.23, 8:23 and 08:23 will be used to order events by time and date. All other formats will display but won\'t contribute to the event ordering.</span> 
-		</td></tr>
+		</td>
+        </tr>
 		<tr>
 		<td width="20%"><label>'.__('Location:', 'quick-event-manager').' </label></td>
 		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_location" value="' . get_event_field("event_location") . '" />
-		</td></tr>
+		</td>
+        </tr>
 		<tr>
 		<td width="20%"><label>'.__('Address:', 'quick-event-manager').' </label></td>
 		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_address" value="' . get_event_field("event_address") . '" />
-		</td></tr>
+		</td>
+        </tr>
 		<tr>
 		<td width="20%"><label>'.__('Website:', 'quick-event-manager').' </label></td>
 		<td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_link" value="' . get_event_field("event_link") . '" /><label> '.__('Display As:', 'quick-event-manager').' </label><input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"  name="event_anchor" value="' . get_event_field("event_anchor") . '" />
-		</td></tr>
+		</td>
+        </tr>
 		<tr>
 		<td width="20%"><label>'.__('Cost:', 'quick-event-manager').' </label></td>
 		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td></tr>
         <tr>
 		<td width="20%"><label>'.__('Event forms:', 'quick-event-manager').' </label></td>
-        <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . get_event_field("event_register") . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
+        <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
         <input type="checkbox" style="" name="event_counter" value="checked" ' . get_event_field("event_counter") . '> Add an attendee counter to this form. Number of places available: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="event_number" value="' . get_event_field("event_number") . '" /><br>
         <input type="checkbox" style="" name="event_pay" value="checked" ' . get_event_field("event_pay") . '> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>
-		</td></tr>
-		<tr><td width="20%">Event Image (replaces the event map)</td><td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
-   		<input id="upload_event_image" class="button" type="button" value="Upload Image" /></td></tr>';
-    if (get_event_field("event_image")) $output .= '<tr><td></td><td><img class="qem-image" src=' . get_event_field("event_image") . '></td></tr>';
-       $output .= '<tr><td style="vertical-align:top">Repeat Event:</td>
+		</td>
+        </tr>
+		<tr>
+        <td width="20%">Event Image (replaces the event map)</td>
+        <td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
+   		<input id="upload_event_image" class="button" type="button" value="Upload Image" /></td>
+        </tr>';
+    if (get_event_field("event_image")) $output .= '<tr>
+    <td></td>
+    <td><img class="qem-image" src=' . get_event_field("event_image") . '></td>
+    </tr>';
+    $output .= '<tr>
+    <td style="vertical-align:top">Repeat Event:</td>
     <td><span style="color:red;font-weight:bold;">Warning:</span> Only use once or you will get lots of duplicated events<br />
     <input style="margin:0; padding:0; border:none" type="radio" name="event_repeat" value="repeatweekly" /> '.__('Weekly', 'quick-event-manager').'<br />
 	<input style="margin:0; padding:0; border:none" type="radio" name="event_repeat" value="repeatmonthly" /> '.__('Monthly', 'quick-event-manager').'<br>
-    Number of repetitions: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="repeatnumber" value="12" /> (maximum 52)</td></tr>';
-    
+    Number of repetitions: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="repeatnumber" value="12" /> (maximum 52)</td>
+    </tr>';
     $event = get_the_ID();
+    $title = get_the_title();
     $whoscoming = get_option($event);
     if ($whoscoming){
         foreach(array_keys($whoscoming) as $item) $event_names = $event_names.$item.', ';
         $event_names = substr($event_names, 0, -2); 
-        $output .= '<tr><td>Attendees (names and emails collected from the <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">registration form</a>)</td><td><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_names" value="' . $event_names.'" />
-    </td></tr>';}
+        $output .= '<tr>
+        <td>Attendees (names and emails collected from the <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">registration form</a>)</td>
+        <td><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_names" value="' . $event_names.'" /></td>
+        </tr>
+        <tr>
+        <td></td>
+        <td><a href="admin.php?page=quick-event-manager/quick-event-messages.php&event='.$event.'&title='.$title.'">View Full Registration Details</a></td>
+        <tr>';}
     $output .='</table>';
 	echo $output;
 	}
@@ -125,6 +150,7 @@ function get_event_field($event_field) {
 	$custom = get_post_custom($post->ID);
 	if (isset($custom[$event_field])) return $custom[$event_field][0];
 	}
+
 function save_event_details() {
 	global $post;
     $event = get_the_ID();
@@ -132,9 +158,9 @@ function save_event_details() {
     $number = get_option($event.'places');
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	if ( get_post_type($post) != 'event') return;
-$startdate = strtotime($_POST["event_date"]);
+    $startdate = strtotime($_POST["event_date"]);
 	$starttime = qem_time($_POST["event_start"]);
-$newdate = $startdate+$starttime;
+    $newdate = $startdate+$starttime;
 	if(isset($_POST["event_date"])) update_post_meta($post->ID, "event_date", $newdate);
 	if(isset($_POST["event_end_date"])) update_post_meta($post->ID, "event_end_date", strtotime($_POST["event_end_date"]));
 	save_event_field("event_desc");
@@ -270,6 +296,7 @@ function qem_create_duplicate_post($period,$post_id,$post) {
             wp_die('Post creation failed, could not find original post: ' . $post_id);
         }
     }
+
 add_action( 'admin_action_qem_duplicate_month', 'qem_duplicate_month' );
 add_action( 'admin_action_qem_duplicate_week', 'qem_duplicate_week' );
  
@@ -287,5 +314,15 @@ function duplicate_post_week( $actions, $post ) {
 	return $actions;
 	}
 
+function qem_attendees( $actions, $post ) {
+	if (current_user_can('edit_posts') && 'event' == get_post_type() ) {
+        global $post;
+        $title = get_the_title();
+		$actions['attendees'] = '<a href="admin.php?page=quick-event-manager/quick-event-messages.php&event='.$post->ID.'&title='.$title.'">Registrations</a>';
+		}
+	return $actions;
+	}
+
 add_filter( 'post_row_actions', 'duplicate_post_month', 10, 2 );
 add_filter( 'post_row_actions', 'duplicate_post_week', 10, 2 );
+add_filter( 'post_row_actions', 'qem_attendees', 10, 2 );
