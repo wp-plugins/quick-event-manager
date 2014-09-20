@@ -3,16 +3,17 @@ global $_GET;
 $event = $_GET["event"];
 $title = $_GET["title"];
 $unixtime = get_post_meta($event, 'event_date', true);
-            $date = date_i18n("d M Y", $unixtime);
-
+$date = date_i18n("d M Y", $unixtime);
 $noregistration = '<p>No event selected</p>';
 $register = qem_get_stored_register();
 $category = 'All Categories';
 
 if( isset( $_POST['qem_reset_message'])) {
-$title = get_the_title($event);
-delete_option('qem_messages_'.$event);
-qem_admin_notice('Registrants for '.$title.' have been deleted.');
+    $event= $_POST['qem_download_form'];
+    $title = get_the_title($event);
+    delete_option('qem_messages_'.$event);
+    delete_option($event);
+    qem_admin_notice('Registrants for '.$title.' have been deleted.');
 }
 
 if( isset( $_POST['category']) ) {
@@ -79,7 +80,7 @@ $dashboard .='<form method="post" id="qem_download_form" action="">
 <input type="hidden" name="qem_download_title" value = "'.$title.'" />
 <input type="submit" name="qem_download_csv" class="button-primary" value="Export to CSV" />
 <input type="submit" name="qem_emaillist" class="button-primary" value="Email List" />
-<input type="submit" name="qem_reset_message'.$id.'" class="button-primary" style="color: #FFF;" value="Delete Registrants" onclick="return window.confirm( \'Are you sure you want to delete the registrants for '.$title.'?\' );"/>
+<input type="submit" name="qem_reset_message" class="button-primary" style="color: #FFF;" value="Delete Registrants" onclick="return window.confirm( \'Are you sure you want to delete the registrants for '.$title.'?\' );"/>
 </form>
 </div>
 </div>';		

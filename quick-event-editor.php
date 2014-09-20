@@ -116,9 +116,9 @@ else $useform = get_event_field("event_register");
     </tr>';
     $event = get_the_ID();
     $title = get_the_title();
-    $whoscoming = get_option($event);
+    $whoscoming = get_option('qem_messages_'.$event);
     if ($whoscoming){
-        foreach(array_keys($whoscoming) as $item) $event_names = $event_names.$item.', ';
+        foreach($whoscoming as $item) $event_names = $item['yourname'].', ';
         $event_names = substr($event_names, 0, -2); 
         $output .= '<tr>
         <td>Attendees (names and emails collected from the <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">registration form</a>)</td>

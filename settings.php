@@ -273,7 +273,9 @@ function qem_display_page() {
                         'back_to_list',
                         'back_to_list_caption',
                         'back_to_url',
-                        'map_width','map_height',
+                        'map_width',
+                        'map_height',
+                        'map_in_list',
                         'sidebyside',
                         'event_image_width',
                         'image_width',
@@ -319,8 +321,9 @@ function qem_display_page() {
     <p>'.__('Max Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="event_image_width" . value ="' . $display['event_image_width'] . '" /> px</p>
     <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_image" value="checked" ' . $display['event_image'] . ' /> '.__('Show event image in event list', 'quick-event-manager').'</p>
     <p>'.__('Max Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="image_width" . value ="' . $display['image_width'] . '" /> px</p>
-    <h2>'.__('Map Size', 'quick-event-manager').'</h2>
+    <h2>'.__('Event Map', 'quick-event-manager').'</h2>
     <p>'.__('Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_width" . value ="' . $display['map_width'] . '" /> px&nbsp;&nbsp;'.__('Height:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_height" . value ="' . $display['map_height'] . '" /> px</p>
+    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="map_in_list" value="checked" ' . $display['map_in_list'] . ' /> '.__('Show event map in event list', 'quick-event-manager').'</p>
     <p>Note: the map will only display if you have a valid address and the &#146;show map&#146; checkbox is ticked on the <a href="?settings.php&tab=settings">Event Settings</a> page.</p>
     <p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \' '.__('Are you sure you want to reset the display settings?', 'quick-event-manager').'\' );"/></p>
     </form>

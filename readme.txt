@@ -75,6 +75,10 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.9.1 =
+*   Bug fixes to the Event registration reporting
+*   Added feature to display maps on event list.
+
 = 5.9 =
 *   Event registration reporting and downloads
 *   Added widget feature to link to full event list
