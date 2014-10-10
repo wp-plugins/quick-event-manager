@@ -11,6 +11,7 @@ function event_custom_columns($column) {
 		case "event_cost":echo $custom["event_cost"][0];break;
 		}
 	}
+
 function event_date_column_register_sortable( $columns ) {
 	$columns['event_date'] = 'event_date';
 	$columns['event_time'] = 'event_time';
@@ -43,14 +44,17 @@ function event_edit_columns($columns) {
 function event_details_meta() {
 	global $post;
 	$event = event_get_stored_options();
-$register = qem_get_stored_register();
- 	$date = get_event_field('event_date');
+    $register = qem_get_stored_register();
+    $payment = qem_get_stored_payment();
+    $date = get_event_field('event_date');
 	if (empty($date)) $date = time();
 	$date = date_i18n("d M Y", $date);
 	$enddate = get_event_field('event_end_date');
 	if (!empty($enddate)) $enddate = date_i18n("d M Y", $enddate);
-if ($register['useform'] && !get_event_field("event_register")) $useform = 'checked';
-else $useform = get_event_field("event_register");
+    if ($register['useform'] && !get_event_field("event_register")) $useform = 'checked';
+    else $useform = get_event_field("event_register");
+    if ($payment['useqpp'] && !get_event_field("event_pay")) $useqpp = 'checked';
+    else $useqpp = get_event_field("event_pay");
 	$output = '<p><em>'.__('Empty fields are not displayed. See the plugin <a href="options-general.php?page=quick-event-manager/settings.php">settings</a> page for options.', 'quick-event-manager').'</em></p>
 		<table width="100%">
 		<tr>
@@ -95,7 +99,7 @@ else $useform = get_event_field("event_register");
 		<td width="20%"><label>'.__('Event forms:', 'quick-event-manager').' </label></td>
         <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
         <input type="checkbox" style="" name="event_counter" value="checked" ' . get_event_field("event_counter") . '> Add an attendee counter to this form. Number of places available: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="event_number" value="' . get_event_field("event_number") . '" /><br>
-        <input type="checkbox" style="" name="event_pay" value="checked" ' . get_event_field("event_pay") . '> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>
+        <input type="checkbox" style="" name="event_pay" value="checked" ' . $useqpp . ' /> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>
 		</td>
         </tr>
 		<tr>
@@ -118,7 +122,7 @@ else $useform = get_event_field("event_register");
     $title = get_the_title();
     $whoscoming = get_option('qem_messages_'.$event);
     if ($whoscoming){
-        foreach($whoscoming as $item) $event_names = $item['yourname'].', ';
+        foreach($whoscoming as $item) $event_names .= $item['yourname'].', ';
         $event_names = substr($event_names, 0, -2); 
         $output .= '<tr>
         <td>Attendees (names and emails collected from the <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">registration form</a>)</td>
@@ -132,19 +136,6 @@ else $useform = get_event_field("event_register");
 	echo $output;
 	}
 
-function qem_time ($starttime) {
-    $starttime = str_replace('AM','',strtoupper($starttime));
-	if (strpos($starttime,':')) $needle = ':';
-	if (strpos($starttime,'.')) $needle = '.';
-	if (strpos($starttime,' ')) $needle = ' ';
-    if (strpos(strtoupper($starttime),'PM')) $afternoon = 49680;
-	if ($needle) list($hours, $minutes) = explode($needle, $starttime);
-    else $hours = $starttime;
-    if (strlen($starttime) == 4 && is_numeric($starttime)) {$hours = substr($starttime, 0, 2);$minutes = substr($starttime, 3);}
-    $seconds=$hours*3600+$minutes*60+$afternoon;
-	return $seconds;
-	}
-
 function get_event_field($event_field) {
 	global $post;
 	$custom = get_post_custom($post->ID);
@@ -154,15 +145,20 @@ function get_event_field($event_field) {
 function save_event_details() {
 	global $post;
     $event = get_the_ID();
-    $whoscoming = get_option($event);
     $number = get_option($event.'places');
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	if ( get_post_type($post) != 'event') return;
     $startdate = strtotime($_POST["event_date"]);
 	$starttime = qem_time($_POST["event_start"]);
     $newdate = $startdate+$starttime;
+    
 	if(isset($_POST["event_date"])) update_post_meta($post->ID, "event_date", $newdate);
-	if(isset($_POST["event_end_date"])) update_post_meta($post->ID, "event_end_date", strtotime($_POST["event_end_date"]));
+	if($_POST["event_end_date"]) {
+        $enddate = strtotime($_POST["event_end_date"]);
+        $endtime = qem_time($_POST["event_finish"]);
+        $newenddate = $enddate+$endtime;
+        update_post_meta($post->ID, "event_end_date", strtotime($_POST["event_end_date"]));
+    }
 	save_event_field("event_desc");
 	save_event_field("event_start");
 	save_event_field("event_finish");
@@ -195,12 +191,6 @@ function save_event_details() {
     if ($new && $new != $old) update_post_meta($post->ID, "event_pay", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_pay", $old);
     
-    if(isset($_POST["event_names"])) {
-        $event_names = $_POST['event_names'];
-        foreach(array_keys($whoscoming) as $item) {if (!strrchr($event_names,$item)) $whoscoming[$item] = '';}
-        $whoscoming = array_filter($whoscoming);
-        update_option( $event, $whoscoming );
-        }
     $harry = $_POST["repeatnumber"];
     $number =  (($harry > 52 || $harry == 0) ? 52 :  $harry);
     if ($_POST["event_repeat"] == 'repeatmonthly') {$_POST["event_repeat"] = ''; qem_duplicate_new_post($event,$number,'months');}
@@ -303,9 +293,9 @@ add_action( 'admin_action_qem_duplicate_week', 'qem_duplicate_week' );
 function duplicate_post_month( $actions, $post ) {
 	if (current_user_can('edit_posts') && 'event' == get_post_type() ) {
 		$actions['duplicate'] = '<a href="admin.php?action=qem_duplicate_month&amp;post=' . $post->ID . '" title="Duplicate this item" rel="permalink">Monthly</a>';
-		}
+    }
 	return $actions;
-	}
+}
 
 function duplicate_post_week( $actions, $post ) {
 	if (current_user_can('edit_posts') && 'event' == get_post_type() ) {

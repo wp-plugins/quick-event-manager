@@ -18,9 +18,11 @@ A really, really simple event creator. Just add new events and publish. The shor
 *	Loads of layout and styling options
 *	Show events as a list or a calendar
 *	Built in event registration form
+*	Download events to your calendar
+*	Download attendee report to email/CSV
+*	Connect to payment forms
 *	Event maps
 *	Widgets and Shortcode options
-*	Archive post options
 
 = Developers plugin page =
 
@@ -34,6 +36,7 @@ French: [Dan (chouf1](http://bp-fr.net)
 
 [Event list](http://quick-plugins.com/the-event-list/).
 [Calendar](http://quick-plugins.com/event-calendar/).
+[Guest Events] (http://quick-plugins.com/quick-event-manager/guest-event-plugin-test/).
 
 == Screenshots ==
 
@@ -74,6 +77,15 @@ No.
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 == Changelog ==
+
+= 5.10 =
+*   Bug fixes to the sidebar widget
+*   Added ICS download option.
+*   Places available counter now displays on payment forms
+*   Delete registered people
+*   Copy event details to registrant
+*   Add titles to both sidebar widgets
+*   Fixed 'pm' bug when calculating times
 
 = 5.9.1 =
 *   Bug fixes to the Event registration reporting
