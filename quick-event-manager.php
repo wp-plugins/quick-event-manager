@@ -1110,7 +1110,7 @@ END:VCALENDAR';
     $content = '<form method="post" action="">
     <input type="hidden" name="qem_ics" value="'.$ics.'">
     <input type="hidden" name="qem_filename" value="'.$filename.'">
-    <input type="submit" name="qem_create_ics" class="qem-register" id="submit" value="'.$display['useicsbutton'].'" />';
+    <input type="submit" name="qem_create_ics" class="qem-register" id="submit" value="'.$display['useicsbutton'].'" /></form>';
     return $content;
 }
 
