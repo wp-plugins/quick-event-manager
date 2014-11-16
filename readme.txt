@@ -78,6 +78,15 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.11 =
+*   Added new 'organiser' field
+*   More shortcodes options
+*   Option to display timezones
+*   Event templates for your theme
+*   New 'not attending' field on the registration form
+*   Option to clear calendar icon styles (just display a plain date)
+*   More options on date ordering in the icon
+
 = 5.10 =
 *   Bug fixes to the sidebar widget
 *   Added ICS download option.

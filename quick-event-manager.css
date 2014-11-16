@@ -1,9 +1,14 @@
-
-.qem {margin-bottom:40px;}
+.qem {margin-bottom:40px;display: inline-block; vertical-align:top}
 .qem p, .qem h2 {margin: 0 0 8px 0;padding:0;}
-.qem-large {margin-left: 100px;}
-.qem-medium {margin-left: 75px;}
-.qem-small {margin-left: 50px;}
+.qem-icon {float:left;}
+.qem h2 {display:inline;}
+.qem-icon .qem-calendar-small {width:56px;}
+.qem-small {margin-left:64px;}
+.qem-icon .qem-calendar-medium {width:76px;}
+.qem-medium {margin-left:84px;}
+.qem-icon .qem-calendar-large {width:96px;}
+.qem-large {margin-left:104px;}
+
 .qem-calendar-large {color: #343838;text-align: center;width: 80px;}
 .qem-calendar-large .day {font-size: 140%;color: white;display: block;padding:  4px 0;}
 .qem-calendar-large .nonday {padding:  0 0 4px 0;background:#FFF;}
@@ -23,7 +28,7 @@
 img.qem-image {max-width:300px;height:auto;overflow:hidden;}
 .qem .qemmap {float:right; margin: 0 0 10px 10px;}
 .qem .qemmap {max-width:100%;height:auto;overflow: hidden;}
-.qem_input {width:40%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;overflow:hidden;}
+.qem_input {width:40%;border:1px solid #415063;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;overflow:hidden;}
 #qem-calendar {margin: 0 0 12px 0;width:100%;height:auto;overflow:hidden;}	
 #qem-calendar .top {margin-bottom: 4px;}
 #qem-calendar .calday {text-align:center;padding:3px;background: #EBEFC9;font-weight:bold}

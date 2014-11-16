@@ -66,9 +66,9 @@ if( isset($_POST['qem_emaillist'])) {
     get_currentuserinfo();
     $qem_email = $current_user->user_email;
     $headers = "From: {<{$qem_email}>\r\n"
-		. "MIME-Version: 1.0\r\n"
-		. "Content-Type: text/html; charset=\"utf-8\"\r\n";	
-	wp_mail($qem_email, $title, $content, $headers);
+. "MIME-Version: 1.0\r\n"
+. "Content-Type: text/html; charset=\"utf-8\"\r\n";	
+wp_mail($qem_email, $title, $content, $headers);
     qem_admin_notice('Registration list has been sent to '.$qem_email.'.');
     }
 
@@ -80,7 +80,6 @@ if( isset($_POST['qem_emaillist'])) {
     $places = get_option($event.'places');
     $check = get_post_meta($event, 'event_counter', true);
     if(!is_array($message)) $message = array();
-
     $dashboard .= '<div class="wrap">
     <h1>Event Registation Report</h1>
     <p><form method="post" action="">'.
@@ -113,6 +112,7 @@ function qem_build_registration_table ($register,$message,$places,$check) {
     <tr>';
     if ($register['usename']) $dashboard .= '<th>'.$register['yourname'].'</th>';
     if ($register['usemail']) $dashboard .= '<th>'.$register['youremail'].'</th>';
+    if ($register['useattend']) $dashboard .= '<th>'.$register['yourattend'].'</th>';
     if ($register['usetelephone']) $dashboard .= '<th>'.$register['yourtelephone'].'</th>';
     if ($register['useplaces']) $dashboard .= '<th>'.$register['yourplaces'].'</th>';
     if ($register['usemessage']) $dashboard .= '<th>'.$register['yourmessage'].'</th>';
@@ -122,8 +122,10 @@ function qem_build_registration_table ($register,$message,$places,$check) {
         $content .= '<tr>';
         if ($register['usename']) $content .= '<td>'.$value['yourname'].'</td>';
         if ($register['usemail']) $content .= '<td>'.$value['youremail'].'</td>';
+        if ($register['useattend']) $content .= '<td>'.$value['notattend'].'</td>';
         if ($register['usetelephone']) $content .= '<td>'.$value['yourtelephone'].'</td>';
-        if ($register['useplaces']) $content .= '<td>'.$value['yourplaces'].'</td>';
+        if ($register['useplaces'] && !$value['notattend']) $content .= '<td>'.$value['yourplaces'].'</td>';
+        else $content .= '<td></td>';
         if ($register['usemessage']) $content .= '<td>'.$value['yourmessage'].'</td>';
         if ($value['yourname']) $report = 'messages';
         $content .= '<td>'.$value['sentdate'].'</td>

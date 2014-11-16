@@ -18,61 +18,64 @@ function qem_settings_init() {
 	}
 
 function qem_settings_scripts() {
-	wp_enqueue_script('jquery-ui-datepicker');
-	wp_enqueue_style('datepicker-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+wp_enqueue_script('jquery-ui-datepicker');
+wp_enqueue_style('datepicker-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
     wp_enqueue_script('jquery-ui-sortable');
-	wp_enqueue_script('qemcolor-script', plugins_url('quick-event-color.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
-	wp_enqueue_style('wp-color-picker' );
-	wp_enqueue_media();
-	wp_enqueue_script('qemmedia-script',plugins_url('quick-event-media.js', __FILE__ ), array( 'jquery' ), false, true );
-	wp_enqueue_style( 'qem_settings',plugins_url('settings.css', __FILE__));
+wp_enqueue_script('qemcolor-script', plugins_url('quick-event-color.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
+wp_enqueue_style('wp-color-picker' );
+wp_enqueue_media();
+wp_enqueue_script('qemmedia-script',plugins_url('quick-event-media.js', __FILE__ ), array( 'jquery' ), false, true );
+wp_enqueue_style( 'qem_settings',plugins_url('settings.css', __FILE__));
     wp_enqueue_style('event_style',plugins_url('quick-event-manager.css', __FILE__));
-	wp_enqueue_style('event_custom',plugins_url('quick-event-manager-custom.css', __FILE__));
-	wp_enqueue_script('event_script',plugins_url('quick-event-manager.js', __FILE__));
-	}
+wp_enqueue_style('event_custom',plugins_url('quick-event-manager-custom.css', __FILE__));
+wp_enqueue_script('event_script',plugins_url('quick-event-manager.js', __FILE__));
+}
 
 add_action('admin_enqueue_scripts', 'qem_settings_scripts');
 
 function qem_admin_pages() {
-	add_menu_page('Registration', 'Registration', 'manage_options','quick-event-manager/quick-event-messages.php');
-	}
+    add_menu_page('Registration', 'Registration', 'manage_options','quick-event-manager/quick-event-messages.php');
+}
 
 function event_page_init() {
-	add_options_page( __('Event Manager', 'quick-event-manager'), __('Event Manager', 'quick-event-manager'), 'manage_options', __FILE__, 'qem_tabbed_page');
-    }
+    add_options_page( __('Event Manager', 'quick-event-manager'), __('Event Manager', 'quick-event-manager'), 'manage_options', __FILE__, 'qem_tabbed_page');
+}
 
 function qem_admin_notice($message) {
-	if (!empty( $message)) echo '<div class="updated"><p>'.$message.'</p></div>';
-    }
+    if (!empty( $message)) echo '<div class="updated"><p>'.$message.'</p></div>';
+}
 
 function qem_tabbed_page() {
-	echo '<div class="wrap">';
-	echo '<h1>Quick Event Manager</h1>';
-	if ( isset ($_GET['tab'])) {
-		qem_admin_tabs($_GET['tab']); 
-		$tab = $_GET['tab'];
-		} else {qem_admin_tabs('setup'); $tab = 'setup';}
-		switch ($tab) {
-			case 'setup' : qem_setup(); break;
-			case 'settings' : qem_event_settings(); break;
-			case 'display' : qem_display_page(); break;
-			case 'calendar' : qem_calendar(); break;
-			case 'styles' : qem_styles(); break;
-			case 'register' : qem_register(); break;
-            case 'payment' : qem_payment(); break;
-			}
-		echo '</div>';
-	}
+    echo '<div class="wrap"><h1>Quick Event Manager</h1>';
+    if ( isset ($_GET['tab'])) {
+        qem_admin_tabs($_GET['tab']); 
+        $tab = $_GET['tab'];
+    } else {
+        qem_admin_tabs('setup'); $tab = 'setup';
+    }
+    switch ($tab) {
+        case 'setup' : qem_setup(); break;
+        case 'settings' : qem_event_settings(); break;
+        case 'display' : qem_display_page(); break;
+        case 'calendar' : qem_calendar(); break;
+        case 'styles' : qem_styles(); break;
+        case 'register' : qem_register(); break;
+        case 'payment' : qem_payment(); break;
+        case 'template' : qem_template(); break;
+    }
+    echo '</div>';
+}
 
 function qem_admin_tabs($current = 'settings') { 
-	$tabs = array( 
-	'setup' 	=> __('Setup', 'quick-event-manager'), 
-	'settings'  => __('Event Settings', 'quick-event-manager'), 
-	'display'   => __('Event Display', 'quick-event-manager'), 
-	'styles'    => __('Event Styling', 'quick-event-manager'),
-	'calendar'  => __('Calendar Options', 'quick-event-manager'),
-	'register'  => __('Event Registration', 'quick-event-manager'),
-    'payment'  => __('Event Payment', 'quick-event-manager'),
+    $tabs = array( 
+        'setup' 	=> __('Setup', 'quick-event-manager'), 
+        'settings'  => __('Event Settings', 'quick-event-manager'), 
+        'display'   => __('Event Display', 'quick-event-manager'), 
+        'styles'    => __('Event Styling', 'quick-event-manager'),
+        'calendar'  => __('Calendar Options', 'quick-event-manager'),
+        'register'  => __('Event Registration', 'quick-event-manager'),
+        'payment'  => __('Event Payment', 'quick-event-manager'),
+        'template'  => __('Event Template', 'quick-event-manager')
 	);
 	echo '<div id="icon-themes" class="icon32"><br></div>';
 	echo '<h2 class="nav-tab-wrapper">';
@@ -81,7 +84,7 @@ function qem_admin_tabs($current = 'settings') {
 		echo "<a class='nav-tab$class' href='?page=quick-event-manager/settings.php&tab=$tab'>$name</a>";
 		}
 	echo '</h2>';
-    }
+ }
 
 function qem_setup() {
 	$content = '<div class="qem-settings"><div class="qem-options">
@@ -127,7 +130,7 @@ function qem_setup() {
     }
 
 function qem_event_settings() {
-	$active_buttons = array('field1','field2','field3','field4','field5','field6');	
+	$active_buttons = array('field1','field2','field3','field4','field5','field6','field7');	
 	if( isset( $_POST['Submit'])) {
 		foreach ( $active_buttons as $item) {
 			$event['active_buttons'][$item] = (isset($_POST['event_settings_active_'.$item]) and $_POST['event_settings_active_'.$item] =='on') ? true : false;
@@ -167,12 +170,19 @@ function qem_event_settings() {
             'custom',
             'number_of_posts',
             'target_link',
-            'external_link'
+            'external_link',
         );
 		foreach ($option as $item)$event[$item] = $_POST[$item];
 		update_option( 'event_settings', $event);
 		qem_admin_notice(__('The form settings have been updated', 'quick-event-manager'));
     }
+
+	if( isset( $_POST['Reset'])) {
+		delete_option('event_settings');
+        qem_create_css_file ('update');
+		qem_admin_notice (__('The event settings have been reset.', 'quick-event-manager')) ;
+		}
+
 	$event = event_get_stored_options();
 	$$event['dateformat'] = 'checked'; 
 	$$event['date_background'] = 'checked'; 
@@ -181,7 +191,7 @@ function qem_event_settings() {
 	if ( $event['event_archive'] == "checked") $archive = "checked"; 
 	if ($event['show_map'] == 'checked') $map = 'checked';
 	$content = '<script>
-		jQuery(function() {var qem_sort = jQuery( "#qem_sort" ).sortable({ xis: "y",update:function(e,ui) {var order = qem_sort.sortable("toArray").join();jQuery("#qem_settings_sort").val(order);}});});
+		jQuery(function() {var qem_sort = jQuery( "#qem_sort" ).sortable({axis: "y",update:function(e,ui) {var order = qem_sort.sortable("toArray").join();jQuery("#qem_settings_sort").val(order);}});});
 		</script>
 		<div class ="qem-options" style="width:98%">
 		<form id="event_settings_form" method="post" action="">
@@ -204,14 +214,14 @@ function qem_event_settings() {
 		$italic = ( $event['italic'][$name]) ? 'checked' : '';
 		$options = '';
 		switch ( $name ) {
-			case 'field1':
-				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="description_label" . value ="' . $event['description_label'] . '" /> {'.__('description', 'quick-event-manager').'}';
-				break;
+case 'field1':
+$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="description_label" . value ="' . $event['description_label'] . '" /> {'.__('description', 'quick-event-manager').'}';
+break;
 			case 'field2':
 				$options = '<input type="text" style="border:1px solid blue; width:6em; padding: 1px; margin:0;" name="start_label" . value ="' . $event['start_label'] . '" /> {'.__('start time', 'quick-event-manager').'} <input type="text" style="border:1px solid blue; width:6em; padding: 1px; margin:0;" name="finish_label" . value ="' . $event['finish_label'] . '" /> {'.__('end time', 'quick-event-manager').'}';
 				break;
 			case 'field3':
-				$options = '<input type="text" style="border:1px solid blue; width:6em; padding: 1px; margin:0;" name="location_label" . value ="' . $event['location_label'] . '" /> {'.__('location', 'quick-event-manager').'}';
+				$options = '<input type="text" style="border:1px solid blue; width:6em; padding: 1px; margin:0;" name="location_label" . value ="' . $event['location_label'] . '" /> {'.__('venue', 'quick-event-manager').'}';
 				break;
 			case 'field4':
 				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="address_label" . value ="' . $event['address_label'] . '" /> {'.__('address', 'quick-event-manager').'}&nbsp;<input type="checkbox" style="margin: 0; padding: 0; border: none;" name="show_map"' . $event['show_map'] . ' value="checked" /> '.__('Show map (if address is given)', 'quick-event-manager').' ';
@@ -222,6 +232,10 @@ function qem_event_settings() {
 			case 'field6':
 				$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="cost_label" . value ="' . $event['cost_label'] . '" /> {'.__('cost', 'quick-event-manager').'}';
 				break;
+case 'field7':
+			$options = '<input type="text" style="border:1px solid blue; width:10em; padding: 1px; margin:0;" name="organiser_label" . value ="' . $event['organiser_label'] . '" /> {'.__('organiser', 'quick-event-manager').'}';
+				break;
+
 		}
 	$li_class = ( $checked) ? 'button_active' : 'button_inactive';
 	$content .= '<li class="ui-state-default '.$li_class.' '.$first.'" id="' . $name . '">
@@ -248,7 +262,7 @@ function qem_event_settings() {
 	</li>';
 	}
 	$content .='</ul>
-	<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /></p>
+	<p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \' '.__('Are you sure you want to reset the display settings?', 'quick-event-manager').'\' );"/></p>
 	<input type="hidden" id="qem_settings_sort" name="sort" value="'.$event['sort'].'" />
 	</form>
 	<h2>Shortcode Selection</h2>
@@ -258,7 +272,7 @@ function qem_event_settings() {
     <li>Short description</li>
     <li>Event Time</li>
     <li>Cost</li>
-    <li>Location</li>
+    <li>Venue</li>
     <li>Address</li>
     <li>Website</li>
     </ol>
@@ -267,8 +281,8 @@ function qem_event_settings() {
 	}
 
 function qem_display_page() {
-	if( isset( $_POST['Submit'])) {
-		$option = array(
+if( isset( $_POST['Submit'])) {
+$option = array(
             'show_end_date',
             'read_more',
             'noevent',
@@ -289,7 +303,8 @@ function qem_display_page() {
             'combined',
             'monthheading',
             'useics',
-            'useicsbutton'
+            'useicsbutton',
+            'usetimezone','timezonebefore','timezoneafter'
         );
         foreach ($option as $item) $display[$item] = $_POST[$item];
         update_option('qem_display', $display);	
@@ -304,48 +319,101 @@ function qem_display_page() {
 	$display = event_get_stored_display();
 	$$display['event_order'] = 'checked';
 	$$display['show_end_date'] = 'checked';
+    $$display['localization'] = 'selected';
 	if ( $display['event_archive'] == "checked") $archive = "checked"; 
     $content = '<style>'.qem_generate_css().'</style>
     <div class="qem-settings">
     <div class="qem-options">
     <form id="event_settings_form" method="post" action="">	
-	
-    <h2>'.__('End Date Display', 'quick-event-manager').'</h2>
-    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="show_end_date" value="checked" ' . $display['show_end_date'] . ' /> '.__('Show end date in event list', 'quick-event-manager').'</p>
-    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="sidebyside" value="checked" ' . $display['sidebyside'] . ' /> '.__('Show start and end dates next to each other', 'quick-event-manager').'</p>
-    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="combined" value="checked" ' . $display['combined'] . ' /> '.__('Combine Start and End dates into one box (only if you have them side by side)', 'quick-event-manager').'</p>
-    <h2>'.__('Event Messages', 'quick-event-manager').'</h2>
-    <p>'.__('Read more caption:', 'quick-event-manager').' <input type="text" style="width:20em;border:1px solid #415063;" label="read_more" name="read_more" value="' . $display['read_more'] . '" /></p>
-    <p>'.__('No events message:', 'quick-event-manager').' <input type="text" style="width:20em;border:1px solid #415063;" label="noevent" name="noevent" value="' . $display['noevent'] . '" /></p>
-    
-    <h2>'.__('Event List Options', 'quick-event-manager').'</h2>
-    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_descending" value="checked" ' . $display['event_descending'] . ' /> '.__('List events in reverse order (from future to past)', 'quick-event-manager').'<br>
-    <input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_archive" value="checked" ' . $display['event_archive'] . ' /> '.__('Show past events in the events list', 'quick-event-manager').'<br><span class="description">'.__('If you only want to display past events use the shortcode: <code>[qem id="archive"]</code>.', 'quick-event-manager').'</span><br>
-    <input type="checkbox" style="border: none; padding: 0; margin:0;" name="monthheading" value="checked" ' . $display['monthheading'] . ' /> '.__('Split the list into month/year sections', 'quick-event-manager').'</p>
-    <input type="checkbox" style="margin: 0; padding: 0; border: none;" name="external_link"' . $display['external_link'] . ' value="checked" />&nbsp;'.__('Link to external website', 'quick-event-manager').'<br><span class="description">'.__('Use this to link from the list to the event website rather than the event post', 'quick-event-manager').'</span><br>
-    <input type="checkbox" style="margin: 0; padding: 0; border: none;" name="recentposts"' . $display['recentposts'] . ' value="checked" />&nbsp;'.__('Show events in recent posts list', 'quick-event-manager').'</p>
-    
-    <h2>Download to Calendar</h2>
-    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="useics" value="checked" ' . $display['useics'] . ' /> '.__('Add a button to download event as a calender file', 'quick-event-manager').'<br>
-    Button text:<br>
-    <input type="text" style="border:1px solid #415063;" label="useicsbutton" name="useicsbutton" value="' . $display['useicsbutton'] . '" /></p>
-    <h2>Event Linking Options</h2>
-    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="back_to_list" value="checked" ' . $display['back_to_list'] . ' /> '.__('Add a \'Go Back one Page\' link to events', 'quick-event-manager').'<br>
-    Enter URL to link to a specific page. Leave blank to just go back one page.<br>
-    <input type="text" style="border:1px solid #415063;" label="back_to_url" name="back_to_url" value="' . $display['back_to_url'] . '" /><br>
-    '.__('Link caption:', 'quick-event-manager').' <input type="text" style="width:20em;border:1px solid #415063;" label="back_to_list_caption" name="back_to_list_caption" value="' . $display['back_to_list_caption'] . '" /></p>
-    
-    <h2>'.__('Event Image', 'quick-event-manager').'</h2>
-    <p>'.__('Max Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="event_image_width" . value ="' . $display['event_image_width'] . '" /> px</p>
-    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_image" value="checked" ' . $display['event_image'] . ' /> '.__('Show event image in event list', 'quick-event-manager').'</p>
-    <p>'.__('Max Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="image_width" . value ="' . $display['image_width'] . '" /> px</p>
-    
-    <h2>'.__('Event Map', 'quick-event-manager').'</h2>
-    <p>'.__('Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_width" . value ="' . $display['map_width'] . '" /> px&nbsp;&nbsp;'.__('Height:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_height" . value ="' . $display['map_height'] . '" /> px</p>
-    <p><input type="checkbox" style="border: none; padding: 0; margin:0;" name="map_in_list" value="checked" ' . $display['map_in_list'] . ' /> '.__('Show event map in event list', 'quick-event-manager').'</p>
-    <p>Note: the map will only display if you have a valid address and the &#146;show map&#146; checkbox is ticked on the <a href="?settings.php&tab=settings">Event Settings</a> page.</p>
-    <p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \' '.__('Are you sure you want to reset the display settings?', 'quick-event-manager').'\' );"/></p>
-    </form>
+<table>
+<tr>
+<td colspan="2"><h2>'.__('End Date Display', 'quick-event-manager').'</h2></td>
+</tr>
+<tr>
+<td width="5%"><input type="checkbox" style="border: none; padding: 0; margin:0;" name="show_end_date" value="checked" ' . $display['show_end_date'] . ' /></td><td width="95%"> '.__('Show end date in event list', 'quick-event-manager').'</td>
+</tr>
+<tr>
+<td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="sidebyside" value="checked" ' . $display['sidebyside'] . ' /></td><td> '.__('Show start and end dates next to each other', 'quick-event-manager').'</td>
+</tr>
+<tr>
+    <td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="combined" value="checked" ' . $display['combined'] . ' /></td><td> '.__('Combine Start and End dates into one box (only if you have them side by side)', 'quick-event-manager').'</td>
+</tr>
+<tr>
+<td colspan="2"><h2>'.__('Event Messages', 'quick-event-manager').'</h2></td>
+</tr>
+<tr>
+ </td><td>   <td>'.__('Read more caption:', 'quick-event-manager').' <input type="text" style="width:20em;border:1px solid #415063;" label="read_more" name="read_more" value="' . $display['read_more'] . '" /></td>
+</tr>
+<tr>
+   </td><td> <td>'.__('No events message:', 'quick-event-manager').' <input type="text" style="width:20em;border:1px solid #415063;" label="noevent" name="noevent" value="' . $display['noevent'] . '" /></td>
+    </tr>
+<tr>
+<td colspan="2"><h2>'.__('Event List Options', 'quick-event-manager').'</h2></td>
+</tr>
+<tr>
+    <td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_descending" value="checked" ' . $display['event_descending'] . ' /></td><td> '.__('List events in reverse order (from future to past)', 'quick-event-manager').'</td></tr>
+<tr><td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_archive" value="checked" ' . $display['event_archive'] . ' /></td><td> '.__('Show past events in the events list', 'quick-event-manager').'<br><span class="description">'.__('If you only want to display past events use the shortcode: <code>[qem id="archive"]</code>.', 'quick-event-manager').'</span></td></tr>
+<tr><td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="monthheading" value="checked" ' . $display['monthheading'] . ' /></td><td> '.__('Split the list into month/year sections', 'quick-event-manager').'</td>
+    <tr><td><input type="checkbox" style="margin: 0; padding: 0; border: none;" name="external_link"' . $display['external_link'] . ' value="checked" /></td><td>'.__('Link to external website', 'quick-event-manager').'<br><span class="description">'.__('Use this to link from the list to the event website rather than the event post', 'quick-event-manager').'</span></td></tr>
+    <tr><td><input type="checkbox" style="margin: 0; padding: 0; border: none;" name="recentposts"' . $display['recentposts'] . ' value="checked" /></td><td>'.__('Show events in recent posts list', 'quick-event-manager').'</td>
+    </tr>
+<tr>
+<td colspan="2"><h2>Timezones</h2></td>
+</tr>
+<tr>
+<td><input type="checkbox" style="margin: 0; padding: 0; border: none;" name="usetimezone"' . $display['usetimezone'] . ' value="checked" /></td><td>'.__('Show timeszones on your events', 'quick-event-manager').'</td>
+</tr>
+<tr>
+<td></td><td><input type="text" style="width:40%;border:1px solid #415063;" name="timezonebefore" value="' . $display['timezonebefore'] . '" /> {timezone} <input type="text" style="width:40%;border:1px solid #415063;" name="timezoneafter" value="' . $display['timezoneafter'] . '" /><br>
+<span class="description">This doesn\'t change the time of the event, it just shows the name of the local timeszone. Set the event timezone in the event editor.
+</span></td>
+</tr>
+<tr>
+ <td colspan="2"><h2>Download to Calendar</h2></td>
+</tr>
+<tr>
+    <td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="useics" value="checked" ' . $display['useics'] . ' /></td><td> '.__('Add a button to download event as a calender file', 'quick-event-manager').'</td>
+</tr>
+<tr>
+<td></td><td>Button text: <input type="text" style="width:50%;border:1px solid #415063;" label="useicsbutton" name="useicsbutton" value="' . $display['useicsbutton'] . '" /></td>
+</tr>
+<tr>
+<td colspan="2"><h2>Event Linking Options</h2></td>
+</tr>
+<tr>
+<td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="back_to_list" value="checked" ' . $display['back_to_list'] . ' /></td><td> '.__('Add a link to events to go back to the event list', 'quick-event-manager').'</td>
+</tr>
+<tr>
+<td></td><td>Enter URL to link to a specific page. Leave blank to just go back one page:<br>
+    <input type="text" style="border:1px solid #415063;" label="back_to_url" name="back_to_url" value="' . $display['back_to_url'] . '" /></td>
+</tr>
+<tr>
+<td></td><td>'.__('Link caption:', 'quick-event-manager').' <input type="text" style="width:50%;border:1px solid #415063;" label="back_to_list_caption" name="back_to_list_caption" value="' . $display['back_to_list_caption'] . '" /></td>
+</tr>
+<tr>    
+    <td colspan="2"><h2>'.__('Event Image', 'quick-event-manager').'</h2><td>
+</tr>
+<tr>
+<td></td><td>'.__('Max Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="event_image_width" . value ="' . $display['event_image_width'] . '" /> px</td>
+</tr>
+<tr>
+    <td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="event_image" value="checked" ' . $display['event_image'] . ' /></td><td>'.__('Show event image in event list', 'quick-event-manager').'.&nbsp;&nbsp;'.__('Max Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="image_width" . value ="' . $display['image_width'] . '" /> px</td>
+</tr>
+<tr>    
+<td colspan="2"><h2>'.__('Event Map', 'quick-event-manager').'</h2></td>
+<tr><td></td><td>'.__('Width:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_width" . value ="' . $display['map_width'] . '" /> px&nbsp;&nbsp;'.__('Height:', 'quick-event-manager').' <input type="text" style="border:1px solid #415063; width:3em; padding: 1px; margin:0;" name="map_height" . value ="' . $display['map_height'] . '" /> px</td>
+</tr>
+<tr>
+    <td><input type="checkbox" style="border: none; padding: 0; margin:0;" name="map_in_list" value="checked" ' . $display['map_in_list'] . ' /></td><td>'.__('Show event map in event list', 'quick-event-manager').'</td>
+</tr>
+<tr>
+<td></td><td>Note: the map will only display if you have a valid address and the &#146;show map&#146; checkbox is ticked on the <a href="?settings.php&tab=settings">Event Settings</a> page.</td>
+</tr>
+<tr>
+    <td></td><td><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \' '.__('Are you sure you want to reset the display settings?', 'quick-event-manager').'\' );"/></td>
+</tr>
+</table>    
+</form>
     </div>
     <div class="qem-options" style="float:right">
     <h2>'.__('Event List Preview', 'quick-event-manager').'</h2>';
@@ -358,6 +426,7 @@ function qem_display_page() {
 function qem_styles() {
 	if( isset( $_POST['Submit'])) {
 		$options = array(
+            'use_head',
             'font',
             'font-family',
             'font-size',
@@ -382,8 +451,11 @@ function qem_styles() {
             'event_margin',
             'line_margin',
             'use_dayname',
+            'use_dayname_inline',
             'iconorder',
-            'cat_border'
+            'cat_border',
+            'vanilla',
+            'vanillawidget'
         );
 		foreach ( $options as $item) $style[$item] = stripslashes($_POST[$item]);
 		update_option('qem_style', $style);
@@ -420,7 +492,12 @@ function qem_styles() {
     <tr><td>'.__('Header Size:', 'quick-event-manager').'</td><td><input type="text" style="width:7em;border:1px solid #415063;" label="header-size" name="header-size" value="' . $style['header-size'] . '" /> This the size of the title in the event list.</td></tr>
     <tr><td>'.__('Header Colour:', 'quick-event-manager').'</td><td><input type="text" class="qem-color" label="header-colour" name="header-colour" value="' . $style['header-colour'] . '" /></td></tr>
 	
-    <tr><td colspan="2"><h2>'.__('Calender Icon', 'quick-event-manager').'</h2></td></tr>
+    <tr>
+    <td colspan="2"><h2>'.__('Calender Icon', 'quick-event-manager').'</h2></td>
+    </tr>
+    <tr>
+    <td>Remove styles</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="vanilla"' . $style['vanilla'] . ' value="checked" /> '.__('Do not style the calendar icon', 'quick-event-manager').'<br><input type="checkbox" style="margin:0; padding: 0; border: none" name="vanillawidget"' . $style['vanillawidget'] . ' value="checked" /> '.__('Remove widget styles', 'quick-event-manager').'</td>
+    </tr>
     <tr><td style="vertical-align:top;">'.__('Size', 'quick-event-manager').'</td><td>
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="small" ' . $small . ' /> '.__('Small', 'quick-event-manager').' (40px)<br />
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="calender_size" value="medium" ' . $medium . ' /> '.__('Medium', 'quick-event-manager').' (60px)<br />
@@ -432,19 +509,29 @@ function qem_styles() {
 	<input type="text" style="width:7em;border:1px solid #415063;" label="calendar border" name="date_border_width" value="' . $style['date_border_width'] . '" /> px</td></tr>
 	<tr><td>'.__('Border Colour:', 'quick-event-manager').'</td><td><input type="text" class="qem-color" label="calendar border" name="date_border_colour" value="' . $style['date_border_colour'] . '" /></td></tr>
     
-    <tr><td>'.__('Calendar Icon Order', 'quick-event-manager').'</td><td>
-	<input style="margin: 0; padding: 0; border: none;" type="radio" name="iconorder" value="default" ' . $default . ' /> '.__('DMY', 'quick-event-manager').'&nbsp;<input style="margin: 0; padding: 0; border: none;" type="radio" name="iconorder" value="month" ' . $month . ' /> '.__('MDY', 'quick-event-manager').'&nbsp;<input style="margin: 0; padding: 0; border: none;" type="radio" name="iconorder" value="year" ' . $year . ' /> '.__('YDM', 'quick-event-manager').'</td></tr>
-    <tr><td>Day Name</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_dayname"' . $style['use_dayname'] . ' value="checked" /> '.__('Show day name', 'quick-event-manager').'</td></tr>
+    <tr>
+    <td>'.__('Calendar Icon Order', 'quick-event-manager').'</td><td>
+	<input style="margin: 0; padding: 0; border: none;" type="radio" name="iconorder" value="default" ' . $default . ' /> '.__('DMY', 'quick-event-manager').'&nbsp;<input style="margin: 0; padding: 0; border: none;" type="radio" name="iconorder" value="month" ' . $month . ' /> '.__('MDY', 'quick-event-manager').'&nbsp;<input style="margin: 0; padding: 0; border: none;" type="radio" name="iconorder" value="year" ' . $year . ' /> '.__('YDM', 'quick-event-manager').'&nbsp;<input style="margin: 0; padding: 0; border: none;" type="radio" name="iconorder" value="dm" ' . $dm . ' /> '.__('DM', 'quick-event-manager').'&nbsp;<input style="margin: 0; padding: 0; border: none;" type="radio" name="iconorder" value="md" ' . $md . ' /> '.__('MD', 'quick-event-manager').'</td>
+    </tr>
+    <tr>
+    <td>Day Name</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_dayname"' . $style['use_dayname'] . ' value="checked" /> '.__('Show day name', 'quick-event-manager').'<br>
+    <input type="checkbox" style="margin:0; padding: 0; border: none" name="use_dayname_inline"' . $style['use_dayname_inline'] . ' value="checked" /> '.__('Show day name inline with date', 'quick-event-manager').'</td>
+    </tr>
 	<tr><td style="vertical-align:top;">'.__('Date Background colour', 'quick-event-manager').'</td><td>
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="date_background" value="grey" ' . $grey . ' /> '.__('Grey', 'quick-event-manager').'<br />
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="date_background" value="red" ' . $red . ' /> '.__('Red', 'quick-event-manager').'<br />
 	<input style="margin: 0; padding: 0; border: none;" type="radio" name="date_background" value="color" ' . $color . ' /> '.__('Set your own', 'quick-event-manager').'<br />
 <input type="text" class="qem-color" label="background" name="date_backgroundhex" value="' . $style['date_backgroundhex'] . '" /></td></tr>
 	<tr><td>'.__('Date Text Colour', 'quick-event-manager').'</td><td><input type="text" class="qem-color" label="date colour" name="date_colour" value="' . $style['date_colour'] . '" /></td></tr>
-	<tr><td>'.__('Month Text Style', 'quick-event-manager').'</td><td><input style="margin: 0; padding: 0; border: none;" type="checkbox" name="date_bold" value="checked" ' . $style['date_bold'] . ' /> '.__('Bold', 'quick-event-manager').'&nbsp;
-	<input style="margin: 0; padding: 0; border: none;" type="checkbox" name="date_italic" value="checked" ' . $style['date_italic'] . ' /> '.__('Italic', 'quick-event-manager').'</td></tr>
-	<tr><td colspan="2"><h2>'.__('Event Content', 'quick-event-manager').'</h2></td></tr>
-	<tr><td style="vertical-align:top;">'.__('Event Border', 'quick-event-manager').'</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="event_border"' . $style['event_border'] . ' value="checked" /> '.__('Add a border to the event post', 'quick-event-manager').'<br /><span class="description">'.__('Thickness and colour will be the same as the calendar icon.', 'quick-event-manager').'</span></td></tr>
+	<tr>
+    <td>'.__('Month Text Style', 'quick-event-manager').'</td><td><input style="margin: 0; padding: 0; border: none;" type="checkbox" name="date_bold" value="checked" ' . $style['date_bold'] . ' /> '.__('Bold', 'quick-event-manager').'&nbsp;
+	<input style="margin: 0; padding: 0; border: none;" type="checkbox" name="date_italic" value="checked" ' . $style['date_italic'] . ' /> '.__('Italic', 'quick-event-manager').'</td>
+    </tr>
+	<tr>
+    <td colspan="2"><h2>'.__('Event Content', 'quick-event-manager').'</h2></td>
+    </tr>
+	<tr>
+    <td style="vertical-align:top;">'.__('Event Border', 'quick-event-manager').'</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="event_border"' . $style['event_border'] . ' value="checked" /> '.__('Add a border to the event post', 'quick-event-manager').'<br /><span class="description">'.__('Thickness and colour will be the same as the calendar icon.', 'quick-event-manager').'</span></td></tr>
 	<tr><td style="vertical-align:top;">'.__('Category Colours', 'quick-event-manager').'</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="cat_border"' . $style['cat_border'] . ' value="checked" /> '.__('Use category colours for the event border', 'quick-event-manager').'<br /><span class="description">'.__('Set the colours on the <a href="?settings.php&tab=calendar">Calendar Settings</a> page.', 'quick-event-manager').'</span></td></tr>
 
 	<tr><td style="vertical-align:top;">'.__('Event Background Colour', 'quick-event-manager').'</td><td><input style="margin:0; padding:0; border:none;" type="radio" name="event_background" value="bgwhite" ' . $bgwhite . ' /> '.__('White', 'quick-event-manager').'<br />
@@ -455,6 +542,7 @@ function qem_styles() {
 	<tr><td style="vertical-align:top;">Event Margin</td><td><span class="description">Set the margin or each event using CSS shortcodes:</span><br><input type="text" label="margin" name="event_margin" value="' . $style['event_margin'] . '" /></td></tr>
 </table>
 	<h2>'.__('Custom CSS', 'quick-event-manager').'</h2>
+    <p><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_head"' . $style['use_head'] . ' value="checked" /> '.__('Add styles to document head', 'quick-event-manager').'</p>
 	<p><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_custom"' . $style['use_custom'] . ' value="checked" /> '.__('Use Custom CSS', 'quick-event-manager').'</p>
 	<p><textarea style="width:100%;height:100px;border:1px solid #415063;" name="custom">' . $style['custom'] . '</textarea></p>
 	<p>'.__('To see all the styling use the <a href="plugin-editor.php?file=quick-event-manager/quick-event-manager.css">CSS editor</a>.', 'quick-event-manager').'</p>
@@ -473,7 +561,7 @@ function qem_styles() {
 
 function qem_calendar() {
 	if( isset( $_POST['Submit'])) {
-		$options = array(
+$options = array(
             'calday',
             'caldaytext',
             'day',
@@ -547,7 +635,9 @@ function qem_calendar() {
     <tr><td style="vertical-align:top;">Linking to Events</td><td><input style="margin:0; padding:0; border:none;" type="radio" name="eventlink" value="linkpopup" ' . $linkpopup . ' /> '.__('Link opens event summary in a popup', 'quick-event-manager').'<br />
     <input style="margin:0; padding:0; border:none;" type="radio" name="eventlink" value="linkpage" ' . $linkpage . ' /> '.__('Link opens event page' ,'quick-event-manager').'</td></tr>
     <tr><td width="30%">Old Events</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="archive" ' . $calendar['archive'] . ' value="checked" /> '.__('Show past events in the calendar.', 'quick-event-manager').'</td></tr>
-    <tr><td width="30%">Linking Calendar to the Event List</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="connect"' . $calendar['connect'] . ' value="checked" /> '.__('Link Event List to Calendar Page (you will need to create a pages for the calendar and the event list).', 'quick-event-manager').'</td></tr>
+    <tr><td width="30%">Linking Calendar to the Event List</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="connect"' . $calendar['connect'] . ' value="checked" /> '.__('Link Event List to Calendar Page).', 'quick-event-manager').'<br>
+<span class="description">'.__('You will need to create pages for the calendar and the event list).', 'quick-event-manager').'</span>
+</td></tr>
     <tr><td width="30%">'.__('Calendar link text', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" label="calendar_text" name="calendar_text" value="' . $calendar['calendar_text'] . '" /></td></tr>
     <tr><td width="30%">'.__('Calendar page URL', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" label="calendar_url" name="calendar_url" value="' . $calendar['calendar_url'] . '" /></td></tr>
     <tr><td width="30%">'.__('Event list link text', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" label="eventlist_text" name="eventlist_text" value="' . $calendar['eventlist_text'] . '" /></td></tr>
@@ -637,7 +727,8 @@ function qem_register (){
             'usemail',
             'usetelephone',
             'useplaces',
-            'usemessage', 
+            'usemessage',
+            'useattend',
             'usecaptcha',
             'formborder',
             'sendemail',
@@ -652,6 +743,7 @@ function qem_register (){
             'yourplaces',
             'yourmessage',
             'yourcaptcha',
+            'yourattend',
             'qemsubmit',
             'error',
             'replytitle',
@@ -702,66 +794,160 @@ function qem_register (){
     <td colspan="2">'.__('Pre-fill user name if logged in', 'quick-event-manager').'</td>
     </tr>
     <tr>
-    <td width="5%"></td><td width="20%">'.__('Your Email Address', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="sendemail" value="' . $register['sendemail'] . '" /><br><span class="description">This is where registration notifications will be sent.</span></td>
+    <td width="5%"></td>
+    <td width="20%">'.__('Your Email Address', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="sendemail" value="' . $register['sendemail'] . '" /><br><span class="description">This is where registration notifications will be sent.</span></td>
     </tr>
     <tr>
-    <td colspan="3"><h2>'.__('Registration From', 'quick-event-manager').'</h2></td>
+    <td colspan="3"><h2>'.__('Registration Form', 'quick-event-manager').'</h2></td>
     </tr>
     <tr>
-    <td width="5%"></td><td width="20%">'.__('Form title', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="title" value="' . $register['title'] . '" /></td>
+    <td width="5%"></td>
+    <td width="20%">'.__('Form title', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="title" value="' . $register['title'] . '" /></td>
     </tr>
     <tr>
-    <td width="5%"></td><td width="20%">'.__('Form blurb', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="blurb" value="' . $register['blurb'] . '" /></td></tr>
-    <tr><td width="5%"></td><td width="20%">'.__('Submit Button', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="qemsubmit" value="' . $register['qemsubmit'] . '" /></td></tr>
-    <tr><td colspan="3">Check those fields you want to use.</td></tr>
+    <td width="5%"></td>
+    <td width="20%">'.__('Form blurb', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="blurb" value="' . $register['blurb'] . '" /></td>
+    </tr>
+    <tr><td width="5%"></td>
+    <td width="20%">'.__('Submit Button', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="qemsubmit" value="' . $register['qemsubmit'] . '" /></td>
+    </tr>
     <tr>
-    <td width="5%"></td><th width="20%">'.__('Field', 'quick-event-manager').'</th><th>'.__('Label', 'quick-event-manager').'</th></tr>
+    <td colspan="3">Check those fields you want to use.</td>
+    </tr>
+    <tr>
+    <td width="5%"></td>
+    <th width="20%">'.__('Field', 'quick-event-manager').'</th>
+    <th>'.__('Label', 'quick-event-manager').'</th>
+    </tr>
     <tr>
     <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usename"' . $register['usename'] . ' value="checked" /></td>
-    <td width="20%">'.__('Name', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="yourname" value="' . $register['yourname'] . '" />
+    <td width="20%">'.__('Name', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="yourname" value="' . $register['yourname'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usemail"' . $register['usemail'] . ' value="checked" /></td>
+    <td width="20%">'.__('Email', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="youremail" value="' . $register['youremail'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="useattend"' . $register['useattend'] . ' value="checked" /></td>
+    <td width="20%">'.__('Not Attending', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="yourattend" value="' . $register['yourattend'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usetelephone"' . $register['usetelephone'] . ' value="checked" /></td>
+    <td width="20%">'.__('Telephone', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="yourtelephone" value="' . $register['yourtelephone'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="useplaces"' . $register['useplaces'] . ' value="checked" /></td>
+    <td width="20%">'.__('Places', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="yourplaces" value="' . $register['yourplaces'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usemessage"' . $register['usemessage'] . ' value="checked" /></td>
+    <td width="20%">'.__('Message', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="yourmessage" value="' . $register['yourmessage'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usecaptcha"' . $register['usecaptcha'] . ' value="checked" /></td>
+    <td width="20%">'.__('Captcha', 'quick-event-manager').'</td>
+    <td>Displays a simple maths captcha to confuse the spammers.</td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usecopy" ' . $register['usecopy'] . ' value="checked" /></td>
+    <td width="20%">'.__('Copy Message', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="copyblurb" value="' . $register['copyblurb'] . '" /></td>
+    </tr>
+    <tr>
+    <td colspan="3"><h2>'.__('Error and Thank-you messages', 'quick-event-manager').'</h2></td></tr>
+    <tr>
+    <td width="5%"></td>
+    <td width="20%">'.__('Error Message', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="error" value="' . $register['error'] . '" /></td></tr>
+    <tr>
+    <td width="5%"></td>
+    <td width="20%">'.__('Thank you message title', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="replytitle" value="' . $register['replytitle'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"></td>
+    <td width="20%">'.__('Thank you message blurb', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="replyblurb" value="' . $register['replyblurb'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="sendcopy"' . $register['sendcopy'] . ' value="checked" /></td>
+    <td width="20%">'.__('Confirmation', 'quick-event-manager').'</td>
+    <td>Send a copy of the registration details message to the registrant.</td>
+    </tr>
+    <tr>
+    <td colspan="3"><h2>'.__('Email Subject', 'quick-event-manager').'</h2></td></tr>
+    <tr>
+    <td width="5%"></td>
+    <td width="20%">'.__('Subject', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="subject" value="' . $register['subject'] . '" /></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="subjecttitle"' . $register['subjecttitle'] . ' value="checked" /></td>
+    <td colspan="3">'.__('Show event title', 'quick-event-manager').'</td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="subjectdate"' . $register['subjectdate'] . ' value="checked" /></td>
+    <td colspan="3">'.__('Show date', 'quick-event-manager').'</td>
+    </tr>
+    <tr>
+    <td colspan="3"><h2>'.__('Show Attendees', 'quick-event-manager').'</h2></td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="whoscoming"' . $register['whoscoming'] . ' value="checked" /></td>
+    <td colspan="2">'.__('List attendees', 'quick-event-manager').'</td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="whosavatar"' . $register['whosavatar'] . ' value="checked" /></td>
+    <td colspan="2">'.__('Show avatars', 'quick-event-manager').'</td>
+    </tr>
+    <tr>
+    <td width="5%"></td>
+    <td width="20%">'.__('Message', 'quick-event-manager').'</td>
+    <td><input type="text" style="border:1px solid #415063;" name="whoscomingmessage" value="' . $register['whoscomingmessage'] . '" /></td>
+    </tr>
+    <tr>
+    <td colspan="3"><h2>'.__('Places Available Counter', 'quick-event-manager').'</h2></td>
+    </tr>
+    <tr>
+    <td width="5%"></td>
+    <td colspan="2">'.__('Show how many places are left for an event.', 'quick-event-manager').' '.__('Set the number of places in the event editor.', 'quick-event-manager').'<br>
+    <input type="text" style="width:40%;border:1px solid #415063;" name="placesbefore" value="' . $register['placesbefore'] . '" /> {number} <input type="text" style="width:40%;border:1px solid #415063;" name="placesafter" value="' . $register['placesafter'] . '" />
     </td>
     </tr>
     <tr>
-    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usemail"' . $register['usemail'] . ' value="checked" /></td><td width="20%">'.__('Email', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="youremail" value="' . $register['youremail'] . '" /></td></tr>
-    <tr><td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usetelephone"' . $register['usetelephone'] . ' value="checked" /></td><td width="20%">'.__('Telephone', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="yourtelephone" value="' . $register['yourtelephone'] . '" /></td></tr>
-    <tr><td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="useplaces"' . $register['useplaces'] . ' value="checked" /></td><td width="20%">'.__('Places', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="yourplaces" value="' . $register['yourplaces'] . '" /></td></tr>
-    <tr><td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usemessage"' . $register['usemessage'] . ' value="checked" /></td><td width="20%">'.__('Message', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="yourmessage" value="' . $register['yourmessage'] . '" /></td></tr>
-    <tr><td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usecaptcha"' . $register['usecaptcha'] . ' value="checked" /></td><td width="20%">'.__('Captcha', 'quick-event-manager').'</td><td>Displays a simple maths captcha to confuse the spammers.</td></tr>
-    <tr><td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="usecopy" ' . $register['usecopy'] . ' value="checked" /></td><td width="20%">'.__('Copy Message', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="copyblurb" value="' . $register['copyblurb'] . '" /></td></tr>
-    <tr><td colspan="3"><h2>'.__('Error and Thank-you messages', 'quick-event-manager').'</h2></td></tr>
-    <tr><td width="5%"></td><td width="20%">'.__('Error Message', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="error" value="' . $register['error'] . '" /></td></tr>
-    <tr><td width="5%"></td><td width="20%">'.__('Thank you message title', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="replytitle" value="' . $register['replytitle'] . '" /></td></tr>
-    <tr><td width="5%"></td><td width="20%">'.__('Thank you message blurb', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="replyblurb" value="' . $register['replyblurb'] . '" /></td></tr>
-
-<tr><td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="sendcopy"' . $register['sendcopy'] . ' value="checked" /></td><td width="20%">'.__('Confirmation', 'quick-event-manager').'</td><td>Send a copy of the registration details message to the registrant.</td></tr>
-        
-        <tr><td colspan="3"><h2>'.__('Email Subject', 'quick-event-manager').'</h2></td></tr>
-        <tr><td width="5%"></td><td width="20%">'.__('Subject', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="subject" value="' . $register['subject'] . '" /></td></tr>
-        <tr><td width="5%"></td><td width="20%">'.__('Show event title', 'quick-event-manager').'</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="subjecttitle"' . $register['subjecttitle'] . ' value="checked" /></td></tr>
-        <tr><td width="5%"></td><td width="20%">'.__('Show date', 'quick-event-manager').'</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="subjectdate"' . $register['subjectdate'] . ' value="checked" /></td></tr>
-        
-        <tr><td colspan="3"><h2>'.__('Show Attendees', 'quick-event-manager').'</h2></td></tr>
-        <tr><td width="5%"></td><td width="20%">'.__('List attendees', 'quick-event-manager').'</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="whoscoming"' . $register['whoscoming'] . ' value="checked" /></td></tr>
-        <tr><td width="5%"></td><td width="20%">'.__('Show avatars', 'quick-event-manager').'</td><td><input type="checkbox" style="margin:0; padding: 0; border: none" name="whosavatar"' . $register['whosavatar'] . ' value="checked" /></td></tr>
-        <tr><td width="5%"></td><td width="20%">'.__('Message', 'quick-event-manager').'</td><td><input type="text" style="border:1px solid #415063;" name="whoscomingmessage" value="' . $register['whoscomingmessage'] . '" /></td></tr>
-        
-        <tr><td colspan="3"><h2>'.__('Places Available Counter', 'quick-event-manager').'</h2></td></tr>
-        <tr><td width="5%"></td><td colspan="2">'.__('Show how many places are left for an event.', 'quick-event-manager').' '.__('Set the number of places in the event editor.', 'quick-event-manager').'<br>
-        <input type="text" style="width:40%;border:1px solid #415063;" name="placesbefore" value="' . $register['placesbefore'] . '" /> {number} <input type="text" style="width:40%;border:1px solid #415063;" name="placesafter" value="' . $register['placesafter'] . '" />
-        <tr><td width="5%"></td><td colspan="2"><input type="checkbox" style="margin:0; padding: 0; border: none" name="eventlist"' . $register['eventlist'] . ' value="checked" /> Show places available on event list - this only works if you have selected \'Add an attendee counter to this form\' on the event editor.</td></tr>
-    <tr><td width="5%"></td><td colspan="2"><input type="checkbox" style="margin:0; padding: 0; border: none" name="eventfull"' . $register['eventfull'] . ' value="checked" /> Hide registration form when event is full</td></tr> 
-    <tr><td width="5%"></td><td width="20%">Message to display:</td><td><input type="text" style="border:1px solid #415063;" name="eventfullmessage" value="' . $register['eventfullmessage'] . '" /></td></tr>
-     </td></tr>
-     </table>
-     <p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" /> <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \''.__('Are you sure you want to reset the registration form?', 'quick-event-manager').'\' );"/></p>
-     </form></div>
-     <div class="qem-options" style="float:right">
-     <h2>'.__('Example form', 'quick-event-manager').'</h2>
-     <p>'.__('This is an example of the form. When it appears on your site it will use your theme styles.', 'quick-event-manager').'</p>';
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="eventlist"' . $register['eventlist'] . ' value="checked" /></td>
+    <td colspan="2">Show places available on event list - this only works if you have selected \'Add an attendee counter to this form\' on the event editor.</td>
+    </tr>
+    <tr>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="eventfull"' . $register['eventfull'] . ' value="checked" /></td>
+    <td colspan="2">Hide registration form when event is full</td>
+    </tr> 
+    <tr>
+    <td width="5%"></td>
+    <td width="20%">Message to display:</td>
+    <td><input type="text" style="border:1px solid #415063;" name="eventfullmessage" value="' . $register['eventfullmessage'] . '" /></td>
+    </tr>
+    </table>
+    <p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Save Changes', 'quick-event-manager').'" />
+    <input type="submit" name="Reset" class="button-primary" style="color: #FFF;" value="'.__('Reset', 'quick-event-manager').'" onclick="return window.confirm( \''.__('Are you sure you want to reset the registration form?', 'quick-event-manager').'\' );"/></p>
+    </form>
+    </div>
+    <div class="qem-options" style="float:right">
+    <h2>'.__('Example form', 'quick-event-manager').'</h2>
+    <p>'.__('This is an example of the form. When it appears on your site it will use your theme styles.', 'quick-event-manager').'</p>';
     $content .= qem_loop();
 	$content .= '</div></div>';
 	echo $content;		
-	}
+}
 
 function qem_payment (){
 	if( isset( $_POST['Submit'])) {
@@ -776,7 +962,6 @@ function qem_payment (){
 		}
 	$payment = qem_get_stored_payment();
     $$payment['useqpp'] = 'checked';
-print_r($payment);
 	$content = '<div class="qem-settings"><div class="qem-options">
     <form id="" method="post" action="">';
 	if (function_exists('qpp_loop')) {
@@ -806,10 +991,67 @@ $checked = ($payment['qppform'] == $item ? 'checked' :  '');
         $content = '<div class="qem-settings"><div class="qem-options"><p>To add a payment form to your events:<br>
         1. Install the <a href="http://wordpress.org/plugins/quick-paypal-payments/">quick paypal payments</a> plugin.<br>
         2. Configure the payment form.<br>
-        3. Return to this page to change how the form is displayed on your events.</p><p>This a very new feature of the plugin and will be developed in response to user feedback. If you have a feature you would like to see then contact me through <a href="http://quick-plugins.com/quick-event-manager/" target="_blank">quick-plugins.com</a> or email me at <a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a>.</p></div></div>';
+        3. Return to this page to change how the form is displayed on your events.</p><p>This a newish feature of the plugin and will be developed in response to user feedback. If you have a feature you would like to see then contact me through <a href="http://quick-plugins.com/quick-event-manager/" target="_blank">quick-plugins.com</a> or email me at <a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a>.</p></div></div>';
 	   }
 	echo $content;		
 	}
+
+function qem_template () {
+	if( isset( $_POST['Submit'])) {
+        $theme_data = get_theme_data(get_stylesheet_uri()); 
+        $templateIdentifier = '<?php
+/*
+Template Name: Single Event
+*/
+?>
+';
+		$templateDirectory = get_template_directory(). '/single.php';
+        $newFilePath = get_stylesheet_directory(). '/single-event.php';
+        $currentFile = fopen($templateDirectory,"r");
+        $pageTemplate = fread($currentFile,filesize($templateDirectory));
+        fclose($currentFile);
+        $newTemplateFile = fopen($newFilePath,"w");
+        fwrite($newTemplateFile, $templateIdentifier);
+        $written = fwrite($newTemplateFile, $pageTemplate);
+        fclose($newTemplateFile);
+        if ( $written != false ) {
+            qem_admin_notice('The template has been created. <a href="'.admin_url('theme-editor.php?file=single-event.php').'">Edit Template</a>.');
+        } else { 
+            qem_admin_notice(__('<strong>ERROR: Unable to create new theme file</strong>', 'quick-event-manager'));
+        } 	
+    }
+    $content = '<div class="qem-settings"><div class="qem-options">
+    <h2>The Automated Option</h2>
+    <p>If your theme adds the date you posted an event to the event page you can set up and edit a template for single events.</p>
+    <p>The function clones your \'single.php\' theme file and saves it as \'single-event.php\'.</p><p>Once created you can edit the file in your appearance editor.</p>
+    <p>If you aren\'t confident editing theme files it may be prudent to read the <a href="http://codex.wordpress.org/Page_Templates">WordPress documentation</a> first.</p>';
+    $newFilePath = get_stylesheet_directory(). '/single-event.php';
+    if (file_exists($newFilePath)) $content .= '<p style="color:red">An Event Template already exists. Clicking the button below will overwrite the existing file. <a href="'.admin_url('theme-editor.php?file=single-event.php').'">View Template file</a>.</p>';
+    $content .= '<form id="" method="post" action="">
+    <p><input type="submit" name="Submit" class="button-primary" style="color: #FFF;" value="'.__('Create Event Template', 'quick-event-manager').'" /></p>
+    </form></div>
+    <div class="qem-options" style="float:right">
+    <h2>The DIY Option</h2>
+    <p>It\'s very easy to create your own template if you have FTP access to your theme.</p>
+    <p>1. Connect to your domain using FTP.</p>
+    <p>2. Navigate to the theme directory. Normally wp-content/themes/your theme.</p>
+    <p>3. Download the file called single.php to your computer.</p>
+    <p>4. Open the file using a text editor.</p>
+    <p>5. Add the following to the very top of the file:
+    <code><&#063;php
+    /*
+    Template Name: Single Event
+    */
+    &#063;>
+    </code>
+    </p>
+    <p>6. Save as: <code>single-event.php</code>.</p>
+    <p>7. Upload the file to your theme directory.</p>
+    <p>The event manager will detect the new template and use if for single events.</p>
+    </div>
+    </div>';        
+    echo $content;		
+}
 
 function event_delete_options() {
 	delete_option('event_settings');

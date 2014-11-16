@@ -3,12 +3,18 @@ function event_custom_columns($column) {
 	global $post;
 	$custom = get_post_custom();
 	switch ($column) {
-		case "event_date":$date = $custom["event_date"][0];echo date("d", $date).' '.date("M", $date).' '.date("Y", $date);	break;
-		case "event_time":echo $custom["event_start"][0] . ' - ' . $custom["event_finish"][0];break;
+		case "event_date":$date = $custom["event_date"][0];echo date_i18n("d M Y", $date);
+if ($custom["event_end_date"][0]) {$enddate = $custom["event_end_date"][0]; echo ' - '. date_i18n("d M Y", $enddate);
+}
+	break;
+		case "event_time":echo $custom["event_start"][0];
+if ($custom["event_finish"][0]) echo ' - ' . $custom["event_finish"][0];break;
 		case "event_location":echo $custom["event_location"][0];break;
-		case "event_address":echo $custom["event_address"][0];break;
 		case "event_website":echo $custom['event_link'][0];	break;
 		case "event_cost":echo $custom["event_cost"][0];break;
+case 'category' :	$category = get_the_term_list( get_the_ID(), 'category', '', ', ', '' ); 
+			echo __( $category );break;
+case 'date' :	echo get_the_date();break;
 		}
 	}
 
@@ -16,7 +22,8 @@ function event_date_column_register_sortable( $columns ) {
 	$columns['event_date'] = 'event_date';
 	$columns['event_time'] = 'event_time';
 	$columns['event_location'] = 'event_location';
-	$columns['event_address'] = 'event_address';
+	$columns['category'] = 'category';
+$columns['date'] = 'date';
 	return $columns;
 	}
 
@@ -35,8 +42,9 @@ function event_edit_columns($columns) {
 		"title" 			=> __('Event', 'quick-event-manager'),
 		"event_date" 		=> __('Event Date', 'quick-event-manager'),
 		"event_time" 		=> __('Event Time', 'quick-event-manager'),
-		"event_location" 	=> __('Location', 'quick-event-manager'),
-		"event_address" 	=> __('Address', 'quick-event-manager'),
+		"event_location" 	=> __('Venue', 'quick-event-manager'),
+		'category' => __( 'Categories' ),
+'date' => __( 'Date' )
 		);
 	return $columns;
 	}
@@ -46,6 +54,7 @@ function event_details_meta() {
 	$event = event_get_stored_options();
     $register = qem_get_stored_register();
     $payment = qem_get_stored_payment();
+    $display = event_get_stored_display();
     $date = get_event_field('event_date');
 	if (empty($date)) $date = time();
 	$date = date_i18n("d M Y", $date);
@@ -76,9 +85,55 @@ function event_details_meta() {
 		<td width="80%">' . $event['start_label'] . ' <input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_start" value="' . get_event_field("event_start") . '" /> ' . $event['finish_label'] . ' <input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"   name="event_finish" value="' . get_event_field("event_finish") . '" /><br>
 <span class="description">Start times in the format 8.23 am/pm, 8.23, 8:23 and 08:23 will be used to order events by time and date. All other formats will display but won\'t contribute to the event ordering.</span> 
 		</td>
-        </tr>
+        </tr>';
+    if ($display['usetimezone']) {
+$tz = get_event_field("selected_timezone");
+$$tz = 'selected';        
+$output .='<tr>
+		<td width="20%"><label>'.__('Timezone:', 'quick-event-manager').' </label></td>
+		<td width="80%">';
+        if(get_event_field("event_timezone") ) $output .= '<b>Current timezone:</b> ' . get_event_field("event_timezone") .'.&nbsp;&nbsp;';
+        $output .='Select a new timezone or enter your own:<br>
+        <select style="border:1px solid #415063;" name="event_timezone" id="event_timezone">
+<option value="">None</option>
+        <option '.$Eni.' value="Eniwetok, Kwajalein">(GMT -12:00) Eniwetok, Kwajalein</option>       
+        <option '.$Mid.' value="Midway Island, Samoa">(GMT -11:00) Midway Island, Samoa</option>       
+        <option '.$Hwa.' value="Hawaii">(GMT -10:00) Hawaii</option>       
+        <option '.$Ala.' value="Alaska">(GMT -9:00) Alaska</option>       
+        <option '.$Pac.' value="Pacific Time (US &amp; Canada)">(GMT -8:00) Pacific Time (US &amp; Canada)</option>       
+        <option '.$Mou.' value="Mountain Time (US &amp; Canada)">(GMT -7:00) Mountain Time (US &amp; Canada)</option>       
+        <option '.$Cen.' value="Central Time (US &amp; Canada), Mexico City">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>       
+        <option '.$Eas.' value="Eastern Time (US &amp; Canada), Bogota, Lima">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>       
+        <option '.$Atl.' value="Atlantic Time (Canada), Caracas, La Paz">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>       
+        <option '.$New.' value="Newfoundland">(GMT -3:30) Newfoundland</option>       
+        <option '.$Bra.' value="Brazil, Buenos Aires, Georgetown">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>       
+        <option '.$Mia.' value="Mid-Atlantic">(GMT -2:00) Mid-Atlantic</option>       
+        <option '.$Azo.' value="Azores, Cape Verde Islands">(GMT -1:00 hour) Azores, Cape Verde Islands</option>       
+        <option '.$Wes.' value="Western Europe Time, London, Lisbon, Casablanca">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>       
+        <option '.$Bru.' value="Brussels, Copenhagen, Madrid, Paris">(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris</option>       
+        <option '.$Kal.' value="Kaliningrad, South Africa">(GMT +2:00) Kaliningrad, South Africa</option>       
+        <option '.$Bag.' value="Baghdad, Riyadh, Moscow, St. Petersburg">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>       
+        <option '.$Teh.' value="Tehran">(GMT +3:30) Tehran</option>       
+        <option '.$Abu.' value="Abu Dhabi, Muscat, Baku, Tbilisi">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>       
+        <option '.$Kab.' value="Kabul">(GMT +4:30) Kabul</option>       
+        <option '.$Eka.' value="Ekaterinburg, Islamabad, Karachi, Tashkent">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>       
+        <option '.$Bom.' value="Bombay, Calcutta, Madras, New Delhi">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>       
+        <option '.$Kat.' value="Kathmandu">(GMT +5:45) Kathmandu</option>       
+        <option '.$Alm.' value="Almaty, Dhaka, Colombo">(GMT +6:00) Almaty, Dhaka, Colombo</option>       
+        <option '.$Ban.' value="Bangkok, Hanoi, Jakarta">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>       
+        <option '.$Bei.' value="Beijing, Perth, Singapore, Hong Kong">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>       
+        <option '.$Tok.' value="Tokyo, Seoul, Osaka, Sapporo, Yakutsk">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>       
+        <option '.$Ade.' value="Adelaide, Darwin">(GMT +9:30) Adelaide, Darwin</option>       
+        <option '.$Aus.' value="Eastern Australia, Guam, Vladivostok">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>       
+        <option '.$Mag.' value="Magadan, Solomon Islands, New Caledonia">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>       
+        <option '.$Auk.' value="Auckland, Wellington, Fiji, Kamchatka">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option> 
+        </select>
+        <br><span class="description">The option to display timezones is set on the <a href="options-general.php?page=quick-event-manager/settings.php&tab=display">Event Display</a> page.</span>
+        </td>
+        </tr>';}
+    $output .='
 		<tr>
-		<td width="20%"><label>'.__('Location:', 'quick-event-manager').' </label></td>
+		<td width="20%"><label>'.__('Venue:', 'quick-event-manager').' </label></td>
 		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_location" value="' . get_event_field("event_location") . '" />
 		</td>
         </tr>
@@ -95,6 +150,9 @@ function event_details_meta() {
 		<tr>
 		<td width="20%"><label>'.__('Cost:', 'quick-event-manager').' </label></td>
 		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td></tr>
+<tr>
+		<td width="20%"><label>'.__('Organiser:', 'quick-event-manager').' </label></td>
+		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_organiser" value="' . get_event_field("event_organiser") . '" /></td></tr>
         <tr>
 		<td width="20%"><label>'.__('Event forms:', 'quick-event-manager').' </label></td>
         <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
@@ -149,24 +207,31 @@ function save_event_details() {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	if ( get_post_type($post) != 'event') return;
     $startdate = strtotime($_POST["event_date"]);
+    if (!$startdate) $newdate=time();
+    else {
 	$starttime = qem_time($_POST["event_start"]);
     $newdate = $startdate+$starttime;
-    
-	if(isset($_POST["event_date"])) update_post_meta($post->ID, "event_date", $newdate);
-	if($_POST["event_end_date"]) {
+    }
+    update_post_meta($post->ID, "event_date", $newdate);
+	if(isset($_POST["event_end_date"])) {
         $enddate = strtotime($_POST["event_end_date"]);
-        $endtime = qem_time($_POST["event_finish"]);
-        $newenddate = $enddate+$endtime;
-        update_post_meta($post->ID, "event_end_date", strtotime($_POST["event_end_date"]));
+        update_post_meta($post->ID, "event_end_date", $enddate );
     }
 	save_event_field("event_desc");
 	save_event_field("event_start");
 	save_event_field("event_finish");
-	save_event_field("event_location");
+    save_event_field("event_timezone");
+if ($_POST["event_timezone"] == "Eastern Australia, Guam, Vladivostok") $sel = "Aus";
+else if ($_POST["event_timezone"] == "Mid-Atlantic") $sel = "Mia";
+else $sel = substr($_POST["event_timezone"],0,3);
+update_post_meta($post->ID, "selected_timezone", $sel);
+    save_event_field("event_custom_timezone");
+    save_event_field("event_location");
 	save_event_field("event_address");
 	save_event_field("event_link");
 	save_event_field("event_anchor");
 	save_event_field("event_cost");
+    save_event_field("event_organiser");
     save_event_field("event_image");
     
     $old = get_event_field("event_number");
