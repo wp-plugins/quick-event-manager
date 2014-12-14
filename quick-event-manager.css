@@ -65,3 +65,9 @@ img.qem-image {max-width:300px;height:auto;overflow:hidden;}
 #qem-calendar-widget #qem-calendar a.calnav {padding:1px;}
 #qem-calendar-widget td a{text-align:center;}
 #qem-calendar-widget #qem-calendar .oldday, #qem-calendar-widget #qem-calendar .eventday {padding:1px;}
+
+
+#qem-widget table {margin-bottom: 20px;}
+#qem-widget td {border-top: 1px solid #005F6B;padding: 5px 10px 5px 0;max-width: 400px;vertical-align:top;}
+#qem-widget td b {color: #005F6B;}
+#qem-widget th {padding: 5px 10px 5px 0;max-width: 400px;text-align: left;color: #005F6B;}

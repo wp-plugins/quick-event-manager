@@ -78,6 +78,16 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 5.12 =
+*   Fixed ics bug
+*   Added 'hide event' option
+*   Fixed bug in month/year seperators
+*   Option to combine start and end dates if they are in the same month
+*   You can now open external links in new window
+*   Improved registration reporting
+*   Added navigation icon options
+*   Counter now resets properly when you delete registrants
+
 = 5.11 =
 *   Added new 'organiser' field
 *   More shortcodes options

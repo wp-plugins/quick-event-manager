@@ -14,6 +14,8 @@ if( isset( $_POST['qem_reset_message'])) {
     delete_option('qem_messages_'.$event);
     delete_option($event);
     qem_admin_notice('Registrants for '.$title.' have been deleted.');
+$eventnumber = get_post_meta($event, 'event_number', true);
+update_option($event.'places',$eventnumber);
 }
 
 if( isset( $_POST['category']) ) {
@@ -46,7 +48,8 @@ if( isset($_POST['qem_delete_selected'])) {
     $check = get_post_meta($event, 'event_counter', true);
     for($i = 0; $i <= 10; $i++) {
         if ($_POST[$i] == 'checked') {
-            if ($check) $eventnumber = $eventnumber + $message[$i]['yourplaces'];
+$num = ($message[$i]['yourplaces'] ? $message[$i]['yourplaces'] : 1);
+            if ($check) $eventnumber = $eventnumber + $num;
             unset($message[$i]);
         }
     }
@@ -61,7 +64,7 @@ if( isset($_POST['qem_emaillist'])) {
     $title = $_POST["qem_download_title"];
     $message = get_option('qem_messages_'.$event);
     $register = qem_get_stored_register();
-    $content = qem_build_registration_table ($register,$message);
+    $content = qem_build_registration_table ($register,$message,'','','');
     global $current_user;
     get_currentuserinfo();
     $qem_email = $current_user->user_email;
@@ -91,9 +94,11 @@ wp_mail($qem_email, $title, $content, $headers);
         </p>
         <div id="qem-widget">
         <form method="post" id="qem_download_form" action="">';
-    $content = qem_build_registration_table ($register,$message,$places,$check);
+    $content = qem_build_registration_table ($register,$message,$places,$check,'');
     if ($content) {
-        $dashboard .= '<h2>'.$title.' | '.$date.'</h2>'.$content;
+        $dashboard .= '<h2>'.$title.' | '.$date.'</h2>';
+        if ($event) $dashboard .= '<p>Event ID: '.$event.'</p>';
+        $dashboard .= $content;
         $dashboard .='<input type="hidden" name="qem_download_form" value = "'.$event.'" />
         <input type="hidden" name="qem_download_title" value = "'.$title.'" />
         <input type="submit" name="qem_download_csv" class="button-primary" value="Export to CSV" />
@@ -105,38 +110,6 @@ wp_mail($qem_email, $title, $content, $headers);
     else $dashboard .= $noregistration;
     $dashboard .= '</div></div>';		
     echo $dashboard;
-
-function qem_build_registration_table ($register,$message,$places,$check) {
-    $report = '';$delete=array();$i=0;
-    $dashboard = '<table cellspacing="0">
-    <tr>';
-    if ($register['usename']) $dashboard .= '<th>'.$register['yourname'].'</th>';
-    if ($register['usemail']) $dashboard .= '<th>'.$register['youremail'].'</th>';
-    if ($register['useattend']) $dashboard .= '<th>'.$register['yourattend'].'</th>';
-    if ($register['usetelephone']) $dashboard .= '<th>'.$register['yourtelephone'].'</th>';
-    if ($register['useplaces']) $dashboard .= '<th>'.$register['yourplaces'].'</th>';
-    if ($register['usemessage']) $dashboard .= '<th>'.$register['yourmessage'].'</th>';
-    $dashboard .= '<th>Date Sent</th><th>Delete</th></tr>';
-	
-    foreach($message as $value) {
-        $content .= '<tr>';
-        if ($register['usename']) $content .= '<td>'.$value['yourname'].'</td>';
-        if ($register['usemail']) $content .= '<td>'.$value['youremail'].'</td>';
-        if ($register['useattend']) $content .= '<td>'.$value['notattend'].'</td>';
-        if ($register['usetelephone']) $content .= '<td>'.$value['yourtelephone'].'</td>';
-        if ($register['useplaces'] && !$value['notattend']) $content .= '<td>'.$value['yourplaces'].'</td>';
-        else $content .= '<td></td>';
-        if ($register['usemessage']) $content .= '<td>'.$value['yourmessage'].'</td>';
-        if ($value['yourname']) $report = 'messages';
-        $content .= '<td>'.$value['sentdate'].'</td>
-        <td><input type="checkbox" name="'.$i.'" value="checked" /></td>
-        </tr>';
-        $i++;
-    }	
-    $dashboard .= $content.'</table>';
-    if ($check) $dashboard .= '<p id="whoscoming">'.$register['placesbefore'].' '.$places.' '.$register['placesafter'].'<p>';
-    if ($report) return $dashboard;
-}  
 
 function qem_get_eventlist ($event,$register,$messageoptions,$thecat) {
     global $post;

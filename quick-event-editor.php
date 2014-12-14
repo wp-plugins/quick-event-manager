@@ -3,18 +3,17 @@ function event_custom_columns($column) {
 	global $post;
 	$custom = get_post_custom();
 	switch ($column) {
-		case "event_date":$date = $custom["event_date"][0];echo date_i18n("d M Y", $date);
+case "event_date":$date = $custom["event_date"][0];echo date_i18n("d M Y", $date);
 if ($custom["event_end_date"][0]) {$enddate = $custom["event_end_date"][0]; echo ' - '. date_i18n("d M Y", $enddate);
 }
 	break;
 		case "event_time":echo $custom["event_start"][0];
-if ($custom["event_finish"][0]) echo ' - ' . $custom["event_finish"][0];break;
+        if ($custom["event_finish"][0]) echo ' - ' . $custom["event_finish"][0];break;
 		case "event_location":echo $custom["event_location"][0];break;
 		case "event_website":echo $custom['event_link'][0];	break;
 		case "event_cost":echo $custom["event_cost"][0];break;
-case 'category' :	$category = get_the_term_list( get_the_ID(), 'category', '', ', ', '' ); 
-			echo __( $category );break;
-case 'date' :	echo get_the_date();break;
+        case 'author' :	echo get_the_author();break;
+        case 'date' :	echo get_the_date();break;
 		}
 	}
 
@@ -23,7 +22,8 @@ function event_date_column_register_sortable( $columns ) {
 	$columns['event_time'] = 'event_time';
 	$columns['event_location'] = 'event_location';
 	$columns['category'] = 'category';
-$columns['date'] = 'date';
+    $columns['author'] = 'author';
+    $columns['date'] = 'date';
 	return $columns;
 	}
 
@@ -44,14 +44,15 @@ function event_edit_columns($columns) {
 		"event_time" 		=> __('Event Time', 'quick-event-manager'),
 		"event_location" 	=> __('Venue', 'quick-event-manager'),
 		'category' => __( 'Categories' ),
-'date' => __( 'Date' )
+        'author' => __( 'Author' ),
+        'date' => __( 'Date' )
 		);
 	return $columns;
 	}
 
 function event_details_meta() {
-	global $post;
-	$event = event_get_stored_options();
+global $post;
+$event = event_get_stored_options();
     $register = qem_get_stored_register();
     $payment = qem_get_stored_payment();
     $display = event_get_stored_display();
@@ -152,12 +153,23 @@ $output .='<tr>
 		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td></tr>
 <tr>
 		<td width="20%"><label>'.__('Organiser:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_organiser" value="' . get_event_field("event_organiser") . '" /></td></tr>
+		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_organiser" value="' . get_event_field("event_organiser") . '" /></td>
+</tr>
+<tr>
+		<td width="20%"><label>'.__('Organiser Telephone:', 'quick-event-manager').' </label></td>
+		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_telephone" value="' . get_event_field("event_telephone") . '" /></td>
+</tr>
+
         <tr>
 		<td width="20%"><label>'.__('Event forms:', 'quick-event-manager').' </label></td>
         <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
         <input type="checkbox" style="" name="event_counter" value="checked" ' . get_event_field("event_counter") . '> Add an attendee counter to this form. Number of places available: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="event_number" value="' . get_event_field("event_number") . '" /><br>
         <input type="checkbox" style="" name="event_pay" value="checked" ' . $useqpp . ' /> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>
+		</td>
+        </tr>
+        <tr>
+		<td width="20%"><label>'.__('Hide Event:', 'quick-event-manager').' </label></td>
+        <td width="80%"><input type="checkbox" style="" name="hide_event" value="checked" ' . get_event_field("hide_event") . '> Hide this event in the event list (only display on the calendar).
 		</td>
         </tr>
 		<tr>
@@ -221,10 +233,10 @@ function save_event_details() {
 	save_event_field("event_start");
 	save_event_field("event_finish");
     save_event_field("event_timezone");
-if ($_POST["event_timezone"] == "Eastern Australia, Guam, Vladivostok") $sel = "Aus";
-else if ($_POST["event_timezone"] == "Mid-Atlantic") $sel = "Mia";
-else $sel = substr($_POST["event_timezone"],0,3);
-update_post_meta($post->ID, "selected_timezone", $sel);
+    if ($_POST["event_timezone"] == "Eastern Australia, Guam, Vladivostok") $sel = "Aus";
+    elseif ($_POST["event_timezone"] == "Mid-Atlantic") $sel = "Mia";
+    else $sel = substr($_POST["event_timezone"],0,3);
+    update_post_meta($post->ID, "selected_timezone", $sel);
     save_event_field("event_custom_timezone");
     save_event_field("event_location");
 	save_event_field("event_address");
@@ -232,7 +244,14 @@ update_post_meta($post->ID, "selected_timezone", $sel);
 	save_event_field("event_anchor");
 	save_event_field("event_cost");
     save_event_field("event_organiser");
+save_event_field("event_telephone");
+
     save_event_field("event_image");
+    
+    $old = get_event_field("hide_event");
+    $new = $_POST["hide_event"];
+    if ($new && $new != $old) update_post_meta($post->ID, "hide_event", $new);
+    elseif ('' == $new && $old) delete_post_meta($post->ID, "hide_event", $old);
     
     $old = get_event_field("event_number");
     $new = $_POST["event_number"];
