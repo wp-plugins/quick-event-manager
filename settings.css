@@ -12,7 +12,7 @@
 .qem-options th {text-align:left;}
 .qem-options td, td {vertical-align:top;padding-bottom: 8px;line-height: 1em;}
 #qem_sort {list-style-type: none; margin: 0; padding: 0; width:95%;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
-#qem_sort li { margin: 3px 0; padding: 0.3em 0.8em 0.3em 0.5em; height: min-height:1.6em; cursor:pointer; border:1px solid #888; clear:left}
+#qem_sort li {margin: 3px 0; padding: 0.3em 0.8em 0.3em 0.5em; height: min-height:1.6em; cursor:pointer; border:1px solid #888; clear:left}
 #qem_sort li.button_active { background-color: white;}
 #qem_sort li.button_inactive { background-color: #E0E0E0 }
 #qem_sort li div {overflow:hidden;}
@@ -31,3 +31,9 @@
 .select-editable select {position:absolute; top:0px; left:0px;border:none; width:100%; margin:0; }
 .select-editable input {position:absolute; top:0px; left:0px;width:95%;border:none; outline:none;}
 .select-editable select:focus, .select-editable input:focus { outline:none; }
+
+table#sorting{width:100%;}
+#sorting tbody tr{outline: 1px solid #888;background:#E0E0E0;}
+#sorting tbody td{padding: 2px;line-height:auto;}
+#sorting{border-collapse:separate;border-spacing:0 5px;}
+

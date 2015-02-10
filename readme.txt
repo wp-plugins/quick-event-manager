@@ -2,8 +2,8 @@
 
 Contributors: 
 Tags: event manager, calendar
-Requires at least: 2.7
-Tested up to: 4.0
+Requires at least: 4.0
+Tested up to: 4.1
 Stable tag: trunk
 
 Simple event manager. No messing about, just add events and a shortcode and the plugin does the rest for you. 
@@ -77,6 +77,20 @@ No.
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 == Changelog ==
+
+= 6.0 =
+*   Akismet spam filtering
+*   Sortable registration form fields
+*   User defined fields
+*   Open events in a lightbox (a bit iffy this one)
+*   Option to display maps and images
+*   Integrate paypal into the registration form
+*   Option to limit registration to registered users.
+*   Category lists and links
+*   Category selection in Widget
+*   Fixed the date language problem in the event editor
+*   Other minor bug fixes and coding cockups
+*   Probably more options that I've fogotten about
 
 = 5.12 =
 *   Fixed ics bug

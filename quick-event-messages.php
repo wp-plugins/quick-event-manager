@@ -14,13 +14,13 @@ if( isset( $_POST['qem_reset_message'])) {
     delete_option('qem_messages_'.$event);
     delete_option($event);
     qem_admin_notice('Registrants for '.$title.' have been deleted.');
-$eventnumber = get_post_meta($event, 'event_number', true);
-update_option($event.'places',$eventnumber);
+    $eventnumber = get_post_meta($event, 'event_number', true);
+    update_option($event.'places',$eventnumber);
 }
 
 if( isset( $_POST['category']) ) {
     $category = $_POST["category"];
-    }
+}
 
 if( isset( $_POST['select_event'])  || isset( $_POST['eventid'])) {
     $event = $_POST["eventid"];
@@ -28,8 +28,8 @@ if( isset( $_POST['select_event'])  || isset( $_POST['eventid'])) {
         $unixtime = get_post_meta($event, 'event_date', true);
         $date = date_i18n("d M Y", $unixtime);
         $title = get_the_title($event);
-        $noregistration = '<h2>'.$title.' | '.$date.'</h2><p>Nobody has registered for '.$title.' yet</p>';}
-    else {
+        $noregistration = '<h2>'.$title.' | '.$date.'</h2><p>Nobody has registered for '.$title.' yet</p>';
+    } else {
         $noregistration = '<p>No event selected</p>';
     }
 }
@@ -48,7 +48,7 @@ if( isset($_POST['qem_delete_selected'])) {
     $check = get_post_meta($event, 'event_counter', true);
     for($i = 0; $i <= 10; $i++) {
         if ($_POST[$i] == 'checked') {
-$num = ($message[$i]['yourplaces'] ? $message[$i]['yourplaces'] : 1);
+            $num = ($message[$i]['yourplaces'] ? $message[$i]['yourplaces'] : 1);
             if ($check) $eventnumber = $eventnumber + $num;
             unset($message[$i]);
         }
@@ -57,7 +57,7 @@ $num = ($message[$i]['yourplaces'] ? $message[$i]['yourplaces'] : 1);
     update_option('qem_messages_'.$event, $message ); 
     if ($check) update_option($event.'places',$eventnumber);
     qem_admin_notice('Selected registrations have been deleted.');
-    }
+}
 
 if( isset($_POST['qem_emaillist'])) {
     $event = $_POST["qem_download_form"];
@@ -73,43 +73,43 @@ if( isset($_POST['qem_emaillist'])) {
 . "Content-Type: text/html; charset=\"utf-8\"\r\n";	
 wp_mail($qem_email, $title, $content, $headers);
     qem_admin_notice('Registration list has been sent to '.$qem_email.'.');
-    }
+}
 
-    qem_generate_csv();
+qem_generate_csv();
 
-    $messageoptions = qem_get_stored_msg();
-    $$messageoptions['showevents'] = "checked";
-    $message = get_option('qem_messages_'.$event);
-    $places = get_option($event.'places');
-    $check = get_post_meta($event, 'event_counter', true);
-    if(!is_array($message)) $message = array();
-    $dashboard .= '<div class="wrap">
-    <h1>Event Registation Report</h1>
-    <p><form method="post" action="">'.
-        qem_message_categories($category).'
-        &nbsp;&nbsp;'.
-        qem_get_eventlist ($event,$register,$messageoptions,$category).'
-        &nbsp;&nbsp;<b>Show:</b> <input style="margin:0; padding:0; border:none;" type="radio" name="showevents" value="all" ' . $all . ' /> All Events <input style="margin:0; padding:0; border:none;" type="radio" name="showevents" value="current" ' . $current . ' /> Current Events&nbsp;&nbsp;<input type="submit" name="changeoptions" class="button-secondary" value="Update options" />
-        </form>
-        </p>
-        <div id="qem-widget">
-        <form method="post" id="qem_download_form" action="">';
-    $content = qem_build_registration_table ($register,$message,$places,$check,'');
-    if ($content) {
-        $dashboard .= '<h2>'.$title.' | '.$date.'</h2>';
-        if ($event) $dashboard .= '<p>Event ID: '.$event.'</p>';
-        $dashboard .= $content;
-        $dashboard .='<input type="hidden" name="qem_download_form" value = "'.$event.'" />
-        <input type="hidden" name="qem_download_title" value = "'.$title.'" />
-        <input type="submit" name="qem_download_csv" class="button-primary" value="Export to CSV" />
-        <input type="submit" name="qem_emaillist" class="button-primary" value="Email List" />
-        <input type="submit" name="qem_reset_message" class="button-secondary" value="Delete All Registrants" onclick="return window.confirm( \'Are you sure you want to delete all the registrants for '.$title.'?\' );"/>
-        <input type="submit" name="qem_delete_selected" class="button-secondary" value="Delete Selected" onclick="return window.confirm( \'Are you sure you want to delete the selected registrants?\' );"/>
-        </form>';
-    }
-    else $dashboard .= $noregistration;
-    $dashboard .= '</div></div>';		
-    echo $dashboard;
+$messageoptions = qem_get_stored_msg();
+$$messageoptions['showevents'] = "checked";
+$message = get_option('qem_messages_'.$event);
+$places = get_option($event.'places');
+$check = get_post_meta($event, 'event_counter', true);
+if(!is_array($message)) $message = array();
+$dashboard .= '<div class="wrap">
+<h1>Event Registation Report</h1>
+<p><form method="post" action="">'.
+qem_message_categories($category).'
+&nbsp;&nbsp;'.
+qem_get_eventlist ($event,$register,$messageoptions,$category).'
+&nbsp;&nbsp;<b>Show:</b> <input style="margin:0; padding:0; border:none;" type="radio" name="showevents" value="all" ' . $all . ' /> All Events <input style="margin:0; padding:0; border:none;" type="radio" name="showevents" value="current" ' . $current . ' /> Current Events&nbsp;&nbsp;<input type="submit" name="changeoptions" class="button-secondary" value="Update options" />
+</form>
+</p>
+<div id="qem-widget">
+<form method="post" id="qem_download_form" action="">';
+$content = qem_build_registration_table ($register,$message,$places,$check,'');
+if ($content) {
+    $dashboard .= '<h2>'.$title.' | '.$date.'</h2>';
+    if ($event) $dashboard .= '<p>Event ID: '.$event.'</p>';
+    $dashboard .= $content;
+    $dashboard .='<input type="hidden" name="qem_download_form" value = "'.$event.'" />
+    <input type="hidden" name="qem_download_title" value = "'.$title.'" />
+    <input type="submit" name="qem_download_csv" class="button-primary" value="Export to CSV" />
+    <input type="submit" name="qem_emaillist" class="button-primary" value="Email List" />
+    <input type="submit" name="qem_reset_message" class="button-secondary" value="Delete All Registrants" onclick="return window.confirm( \'Are you sure you want to delete all the registrants for '.$title.'?\' );"/>
+    <input type="submit" name="qem_delete_selected" class="button-secondary" value="Delete Selected" onclick="return window.confirm( \'Are you sure you want to delete the selected registrants?\' );"/>
+    </form>';
+}
+else $dashboard .= $noregistration;
+$dashboard .= '</div></div>';		
+echo $dashboard;
 
 function qem_get_eventlist ($event,$register,$messageoptions,$thecat) {
     global $post;

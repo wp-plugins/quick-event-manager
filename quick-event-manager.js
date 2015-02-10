@@ -33,4 +33,4 @@ function pseudo_popup(content) {
 	popup.style.top = y + "px";
 	popup.style.left = x + "px";
 	return false;
-	}
+}
