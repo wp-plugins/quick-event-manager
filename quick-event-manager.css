@@ -1,6 +1,6 @@
 .qem {margin-bottom:40px;display: inline-block; vertical-align:top}
 .qem p, .qem h2 {margin: 0 0 8px 0;padding:0;}
-.qem a {cursor:pointer;}
+.qem a, input#submit.qem-register{cursor:pointer;}
 .qem-icon {float:left;}
 .qem h2 {display:inline;}
 .qem-icon .qem-calendar-small {width:56px;}
@@ -61,9 +61,9 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 .qem-register #submit {color: #FFF;background: #343838;text-align: center;cursor: pointer;}
 @media only screen and (max-width: 480px) {
 	.qem-large, .qem-medium {margin-left: 50px;}
-	.qem-calendar-large, .qem-calendar-medium  {color: #343838;font-size: 80%;text-align: center;background: #FFF;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
-	.qem-calendar-large .day, .qem-calendar-medium .day {background: #343838;color: white;display: block;padding: 2px 0;}
-	.qem-calendar-large .month, .qem-calendar-medium .month {font-size: 140%;display: block;padding: 2px 0;text-align: center;}
+	.qem-icon .qem-calendar-large, .qem-icon .qem-calendar-medium  {font-size: 80%;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
+	.qem-icon .qem-calendar-large .day, .qem-icon .qem-calendar-medium .day {padding: 2px 0;}
+	.qem-icon .qem-calendar-large .month, .qem-icon .qem-calendar-medium .month {font-size: 140%;padding: 2px 0;}
 	#qem-calendar td {width:14%;}
     #qem-calendar .eventday a {text-align:center;}
     img.qem-image, img.qem-list-image {max-width:100px;}

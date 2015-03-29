@@ -1,8 +1,8 @@
 <?php
 
 function qem_process_payment_form($values) {
+    $payments = qem_get_stored_payment();
     global $post;
-    $register = qem_get_stored_register();
     $page_url = qem_current_page_url();
     $reference = $post->post_title;
     $paypalurl = 'https://www.paypal.com/cgi-bin/webscr';
@@ -11,21 +11,21 @@ function qem_process_payment_form($values) {
     $quantity = ($values['yourplaces'] < 1 ? 1 : strip_tags($values['yourplaces']));
     $redirect = get_post_meta($post->ID, 'event_redirect', true);
     $redirect = ($redirect ? $redirect : $page_url);
-    if ($register['useprocess'] && $register['processtype'] == 'processpercent') {
-        $percent = preg_replace ( '/[^.,0-9]/', '', $register['processpercent']) / 100;
+    if ($payments['useprocess'] && $payments['processtype'] == 'processpercent') {
+        $percent = preg_replace ( '/[^.,0-9]/', '', $payments['processpercent']) / 100;
         $handling = $cost * $quantity * $percent;
     }
-    if ($register['useprocess'] && $register['processtype'] == 'processfixed') {
-        $handling = preg_replace ( '/[^.,0-9]/', '', $register['processfixed']);
+    if ($payments['useprocess'] && $payments['processtype'] == 'processfixed') {
+        $handling = preg_replace ( '/[^.,0-9]/', '', $payments['processfixed']);
     }
-    $content = '<h2 id="qem_reload">'.$register['waiting'].'</h2>
+    $content = '<h2 id="qem_reload">'.$payments['waiting'].'</h2>
     <form action="'.$paypalurl.'" method="post" name="qempay" id="qempay">
     <input type="hidden" name="cmd" value="_xclick">
     <input type="hidden" name="item_name" value="'.$reference.'"/>
-    <input type="hidden" name="business" value="'.$register['paypalemail'].'">
+    <input type="hidden" name="business" value="'.$payments['paypalemail'].'">
     <input type="hidden" name="return" value="'.$redirect.'">
     <input type="hidden" name="cancel_return" value="'.$page_url.'">
-    <input type="hidden" name="currency_code" value="'.$register['currency'].'">
+    <input type="hidden" name="currency_code" value="'.$payments['currency'].'">
     <input type="hidden" name="item_number" value="' . strip_tags($values['yourname']) . '">
     <input type="hidden" name="quantity" value="' . $quantity . '">
     <input type="hidden" name="amount" value="' . $cost . '">';

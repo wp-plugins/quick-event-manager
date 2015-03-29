@@ -1,7 +1,8 @@
 <?php
+$event=$title='';
 global $_GET;
-$event = $_GET["event"];
-$title = $_GET["title"];
+$event = (isset($_GET["event"]) ? $_GET["event"] : null);
+$title = (isset($_GET["title"]) ? $_GET["title"] : null);
 $unixtime = get_post_meta($event, 'event_date', true);
 $date = date_i18n("d M Y", $unixtime);
 $noregistration = '<p>No event selected</p>';
@@ -64,7 +65,8 @@ if( isset($_POST['qem_emaillist'])) {
     $title = $_POST["qem_download_title"];
     $message = get_option('qem_messages_'.$event);
     $register = qem_get_stored_register();
-    $content = qem_build_registration_table ($register,$message,'','','');
+    $content='';
+    $content = qem_build_registration_table ($register,$message,'','','','');
     global $current_user;
     get_currentuserinfo();
     $qem_email = $current_user->user_email;
@@ -77,13 +79,14 @@ wp_mail($qem_email, $title, $content, $headers);
 
 qem_generate_csv();
 
+$content=$current=$all='';
 $messageoptions = qem_get_stored_msg();
 $$messageoptions['showevents'] = "checked";
 $message = get_option('qem_messages_'.$event);
 $places = get_option($event.'places');
 $check = get_post_meta($event, 'event_counter', true);
 if(!is_array($message)) $message = array();
-$dashboard .= '<div class="wrap">
+$dashboard = '<div class="wrap">
 <h1>Event Registation Report</h1>
 <p><form method="post" action="">'.
 qem_message_categories($category).'
@@ -94,7 +97,7 @@ qem_get_eventlist ($event,$register,$messageoptions,$category).'
 </p>
 <div id="qem-widget">
 <form method="post" id="qem_download_form" action="">';
-$content = qem_build_registration_table ($register,$message,$places,$check,'');
+$content = qem_build_registration_table ($register,$message,$check,'',$event);
 if ($content) {
     $dashboard .= '<h2>'.$title.' | '.$date.'</h2>';
     if ($event) $dashboard .= '<p>Event ID: '.$event.'</p>';
@@ -112,8 +115,10 @@ $dashboard .= '</div></div>';
 echo $dashboard;
 
 function qem_get_eventlist ($event,$register,$messageoptions,$thecat) {
+
     global $post;
     $arr = get_categories();
+    $content=$slug='';
     foreach($arr as $option) if ($thecat == $option->slug) $slug = $option->slug;
     $content .= '<select name="eventid" onchange="this.form.submit()"><option value="">Select an Event</option>'."\r\t";
     $args = array('post_type'=> 'event','orderby'=>'title','order'=>'ASC','posts_per_page'=> -1,'category_name'=>$slug);
@@ -127,7 +132,7 @@ function qem_get_eventlist ($event,$register,$messageoptions,$thecat) {
             $unixtime = get_post_meta($post->ID, 'event_date', true);
             $date = date_i18n("d M Y", $unixtime);
             if ($register['useform'] || get_event_field("event_register") && ($messageoptions['showevents'] == 'all' || $unixtime >= $today) ) 
-                $content .= '<option value="'.$id.'" '.$selected.'>'.$title.' | '.$date.'</option>';
+                $content .= '<option value="'.$id.'">'.$title.' | '.$date.'</option>';
         }
         $content .= '</select>
         <noscript><input type="submit" name="select_event" class="button-primary" value="Select Event" /></noscript>';
@@ -137,8 +142,8 @@ function qem_get_eventlist ($event,$register,$messageoptions,$thecat) {
 
 function qem_message_categories ($thecat) {
     $arr = get_categories();
-    $content .= '<select name="category" onchange="this.form.submit()">';
-    $content .= '<option value="">All Categories</option>';
+    $content = '<select name="category" onchange="this.form.submit()">
+<option value="">All Categories</option>';
     foreach($arr as $option) {
         if ($thecat == $option->slug) $selected = 'selected'; else $selected = '';
         $content .= '<option value="'.$option->slug.'" '.$selected.'>'.$option->name.'</option>';

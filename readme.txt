@@ -78,6 +78,25 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 6.1 =
+
+Bug Fixes:
+*   Fixed fullevent shortcode bug
+*   Bug fix in Author selection
+*   Stripslashes bug fix
+*   Fix to event field ordering
+
+New Features:
+*   Added option to show numbers attending
+*   Option to remove duplicate dates
+*   Option to add captions to date icons
+*   Widget settings for the calender event key
+*   Styling options for cell spacing and borders on the calender
+*   Updates to payment options
+*   Display number attending on the dashboard event list
+*   Allow multiple registrations
+*   Allow attemdees to deregister
+
 = 6.0 =
 *   Akismet spam filtering
 *   Sortable registration form fields

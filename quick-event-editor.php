@@ -2,6 +2,7 @@
 
 function event_custom_columns($column) {
     global $post;
+    $event=get_the_ID();
     $custom = get_post_custom();
     switch ($column) {
         case "event_date":$date = $custom["event_date"][0];echo date_i18n("d M Y", $date);
@@ -14,16 +15,34 @@ function event_custom_columns($column) {
         case "event_location" : echo $custom["event_location"][0];break;
         case "event_website" : echo $custom['event_link'][0];	break;
         case "event_cost" : echo $custom["event_cost"][0];break;
+        case "number_coming": echo qem_attending($event);;break;
+        case 'categories' :$category = get_the_term_list( get_the_ID(), 'category', '', ', ', '' );echo __( $category );break;
         case 'author' : echo get_the_author();break;
         case 'date' : echo get_the_date();break;
     }
+}
+
+function qem_attending($event) {
+global $post;
+$number = get_post_meta($post->ID, 'event_number', true);
+    $on=$off=$str='';
+    $whoscoming = get_option('qem_messages_'.$event);
+    if ($whoscoming) {
+        foreach($whoscoming as $item)
+            $str = $str + $item['yourplaces'];
+    }
+  
+if ($number == $str) {$on='<span style="color:red">';$off='</span>';}
+if ($number) $number='/'.$number; 
+    if ($str) return $on.$str.$number.$off;
 }
 
 function event_date_column_register_sortable( $columns ) {
     $columns['event_date'] = 'event_date';
     $columns['event_time'] = 'event_time';
     $columns['event_location'] = 'event_location';
-    $columns['category'] = 'category';
+    $columns['number_coming'] = 'number_coming';
+    $columns['categories'] = 'categories';
     $columns['author'] = 'author';
     $columns['date'] = 'date';
     return $columns;
@@ -32,24 +51,25 @@ function event_date_column_register_sortable( $columns ) {
 function event_date_column_orderby($vars) {
     if ( isset( $vars['orderby'] ) && 'event_date' == $vars['orderby'] ) {
         $vars = array_merge( $vars, array(
-		'meta_key' => 'event_date',
-		'orderby'	=> 'meta_value_num') );
+            'meta_key' => 'event_date',
+            'orderby'	=> 'meta_value_num') );
     }
     return $vars;
 }
 
 function event_edit_columns($columns) {
-	$columns = array(
-		"cb" => "<input type=\"checkbox\" />",
-		"title" => __('Event', 'quick-event-manager'),
-		"event_date" => __('Event Date', 'quick-event-manager'),
-		"event_time" => __('Event Time', 'quick-event-manager'),
-		"event_location" => __('Venue', 'quick-event-manager'),
-		'category' => __( 'Categories' ),
-        'author' => __( 'Author' ),
-        'date' => __( 'Date' )
-		);
-	return $columns;
+    $columns = array(
+        "cb" => "<input type=\"checkbox\" />",
+        "title" => __('Event', 'quick-event-manager'),
+        "event_date" => __('Event Date', 'quick-event-manager'),
+        "event_time" => __('Event Time', 'quick-event-manager'),
+        "event_location" => __('Venue', 'quick-event-manager'),
+        "number_coming" => __('Attending<br>/ Places', 'quick-event-manager'),
+        "categories" => __( 'Categories' ),
+        "author" => __( 'Author' ),
+        "date" => __( 'Date' )
+    );
+    return $columns;
 }
 
 function event_details_meta() {
@@ -139,55 +159,56 @@ if ($eventenddate) $output .= ' <em>'.__('Current end date:', 'quick-event-manag
         <option '.$Auk.' value="Auckland, Wellington, Fiji, Kamchatka">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option> 
         </select>
         <br><span class="description">The option to display timezones is set on the <a href="options-general.php?page=quick-event-manager/settings.php&tab=display">Event Display</a> page.</span>
-        </td>
-        </tr>';}
+    </td>
+    </tr>';}
     $output .='
-		<tr>
-		<td width="20%"><label>'.__('Venue:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_location" value="' . get_event_field("event_location") . '" />
-		</td>
-        </tr>
-		<tr>
-		<td width="20%"><label>'.__('Address:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_address" value="' . get_event_field("event_address") . '" />
-		</td>
-        </tr>
-		<tr>
-		<td width="20%"><label>'.__('Website:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_link" value="' . get_event_field("event_link") . '" /><label> '.__('Display As:', 'quick-event-manager').' </label><input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"  name="event_anchor" value="' . get_event_field("event_anchor") . '" />
-		</td>
-        </tr>
-		<tr>
-		<td width="20%"><label>'.__('Cost:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td></tr>
-        <tr>
-		<td width="20%"><label>'.__('Organiser:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_organiser" value="' . get_event_field("event_organiser") . '" /></td>
-        </tr>
-        <tr>
-		<td width="20%"><label>'.__('Organiser Telephone:', 'quick-event-manager').' </label></td>
-		<td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_telephone" value="' . get_event_field("event_telephone") . '" /></td>
-        </tr>
-        <tr>
-		<td width="20%"><label>'.__('Event forms:', 'quick-event-manager').' </label></td>
-        <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
-        Redirect to a URL after registration:<br>
-        <input type="text" class="qem_input" style="border:1px solid #415063;" name="event_redirect" value="' . get_event_field("event_redirect") . '" /><br>
-        <input type="checkbox" style="" name="event_redirect_id" value="checked" ' . get_event_field("event_redirect_id") . ' /> Add event ID to redirect URL<br>
-        <input type="checkbox" style="" name="event_counter" value="checked" ' . get_event_field("event_counter") . '> Add an attendee counter to this form. Number of places available: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="event_number" value="' . get_event_field("event_number") . '" /><br>
-        <input type="checkbox" style="" name="event_pay" value="checked" ' . $useqpp . ' /> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>
-		</td>
-        </tr>
-        <tr>
-		<td width="20%"><label>'.__('Hide Event:', 'quick-event-manager').' </label></td>
-        <td width="80%"><input type="checkbox" style="" name="hide_event" value="checked" ' . get_event_field("hide_event") . '> Hide this event in the event list (only display on the calendar).
-		</td>
-        </tr>
-		<tr>
-        <td width="20%">Event Image</td>
-        <td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
-   		<input id="upload_event_image" class="button" type="button" value="Upload Image" /></td>
-        </tr>';
+    <tr>
+    <td width="20%"><label>'.__('Venue:', 'quick-event-manager').' </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_location" value="' . get_event_field("event_location") . '" /></td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Address:', 'quick-event-manager').' </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_address" value="' . get_event_field("event_address") . '" /></td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Website:', 'quick-event-manager').' </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_link" value="' . get_event_field("event_link") . '" /><label> '.__('Display As:', 'quick-event-manager').' </label><input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"  name="event_anchor" value="' . get_event_field("event_anchor") . '" /></td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Cost:', 'quick-event-manager').' </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Organiser:', 'quick-event-manager').' </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_organiser" value="' . get_event_field("event_organiser") . '" /></td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Organiser Contact Details:', 'quick-event-manager').' </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_telephone" value="' . get_event_field("event_telephone") . '" /></td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Registration Form:', 'quick-event-manager').' </label></td>
+    <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
+    Redirect to a URL after registration:<br>
+    <input type="text" class="qem_input" style="border:1px solid #415063;" name="event_redirect" value="' . get_event_field("event_redirect") . '" /><br>
+    <input type="checkbox" style="" name="event_redirect_id" value="checked" ' . get_event_field("event_redirect_id") . ' /> Add event ID to redirect URL<td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Event Counter:', 'quick-event-manager').' </label></td>
+    <td><input type="checkbox" style="" name="event_counter" value="checked" ' . get_event_field("event_counter") . '> Add an attendee counter to this form. Number of places available: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="event_number" value="' . get_event_field("event_number") . '" /></td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Payment Form:', 'quick-event-manager').' </label></td><td><input type="checkbox" style="" name="event_pay" value="checked" ' . $useqpp . ' /> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>. If you want integrated payments go to the <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration Form Settings.</a>.</td>
+    </tr>
+    <tr>
+    <td width="20%"><label>'.__('Hide Event:', 'quick-event-manager').' </label></td>
+    <td width="80%"><input type="checkbox" style="" name="hide_event" value="checked" ' . get_event_field("hide_event") . '> Hide this event in the event list (only display on the calendar).</td>
+    </tr>
+    <tr>
+    <td width="20%">Event Image</td>
+    <td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
+    <input id="upload_event_image" class="button" type="button" value="Upload Image" /></td>
+    </tr>';
     if (get_event_field("event_image")) $output .= '<tr>
     <td></td>
     <td><img class="qem-image" src=' . get_event_field("event_image") . '></td>
@@ -202,7 +223,7 @@ if ($eventenddate) $output .= ' <em>'.__('Current end date:', 'quick-event-manag
     $event = get_the_ID();
     $title = get_the_title();
     $whoscoming = get_option('qem_messages_'.$event);
-    if ($whoscoming){
+    if ($whoscoming) {
         foreach($whoscoming as $item) $event_names .= $item['yourname'].', ';
         $event_names = substr($event_names, 0, -2); 
         $output .= '<tr>
@@ -226,17 +247,14 @@ function get_event_field($event_field) {
 function save_event_details() {
     global $post;
     $event = get_the_ID();
-    $number = get_option($event.'places');
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
     if ( get_post_type($post) != 'event') return;
     if(isset($_POST["event_date"])) {
         $startdate = strtotime($_POST["event_date"]);
-        if (!$startdate) $newdate=time();
-        else {
-            $starttime = qem_time($_POST["event_start"]);
-            $newdate = $startdate+$starttime;
+        if (!$startdate) {
+            $startdate=time();
         }
-        update_post_meta($post->ID, "event_date", $newdate);
+        update_post_meta($post->ID, "event_date", $startdate);
     }
     if(isset($_POST["event_end_date"])) {
         $enddate = strtotime($_POST["event_end_date"]);
@@ -267,7 +285,6 @@ function save_event_details() {
     $old = get_event_field("event_number");
     $new = $_POST["event_number"];
     if ($new && $new != $old) {
-        $number = $new - $old + $number; update_option($event.'places',$number);
         update_post_meta($post->ID, "event_number", $new);
     }
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_number", $old);
@@ -322,8 +339,9 @@ function qem_duplicate_week() {
 
 function qem_duplicate_post($period) {
     global $wpdb;
-    if (!(isset( $_GET['post']) || isset($_POST['post'])  || (isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action'])))
+    if (!(isset( $_GET['post']) || isset($_POST['post'])  || (isset($_REQUEST['action']) && 'qem_duplicate_post' == $_REQUEST['action']))) {
         wp_die('No post to duplicate has been supplied!');
+    }
 	$post_id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
 	$post = get_post( $post_id );
     qem_create_duplicate_post($period,$post_id,$post);

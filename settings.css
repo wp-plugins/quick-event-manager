@@ -1,3 +1,4 @@
+.wrapper {padding: 0 15px;}
 .qem-settings {width: 100%;}
 .qem-options {border: 1px solid #B52C00;background:#FFF;padding: 0 10px 10px 10px;margin: 10px 0 0 0 ;float:left;width:46%;width: calc(50% - 30px);}
 .qem-options input[type=text], .qem-options textarea, .qem-options select, .qem-options #submit {margin: 1px 0 1px 0;padding: 4px 2px;

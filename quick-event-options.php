@@ -45,6 +45,7 @@ function event_get_default_options () {
     $event['show_map'] = 'checked';
     $event['address_style'] = 'italic';
     $event['website_link'] = 'checked';
+    $event['show_telephone'] = 'checked';
     $version = get_option('qem_version');
     return $event;
 }
@@ -76,6 +77,7 @@ function qem_get_default_display () {
     $display['timezonebefore'] = 'Timezone:';
     $display['timezoneafter'] = 'time';
     $display['map_and_image'] = 'checked';
+$display['localization'] = '';
     return $display;
 }
 
@@ -116,6 +118,9 @@ function qem_get_default_style() {
     $style['calender_size'] = 'medium';
     $style['icon_corners'] = 'rounded';
     $style['styles'] = '';
+    $style['uselabels'] = '';
+    $style['startlabel'] = 'Starts';
+    $style['finishlabel'] = 'Ends';
     $style['event_margin'] = 'margin: 0 0 20px 0;';
     $style['line_margin'] = 'margin: 0 0 8px 0;padding: 0 0 0 0';
     $style['custom'] = ".qem {\r\n}\r\n.qem h2{\r\n}";
@@ -131,6 +136,7 @@ function qem_get_default_style() {
     $style['showkeybelow'] = '';
     $style['showcategory'] = '';
     $style['showcategorycaption'] = 'Current Category:';
+    $style['dayborder'] = 'checked';
     return $style;
 }
 
@@ -143,36 +149,40 @@ function qem_get_stored_calendar() {
 }
 
 function qem_get_default_calendar() {
-    $calendar['day'] = '#EBEFC9';
-    $calendar['calday'] = '#EBEFC9';
-    $calendar['eventday'] = '#EED1AC';
-    $calendar['oldday'] = '#CCC';
-    $calendar['eventhover'] = '#F2F2E6';
-    $calendar['eventdaytext'] = '#343838';
-    $calendar['eventbackground'] = '#FFF';
-    $calendar['eventtext'] = '#343838';
-    $calendar['eventlink'] = 'linkpopup';
-    $calendar['calendar_text'] = 'View as calendar';
-    $calendar['calendar_url'] = '';
-    $calendar['eventlist_text'] = 'View as a list of events';
-    $calendar['eventlist_url'] = '';
-    $calendar['eventlength'] = '20';
-    $calendar['connect'] = '';
-    $calendar['startday'] = 'sunday';
-    $calendar['archive'] = 'checked';
-    $calendar['archivelinks'] = 'checked';
-    $calendar['prevmonth'] = 'Prev';
-    $calendar['nextmonth'] = 'Next';
-    $calendar['smallicon'] = 'arrow';
-    $calendar['unicode'] = '\263A';
-    $calendar['eventtext'] = '#343838';
-    $calendar['eventbackground'] = '#FFF';
-    $calendar['eventhover'] = '#EED1AC';
-    $calendar['eventborder'] = '1px solid #343838';
-    $calendar['keycaption'] = 'Event Key:';
-    $calendar['navicon'] = 'arrows';
-    $calendar['linktocategory'] = 'checked';
-    $calendar['showuncategorised'] ='';
+    $calendar = array(
+        'day' => '#EBEFC9',
+        'calday' => '#EBEFC9',
+        'eventday' => '#EED1AC',
+        'oldday' => '#CCC',
+        'eventhover' => '#F2F2E6',
+        'eventdaytext' => '#343838',
+        'eventbackground' => '#FFF',
+        'eventtext' => '#343838',
+        'eventlink' => 'linkpopup',
+        'calendar_text' => 'View as calendar',
+        'calendar_url' => '',
+        'eventlist_text' => 'View as a list of events',
+        'eventlist_url' => '',
+        'eventlength' => '20',
+        'connect' => '',
+        'startday' => 'sunday',
+        'archive' => 'checked',
+        'archivelinks' => 'checked',
+        'prevmonth' => 'Prev',
+        'nextmonth' => 'Next',
+        'smallicon' => 'arrow',
+        'unicode' => '\263A',
+        'eventtext' => '#343838',
+        'eventbackground' => '#FFF',
+        'eventhover' => '#EED1AC',
+        'eventborder' => '1px solid #343838',
+        'keycaption' => 'Event Key:',
+        'navicon' => 'arrows',
+        'linktocategory' => 'checked',
+        'showuncategorised' => '',
+        'tdborder' => '',
+        'cellspacing' => 3
+    );
     return $calendar;
 }
 
@@ -181,87 +191,109 @@ function qem_get_stored_register () {
     if(!is_array($register)) $register = array();
     $default = qem_get_default_register();
     $register = array_merge($default, $register);
+    $update='';
     if (!strpos($register['sort'],'9')) {$register['sort'] = $register['sort'].',field9';$update='checked';}
     if (!strpos($register['sort'],'10')) {$register['sort'] = $register['sort'].',field10';$update='checked';}
     if (!strpos($register['sort'],'11')) {$register['sort'] = $register['sort'].',fiel11';$update='checked';}
     if (!strpos($register['sort'],'12')) {$register['sort'] = $register['sort'].',fiel12';$update='checked';}
-    if ($update) {update_option('qem_register',$register);}
+    if ($update) update_option('qem_register',$register);
     return $register;
 }
 
 function qem_get_default_register () {
-    $register = array();
-    $register['sort'] = 'field1,field2,field3,field4,field5,field6,field7,field8,field9,field10,field11,field12';
-    $register['usename'] = 'checked';
-    $register['usemail'] = 'checked';
-    $register['useblank1'] = '';
-    $register['useblank2'] = '';
-    $register['usedropdown'] = '';
-    $register['usenumber1'] = '';
-    $register['reqname'] = 'checked';
-    $register['reqmail'] = 'checked';
-    $register['reqblank1'] = '';
-    $register['reqblank2'] = '';
-    $register['reqdropdown'] = '';
-    $register['reqnumber1'] = '';
-    $register['formborder'] = '';
-    $register['title'] = 'Register for this event';
-    $register['blurb'] = 'Enter your details below';
-    $register['replytitle'] = 'Thank you for registering';
-    $register['replyblurb'] = 'We will be in contact soon';
-    $register['yourname'] = 'Your Name';
-    $register['youremail'] = 'Email Address';
-    $register['yourtelephone'] = 'Telephone Number';
-    $register['yourplaces'] = 'Number of places required';
-    $register['yourmessage'] = 'Message';
-    $register['yourattend'] = 'I will not be attending this event';
-    $register['yourblank1'] = 'More Information';
-    $register['yourblank2'] = 'More Information';
-    $register['yourdropdown'] = 'Separate,With.Commas';
-    $register['yournumber1'] = 'Number';
-    $register['error'] = 'Please complete the form';
-    $register['subject'] = 'Registration for:';
-    $register['qemsubmit'] = 'Register';
-    $register['subjecttitle'] = 'checked';
-    $register['subjectdate'] = 'checked';
-    $register['whoscoming'] = '';
-    $register['whoscomingmessage'] = 'Look who\'s coming: ';
-    $register['placesbefore'] = 'There are';
-    $register['placesafter'] = 'places available.';
-    $register['eventfull'] = '';
-    $register['eventfullmessage'] = 'Registration is closed';
-    $register['read_more'] = 'Return to the event page';
-    $register['sendcopy'] = '';
-    $register['usecopy'] = '';
-    $register['completed'] ='';
-    $register['copyblurb'] = 'Send registration details to your email address';
-    $register['alreadyregistered'] = 'You are already registered for this event';
-    $register['spam'] = 'Your Details have been flagged as spam';
-    $register['thanksurl'] = '';
-    $register['cancelurl'] = '';
-    $register['currency'] = 'USD';
-    $register['paypal'] = '';
-    $register['paypalemail'] = '';
-    $register['waiting'] = 'Waiting for PayPal...';
-    $register['processtype'] = 'processfixed';
-    $register['processpercent'] = '5';
-    $register['processfixed'] = '2';
-    $register['qempaypalsubmit'] = 'Register and Pay';
+    $register = array(
+        'sort' => 'field1,field2,field3,field4,field5,field6,field7,field8,field9,field10,field11,field12',
+        'usename' => 'checked',
+        'usemail' => 'checked',
+        'useblank1' => '',
+        'useblank2' => '',
+        'usedropdown' => '',
+        'usenumber1' => '',
+        'reqname' => 'checked',
+        'reqmail' => 'checked',
+        'reqblank1' => '',
+        'reqblank2' => '',
+        'reqdropdown' => '',
+        'reqnumber1' => '',
+        'formborder' => '',
+        'title' => 'Register for this event',
+        'blurb' => 'Enter your details below',
+        'replytitle' => 'Thank you for registering',
+        'replyblurb' => 'We will be in contact soon',
+        'yourname' => 'Your Name',
+        'youremail' => 'Email Address',
+        'yourtelephone' => 'Telephone Number',
+        'yourplaces' => 'Number of places required',
+        'yourmessage' => 'Message',
+        'yourattend' => 'I will not be attending this event',
+        'yourblank1' => 'More Information',
+        'yourblank2' => 'More Information',
+        'yourdropdown' => 'Separate,With.Commas',
+        'yournumber1' => 'Number',
+        'notattend' => '',
+        'error' => 'Please complete the form',
+        'subject' => 'Registration for:',
+        'qemsubmit' => 'Register',
+        'subjecttitle' => 'checked',
+        'subjectdate' => 'checked',
+        'whoscoming' => '',
+        'whoscomingmessage' => 'Look who\'s coming: ',
+        'placesbefore' => 'There are',
+        'placesafter' => 'places available.',
+        'numberattendingbefore' => 'There are',
+        'numberattendingafter' => 'people coming.',
+        'eventfull' => '',
+        'eventfullmessage' => 'Registration is closed',
+        'read_more' => 'Return to the event',
+        'useread_more' => '',
+        'sendcopy' => '',
+        'usecopy' => '',
+        'completed' => '',
+        'copyblurb' => 'Send registration details to your email address',
+        'alreadyregistered' => 'You are already registered for this event',
+        'nameremoved' => 'You have been removed from the list',
+        'checkremoval' => '',
+        'spam' => 'Your Details have been flagged as spam',
+        'thanksurl' => '',
+        'cancelurl' => '',
+        'paypal' => '',
+        'allowmultiple' => ''
+    );
     return $register;
 }
 
 function qem_get_stored_payment () {
     $payment = get_option('qem_payment');
     if(!is_array($payment)) $payment = array();
+    $register = get_option('qem_register');
+    if ($register['paypalemail'] && !$payment['paypalemail']) {
+        $payment['currency'] = ($register['currency'] ? $register['currency'] : 'USD');
+        $payment['paypalemail'] = $register['paypalemail'];
+        $payment['useprocess'] = ($register['useprocess'] ? $register['useprocess'] : '');
+        $payment['processtype'] = ($register['processtype'] ? $register['processtype'] : 'processfixed');
+        $payment['processpercent'] = ($register['processpercent'] ? $register['processpercent'] : '5');
+        $payment['processfixed'] = ($register['processfixed'] ? $register['processfixed'] : '2');
+        $payment['qempaypalsubmit'] = ($register['qempaypalsubmit'] ? $register['qempaypalsubmit'] : 'Register and Pay');
+        update_option('qem_payment',$payment);
+    }
     $default = qem_get_default_payment();
     $payment = array_merge($default, $payment);
     return $payment;
 }
 
 function qem_get_default_payment () {
-    $payment = array();
-    $payment['useqpp'] = '';
-    $payment['qppform'] = '';
-    $payment['qppcost'] = 'checked';
+    $payment = array(
+        'useqpp' => '',
+        'qppform' => '',
+        'qppcost' => 'checked',
+        'currency' => 'USD',
+        'paypalemail' => '',
+        'useprocess' => '',
+        'waiting' => 'Waiting for PayPal...',
+        'processtype' => 'processfixed',
+        'processpercent' => '5',
+        'processfixed' => '2',
+        'qempaypalsubmit' => 'Register and Pay'
+    );
     return $payment;
 }
