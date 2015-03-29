@@ -1,0 +1,85 @@
+.qem {margin-bottom:40px;display: inline-block; vertical-align:top}
+.qem p, .qem h2 {margin: 0 0 8px 0;padding:0;}
+.qem a {cursor:pointer;}
+.qem-icon {float:left;}
+.qem h2 {display:inline;}
+.qem-icon .qem-calendar-small {width:56px;}
+.qem-small {margin-left:64px;}
+.qem-icon .qem-calendar-medium {width:76px;}
+.qem-medium {margin-left:84px;}
+.qem-icon .qem-calendar-large {width:96px;}
+.qem-large {margin-left:104px;}
+
+.qem-calendar-large {color: #343838;text-align: center;width: 80px;}
+.qem-calendar-large .day {font-size: 140%;color: white;display: block;padding:  4px 0;}
+.qem-calendar-large .nonday {padding:  0 0 4px 0;}
+.qem-calendar-large .day span {font-size: 90%;display: block;padding: 0 0 4px 0;}
+.qem-calendar-large .month {font-size: 160%;display: block;padding: 5px 0;}
+.qem-calendar-medium {color: #343838;text-align: center;width: 60px;}
+.qem-calendar-medium .day {background: red;font-size: 120%;color: white;display: block;padding: 3px 0;}
+.qem-calendar-medium .nonday {padding:  0 0 3px 0;}
+.qem-calendar-medium .day span {font-size: 80%;display: block;padding: 0 0 3px 0;}
+.qem-calendar-medium .month {font-size: 150%;display: block;padding: 3px 0;}
+.qem-calendar-small {color: #343838;text-align: center;width: 40px;}
+.qem-calendar-small .day {background: #343838;font-size: 90%;color: white;display: block;padding: 2px 0;}
+.qem-calendar-small .nonday {font:size: 90%;padding:  0 0 2px 0;}
+.qem-calendar-small .day span {font:size: 70%;display:block;padding: 0 0 2px 0;}
+.qem-calendar-small .month {font-size: 110%;display: block;padding: 2px 0;text-align: center;}
+
+img.qem-image {max-width:300px;height:auto;margin: 0px 0px 10px 10px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;overflow:hidden;}
+img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.qemright {float:right;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;overflow:hidden;}
+.qemmap {float:right; margin: 0 0 10px 10px;}
+.qemmap {max-width:100%;height:auto;overflow: hidden;}
+.qem_input {width:40%;border:1px solid #415063;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;overflow:hidden;}
+#qem-calendar {margin: 0 0 12px 0;width:100%;height:auto;overflow:hidden;}	
+#qem-calendar .top {margin-bottom: 4px;}
+#qem-calendar .calday {text-align:center;padding:3px;background: #EBEFC9;font-weight:bold}
+#qem-calendar .day {height:3em;padding:0 2px 4px 2px;text-align:left;background:#EBEFC9;}
+#qem-calendar .oldday {background:#CCC;padding:0 2px 4px 2px;}
+#qem-calendar .eventday {background:#EED1AC;padding:0 2px 4px 2px;}
+#qem-calendar .day span {font-size:160%;color: #D75231;}
+#qem-calendar h2 {padding:0 4px 8px 4px;margin:0;text-align:left;line-height:auto;}
+#qem-calendar .eventday a {display:block;margin: 3px 2px;padding: 4px;text-decoration:none;cursor: pointer;-webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;font-size:90%;}
+#qem-calendar table {width:100%; border:none;}
+@media screen and (max-width: 768px) {#qem-calendar table {max-width:100%;}}
+#qem-calendar td {width:14.2%;vertical-align:top;padding:0;margin:0;}
+#qem-calendar td a:hover {background:#F2F2E6; }
+#qem-calendar a.calnav {text-decoration:none;padding:4px;border:1px solid #CCC;display:block;text-align:center;}
+#qem-calendar .calmonth h2 {text-align:center;padding:0;margin:0;}
+.qempop {max-width:800px;min-width:280px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:99;}
+.qemeventpop {max-width:80%;min-width:500px;auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:99;}
+@media screen and (
+	max-width: 768px) {.qem-options {width: calc(100% - 20px);}
+    .qemeventpop {min-width:500px;}
+	}
+.qem-register {text-align: left;margin: 10px 0 10px 0;padding: 0; max-width:280px;overflow: hidden;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.qem-register form, .qem-register p {margin: 0;padding: 0;}
+.qem-register input[type=text], .qem-register textarea, .qem-register select, .qem-register #submit {margin: 5px 0 7px 0;padding: 4px;color: #465069;font-family: inherit;font-size: inherit;height:auto;border:1px solid #415063;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.qem-register p {margin: 4px 0;}
+.qem-register input[type=text] .required, .qem-register textarea .required {border:1px solid green;}
+.qem-register #submit {color: #FFF;background: #343838;text-align: center;cursor: pointer;}
+@media only screen and (max-width: 480px) {
+	.qem-large, .qem-medium {margin-left: 50px;}
+	.qem-calendar-large, .qem-calendar-medium  {color: #343838;font-size: 80%;text-align: center;background: #FFF;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
+	.qem-calendar-large .day, .qem-calendar-medium .day {background: #343838;color: white;display: block;padding: 2px 0;}
+	.qem-calendar-large .month, .qem-calendar-medium .month {font-size: 140%;display: block;padding: 2px 0;text-align: center;}
+	#qem-calendar td {width:14%;}
+    #qem-calendar .eventday a {text-align:center;}
+    img.qem-image, img.qem-list-image {max-width:100px;}
+    .qemeventpop {min-width:400px;}
+	}
+
+#qem-calendar-widget #qem-calendar .calday {text-align:center;padding:1px;font-weight:normal}
+#qem-calendar-widget #qem-calendar a.calnav {padding:1px;}
+#qem-calendar-widget td a{text-align:center;}
+#qem-calendar-widget #qem-calendar .oldday, #qem-calendar-widget #qem-calendar .eventday {padding:1px;}
+
+
+#qem-widget table {margin-bottom: 20px;}
+#qem-widget td {border-top: 1px solid #005F6B;padding: 5px 10px 5px 0;max-width: 400px;vertical-align:top;}
+#qem-widget td b {color: #005F6B;}
+#qem-widget th {padding: 5px 10px 5px 0;max-width: 400px;text-align: left;color: #005F6B;}
+
+.qem-category {float:left;padding:4px;margin: 0 4px 8px 0;}
+.qem-category a {color: #343848;text-decoration:none;}
