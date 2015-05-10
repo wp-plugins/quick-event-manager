@@ -59,25 +59,30 @@ function event_get_stored_display () {
 }
 
 function qem_get_default_display () {
-    $display = array();
-    $display['read_more'] = 'Find out more...';
-    $display['noevent'] = 'No event found';
-    $display['event_image'] = '';
-    $display['monthheading'] = '';
-    $display['back_to_list_caption'] = 'Return to Event list';
-    $display['image_width'] = '300';
-    $display['event_image_width'] = '300';
-    $display['event_order'] = 'newest';
-    $display['event_archive'] = '';
-    $display['map_width'] = '200';
-    $display['map_height'] = '200';
-    $display['useics'] = '';
-    $display['useicsbutton'] = 'Download Event to Calendar';
-    $display['usetimezone'] ='';
-    $display['timezonebefore'] = 'Timezone:';
-    $display['timezoneafter'] = 'time';
-    $display['map_and_image'] = 'checked';
-$display['localization'] = '';
+    $display = array(
+        'read_more' => 'Find out more...',
+        'noevent' => 'No event found',
+        'event_image' => '',
+        'monthheading' => '',
+        'back_to_list_caption' => 'Return to Event list',
+        'image_width' => '300',
+        'event_image_width' => '300',
+        'event_order' => 'newest',
+        'event_archive' => '',
+        'map_width' => '200',
+        'map_height' => '200',
+        'useics' => '',
+        'uselistics' => '',
+        'useicsbutton' => 'Download Event to Calendar',
+        'usetimezone' => '',
+        'timezonebefore' => 'Timezone:',
+        'timezoneafter' => 'time',
+        'map_and_image' => 'checked',
+        'localization' => '',
+        'monthtype' => 'short',
+        'categorylocation' => 'title',
+        'showcategory' => ''
+    );
     return $display;
 }
 
@@ -96,47 +101,49 @@ function qem_get_stored_style() {
 }
 
 function qem_get_default_style() {
-    $style['font'] = 'theme';
-    $style['font-family'] = 'arial, sans-serif';
-    $style['font-size'] = '1em';
-    $style['header-size'] = '100%';
-    $style['width'] = 600;
-    $style['widthtype'] = 'percent';
-    $style['event_border'] = '';
-    $style['event_background'] = 'bgtheme';
-    $style['event_backgroundhex'] = '#FFF';
-    $style['date_colour'] = '#FFF';
-    $style['month_colour'] = '#343838';
-    $style['date_background'] = 'grey';
-    $style['date_backgroundhex'] = '#FFF';
-    $style['month_background'] = 'white';
-    $style['month_backgroundhex'] = '#FFF';
-    $style['date_border_width'] = '2';
-    $style['date_border_colour'] = '#343838';
-    $style['date_bold'] = '';
-    $style['date_italic'] = 'checked';
-    $style['calender_size'] = 'medium';
-    $style['icon_corners'] = 'rounded';
-    $style['styles'] = '';
-    $style['uselabels'] = '';
-    $style['startlabel'] = 'Starts';
-    $style['finishlabel'] = 'Ends';
-    $style['event_margin'] = 'margin: 0 0 20px 0;';
-    $style['line_margin'] = 'margin: 0 0 8px 0;padding: 0 0 0 0';
-    $style['custom'] = ".qem {\r\n}\r\n.qem h2{\r\n}";
-    $style['combined'] = 'checked';
-    $style['iconorder'] = 'default';
-    $style['vanillaw'] ='';
-    $style['vanillawidget'] ='';
-    $style['use_head'] ='';
-    $style['linktocategory'] = 'checked';
-    $style['showuncategorised'] ='';
-    $style['keycaption'] = 'Event Categories:';
-    $style['showkeyabove'] = '';
-    $style['showkeybelow'] = '';
-    $style['showcategory'] = '';
-    $style['showcategorycaption'] = 'Current Category:';
-    $style['dayborder'] = 'checked';
+    $style = array(
+        'font' => 'theme',
+        'font-family' => 'arial, sans-serif',
+        'font-size' => '1em',
+        'header-size' => '100%',
+        'width' => 600,
+        'widthtype' => 'percent',
+        'event_border' => '',
+        'event_background' => 'bgtheme',
+        'event_backgroundhex' => '#FFF',
+        'date_colour' => '#FFF',
+        'month_colour' => '#343838',
+        'date_background' => 'grey',
+        'date_backgroundhex' => '#FFF',
+        'month_background' => 'white',
+        'month_backgroundhex' => '#FFF',
+        'date_border_width' => '2',
+        'date_border_colour' => '#343838',
+        'date_bold' => '',
+        'date_italic' => 'checked',
+        'calender_size' => 'medium',
+        'icon_corners' => 'rounded',
+        'styles' => '',
+        'uselabels' => '',
+        'startlabel' => 'Starts',
+        'finishlabel' => 'Ends',
+        'event_margin' => 'margin: 0 0 20px 0,',
+        'line_margin' => 'margin: 0 0 8px 0,padding: 0 0 0 0',
+        'custom' => ".qem {\r\n}\r\n.qem h2{\r\n}",
+        'combined' => 'checked',
+        'iconorder' => 'default',
+        'vanillaw' => '',
+        'vanillawidget' => '',
+        'use_head' => '',
+        'linktocategory' => 'checked',
+        'showuncategorised' => '',
+        'keycaption' => 'Event Categories:',
+        'showkeyabove' => '',
+        'showkeybelow' => '',
+        'showcategory' => '',
+        'showcategorycaption' => 'Current Category:',
+        'dayborder' => 'checked'
+    );
     return $style;
 }
 
@@ -181,7 +188,9 @@ function qem_get_default_calendar() {
         'linktocategory' => 'checked',
         'showuncategorised' => '',
         'tdborder' => '',
-        'cellspacing' => 3
+        'cellspacing' => 3,
+        'header' =>'h2',
+        'headerstyle' => ''
     );
     return $calendar;
 }
@@ -256,8 +265,13 @@ function qem_get_default_register () {
         'spam' => 'Your Details have been flagged as spam',
         'thanksurl' => '',
         'cancelurl' => '',
-        'paypal' => '',
-        'allowmultiple' => ''
+        'allowmultiple' => '',
+        'couponcode' => 'Coupon code',
+        'useeventdetails' => '',
+        'eventdetailsblurb' => 'Event Details',
+        'useregistrationdetails' => 'checked',
+        'registrationdetailsblurb' => 'Your registration details',
+        'permalink' => ''
     );
     return $register;
 }
@@ -266,6 +280,7 @@ function qem_get_stored_payment () {
     $payment = get_option('qem_payment');
     if(!is_array($payment)) $payment = array();
     $register = get_option('qem_register');
+    $payment['paypal'] = ($register['paypal'] || $payment['useqpp'] || $payment['qppcost'] ? 'checked' : '');
     if ($register['paypalemail'] && !$payment['paypalemail']) {
         $payment['currency'] = ($register['currency'] ? $register['currency'] : 'USD');
         $payment['paypalemail'] = $register['paypalemail'];
@@ -285,7 +300,6 @@ function qem_get_default_payment () {
     $payment = array(
         'useqpp' => '',
         'qppform' => '',
-        'qppcost' => 'checked',
         'currency' => 'USD',
         'paypalemail' => '',
         'useprocess' => '',
@@ -293,7 +307,34 @@ function qem_get_default_payment () {
         'processtype' => 'processfixed',
         'processpercent' => '5',
         'processfixed' => '2',
-        'qempaypalsubmit' => 'Register and Pay'
+        'qempaypalsubmit' => 'Register and Pay',
+        'ipn' => '',
+        'title' => 'Payment',
+        'paid' => 'Complete',
+        'usecoupon' => '',
+        'couponcode' => 'Coupon code'
     );
     return $payment;
+}
+
+function qem_get_stored_coupon () {
+    $coupon = get_option('qem_coupon');
+    if(!is_array($coupon)) $coupon = array();
+    $default = qem_get_default_coupon();
+    $coupon = array_merge($default, $coupon);
+    return $coupon;
+}
+
+function qem_get_default_coupon () {
+    for ($i=1; $i<=10; $i++) {
+        $coupon['couponget'] = 'Coupon Code:';
+        $coupon['coupontype'.$i] = 'percent'.$i;
+        $coupon['couponpercent'.$i] = '10';
+        $coupon['couponfixed'.$i] = '5';
+    }
+    $coupon['couponget'] = 'Coupon Code:';
+    $coupon['couponnumber'] = '10';
+    $coupon['duplicate'] = '';
+    $coupon['couponerror'] = 'Invalid Code';
+    return $coupon;
 }

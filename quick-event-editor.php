@@ -89,24 +89,24 @@ function event_details_meta() {
     }
     if ($register['useform'] && !get_event_field("event_register")) $useform = 'checked';
     else $useform = get_event_field("event_register");
-    if ($payment['useqpp'] && !get_event_field("event_pay")) $useqpp = 'checked';
-    else $useqpp = get_event_field("event_pay");
-	$output .= '<p><em>'.__('Empty fields are not displayed. See the plugin <a href="options-general.php?page=quick-event-manager/settings.php">settings</a> page for options.', 'quick-event-manager').'</em></p>
+    $usepaypal ='';
+    if ($register['paypal'] && !get_event_field('event_date') || get_event_field('event_paypal')=='checked') $usepaypal = 'checked';
+	$output .= '<p><em>'.__('Empty fields are not displayed', 'quick-event-manager').' '.__('See the plugin', 'quick-event-manager').' <a href="options-general.php?page=quick-event-manager/settings.php">'.__('settings', 'quick-event-manager').'</a> '.__('page for options', 'quick-event-manager').'.</em></p>
     <table width="100%">
     <tr>
-    <td width="20%"><label>'.__('Date:', 'quick-event-manager').' </label></td>
-    <td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;" id="qemdate" name="event_date" value="' . $date . '" /> <em>'.__('Local date:', 'quick-event-manager').' '.$localdate.'</em>.</td>
+    <td width="20%"><label>'.__('Date', 'quick-event-manager').': </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;" id="qemdate" name="event_date" value="' . $date . '" /> <em>'.__('Local date', 'quick-event-manager').': '.$localdate.'</em>.</td>
     <script type="text/javascript">jQuery(document).ready(function() {jQuery(\'#qemdate\').datepicker({dateFormat : \'dd M yy\'});});</script>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('End Date:', 'quick-event-manager').' </label></td>
-    <td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  id="qemenddate" name="event_end_date" value="' . $enddate . '" /> <em>'.__('Leave blank for one day events.', 'quick-event-manager').'</em>';
-if ($eventenddate) $output .= ' <em>'.__('Current end date:', 'quick-event-manager').' '.$localenddate.'</em>';
+    <td width="20%"><label>'.__('End Date', 'quick-event-manager').': </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  id="qemenddate" name="event_end_date" value="' . $enddate . '" /> <em>'.__('Leave blank for one day events', 'quick-event-manager').'.</em>';
+if ($eventenddate) $output .= ' <em>'.__('Current end date', 'quick-event-manager').': '.$localenddate.'</em>';
     $output .= '</td>
     <script type="text/javascript">jQuery(document).ready(function() {jQuery(\'#qemenddate\').datepicker({dateFormat : \'dd M yy\'});});</script>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Short Description:', 'quick-event-manager').' </label></td>
+    <td width="20%"><label>'.__('Short Description', 'quick-event-manager').': </label></td>
     <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_desc" value="' . get_event_field("event_desc") . '" />
     </td>
     </tr>
@@ -120,7 +120,7 @@ if ($eventenddate) $output .= ' <em>'.__('Current end date:', 'quick-event-manag
         $tz = get_event_field("selected_timezone");
         $$tz = 'selected';        
         $output .='<tr>
-		<td width="20%"><label>'.__('Timezone:', 'quick-event-manager').' </label></td>
+		<td width="20%"><label>'.__('Timezone', 'quick-event-manager').': </label></td>
 		<td width="80%">';
         if(get_event_field("event_timezone") ) $output .= '<b>Current timezone:</b> ' . get_event_field("event_timezone") .'.&nbsp;&nbsp;';
         $output .='Select a new timezone or enter your own:<br>
@@ -163,49 +163,52 @@ if ($eventenddate) $output .= ' <em>'.__('Current end date:', 'quick-event-manag
     </tr>';}
     $output .='
     <tr>
-    <td width="20%"><label>'.__('Venue:', 'quick-event-manager').' </label></td>
+    <td width="20%"><label>'.__('Venue', 'quick-event-manager').': </label></td>
     <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_location" value="' . get_event_field("event_location") . '" /></td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Address:', 'quick-event-manager').' </label></td>
+    <td width="20%"><label>'.__('Address', 'quick-event-manager').': </label></td>
     <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;"  name="event_address" value="' . get_event_field("event_address") . '" /></td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Website:', 'quick-event-manager').' </label></td>
-    <td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_link" value="' . get_event_field("event_link") . '" /><label> '.__('Display As:', 'quick-event-manager').' </label><input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"  name="event_anchor" value="' . get_event_field("event_anchor") . '" /></td>
+    <td width="20%"><label>'.__('Website', 'quick-event-manager').': </label></td>
+    <td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;"  name="event_link" value="' . get_event_field("event_link") . '" /><label> '.__('Display As', 'quick-event-manager').': </label><input type="text" style="width:40%;overflow:hidden;border:1px solid #415063;"  name="event_anchor" value="' . get_event_field("event_anchor") . '" /></td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Cost:', 'quick-event-manager').' </label></td>
+    <td width="20%"><label>'.__('Cost', 'quick-event-manager').': </label></td>
     <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_cost" value="' . get_event_field("event_cost") . '" /></td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Organiser:', 'quick-event-manager').' </label></td>
+    <td width="20%"><label>'.__('Organiser', 'quick-event-manager').': </label></td>
     <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_organiser" value="' . get_event_field("event_organiser") . '" /></td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Organiser Contact Details:', 'quick-event-manager').' </label></td>
+    <td width="20%"><label>'.__('Organiser Contact Details', 'quick-event-manager').': </label></td>
     <td width="80%"><input type="text" class="qem_input" style="width:100%;border:1px solid #415063;" name="event_telephone" value="' . get_event_field("event_telephone") . '" /></td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Registration Form:', 'quick-event-manager').' </label></td>
-    <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
-    Redirect to a URL after registration:<br>
-    <input type="text" class="qem_input" style="border:1px solid #415063;" name="event_redirect" value="' . get_event_field("event_redirect") . '" /><br>
+    <td width="20%"><label>'.__('Registration Form', 'quick-event-manager').': </label></td>
+    <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a></td>
+</tr>
+<tr>
+<td width="20%"><label>'.__('Redirect to a URL after registration', 'quick-event-manager').': </label></td>
+<td width="80%"><input type="text" class="qem_input" style="border:1px solid #415063;" name="event_redirect" value="' . get_event_field("event_redirect") . '" /><br>
     <input type="checkbox" style="" name="event_redirect_id" value="checked" ' . get_event_field("event_redirect_id") . ' /> Add event ID to redirect URL<td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Event Counter:', 'quick-event-manager').' </label></td>
+    <td width="20%"><label>'.__('Event Counter', 'quick-event-manager').': </label></td>
     <td><input type="checkbox" style="" name="event_counter" value="checked" ' . get_event_field("event_counter") . '> Add an attendee counter to this form. Number of places available: <input type="text" class="qem_input" style="width:3em;border:1px solid #415063;" name="event_number" value="' . get_event_field("event_number") . '" /></td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Payment Form:', 'quick-event-manager').' </label></td><td><input type="checkbox" style="" name="event_pay" value="checked" ' . $useqpp . ' /> Add payment form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment form settings</a>. If you want integrated payments go to the <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration Form Settings.</a>.</td>
+    <td width="20%"><label>'.__('Payment', 'quick-event-manager').': </label></td>
+<td><input type="checkbox" name="event_paypal" value="checked" ' . $usepaypal . ' /> Link to paypal after registration. <a href="options-general.php?page=quick-event-manager/settings.php&tab=payment">Payment settings</a>.</td>
     </tr>
     <tr>
-    <td width="20%"><label>'.__('Hide Event:', 'quick-event-manager').' </label></td>
+    <td width="20%"><label>'.__('Hide Event', 'quick-event-manager').': </label></td>
     <td width="80%"><input type="checkbox" style="" name="hide_event" value="checked" ' . get_event_field("hide_event") . '> Hide this event in the event list (only display on the calendar).</td>
     </tr>
     <tr>
-    <td width="20%">Event Image</td>
+    <td width="20%"><label>'.__('Event Image', 'quick-event-manager').': </label></td>
     <td><input id="event_image" type="text" class="qem_input" style="border:1px solid #415063;" name="event_image" value="' . get_event_field("event_image") . '" />&nbsp;
     <input id="upload_event_image" class="button" type="button" value="Upload Image" /></td>
     </tr>';
@@ -214,7 +217,7 @@ if ($eventenddate) $output .= ' <em>'.__('Current end date:', 'quick-event-manag
     <td><img class="qem-image" src=' . get_event_field("event_image") . '></td>
     </tr>';
     $output .= '<tr>
-    <td style="vertical-align:top">Repeat Event:</td>
+    <td style="vertical-align:top"><label>'.__('Repeat Event', 'quick-event-manager').': </label></td>
     <td><span style="color:red;font-weight:bold;">Warning:</span> Only use once or you will get lots of duplicated events<br />
     <input style="margin:0; padding:0; border:none" type="radio" name="event_repeat" value="repeatweekly" /> '.__('Weekly', 'quick-event-manager').'<br />
 	<input style="margin:0; padding:0; border:none" type="radio" name="event_repeat" value="repeatmonthly" /> '.__('Monthly', 'quick-event-manager').'<br>
@@ -300,10 +303,10 @@ function save_event_details() {
     $new = $_POST["event_redirect_id"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_redirect_id", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_redirect_id", $old);
-    $old = get_event_field("event_pay");
-    $new = $_POST["event_pay"];
-    if ($new && $new != $old) update_post_meta($post->ID, "event_pay", $new);
-    elseif ('' == $new && $old) delete_post_meta($post->ID, "event_pay", $old);
+    $old = get_event_field("event_paypal");
+    $new = $_POST["event_paypal"];
+    if ($new && $new != $old) update_post_meta($post->ID, "event_paypal", 'checked');
+    elseif ('' == $new) update_post_meta($post->ID, "event_paypal", 'notchecked');
     $harry = $_POST["repeatnumber"];
     $number =  (($harry > 52 || $harry == 0) ? 52 :  $harry);
     if ($_POST["event_repeat"] == 'repeatmonthly') {$_POST["event_repeat"] = ''; qem_duplicate_new_post($event,$number,'months');}

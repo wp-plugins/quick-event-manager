@@ -47,7 +47,7 @@ if( isset($_POST['qem_delete_selected'])) {
     $message = get_option('qem_messages_'.$event);
     $eventnumber = get_option($event.'places');
     $check = get_post_meta($event, 'event_counter', true);
-    for($i = 0; $i <= 10; $i++) {
+    for($i = 0; $i <= 100; $i++) {
         if ($_POST[$i] == 'checked') {
             $num = ($message[$i]['yourplaces'] ? $message[$i]['yourplaces'] : 1);
             if ($check) $eventnumber = $eventnumber + $num;
@@ -100,7 +100,7 @@ qem_get_eventlist ($event,$register,$messageoptions,$category).'
 $content = qem_build_registration_table ($register,$message,$check,'',$event);
 if ($content) {
     $dashboard .= '<h2>'.$title.' | '.$date.'</h2>';
-    if ($event) $dashboard .= '<p>Event ID: '.$event.'</p>';
+    $dashboard .= '<p>Event ID: '.$event.'</p>';
     $dashboard .= $content;
     $dashboard .='<input type="hidden" name="qem_download_form" value = "'.$event.'" />
     <input type="hidden" name="qem_download_title" value = "'.$title.'" />

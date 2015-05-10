@@ -13,6 +13,7 @@ function qem_loop() {
         }
     } else {
         $values = qem_get_stored_register();
+        $payment = qem_get_stored_payment(); 
         if ( is_user_logged_in() && $values['showuser']) {
             $current_user = wp_get_current_user();
             $values['yourname'] = $current_user->user_login;
@@ -20,6 +21,7 @@ function qem_loop() {
         }
         $values['yourplaces'] = '1';
         $values['yournumber1'] = '';
+        $values['couponcode'] = $payment['couponcode'];
         $digit1 = mt_rand(1,10);
         $digit2 = mt_rand(1,10);
         if( $digit2 >= $digit1 ) {
@@ -109,6 +111,7 @@ function qem_display_form( $values, $errors ) {
     $event=get_the_ID();
     $check = get_post_meta($post->ID, 'event_counter', true);
     $cost = get_post_meta($post->ID, 'event_cost', true);
+    $paypal = get_post_meta($post->ID, 'event_paypal', true);
     if ($check) $num = qem_numberscoming($register,$event);
     $content = qem_totalcoming($register);
     $content .= qem_whoscoming($register);
@@ -123,23 +126,34 @@ function qem_display_form( $values, $errors ) {
         if (!empty($register['replyblurb'])) {
             $register['replyblurb'] = '<p>' . $register['replyblurb'] . '</p>';
         }
-        $content .=  '<a id="qem_reload"></a>';
         $content .= $register['replytitle'].$register['replyblurb'];
-        if ($register['useread_more']) $content .= '<p><a href="' . get_permalink() . '">' . $register['read_more'] . '</a></p>';
-        $content .='<script type="text/javascript" language="javascript">
+        
+        if (function_exists('qpp_loop') && $cost && $payment['useqpp']) {
+            $id = $payment['qppform'];
+            $title = get_the_title();
+            $args = array('form' => $id, 'id' => $title, 'amount' => $cost);
+            $content .= qpp_loop($args);
+        } elseif ((($payment['paypal'] && !$paypal) || $paypal=='checked') && $cost) {
+            $content .=  '<a id="qem_reload"></a>';
+            $content .= '<script type="text/javascript" language="javascript">
         document.querySelector("#qem_reload").scrollIntoView();
         </script>';
-        if ($register['paypal'] && $cost) {
             $content .= qem_process_payment_form($values);
+        } elseif ($register['useread_more']) {
+            $content .= '<p><a href="' . get_permalink() . '">' . $register['read_more'] . '</a></p>';
         }
+        $content .=  '<a id="qem_reload"></a>';
     } elseif (!$num && $check) {
         $content .= '<h2>' . $register['eventfullmessage'] . '</h2>';
+        $content .=  '<a id="qem_reload"></a>';
     } elseif ($errors['alreadyregistered'] == 'checked') {
         $content .= $num.'<h2>' . $register['alreadyregistered'] . '</h2>';
         if ($register['useread_more']) $content .= '<p><a href="' . get_permalink() . '">' . $register['read_more'] . '</a></p>';
+        $content .=  '<a id="qem_reload"></a>';
     } elseif ($errors['alreadyregistered'] == 'removed') {
         $content .= $num.'<h2>' . $register['nameremoved'] . '</h2>';
         if ($register['useread_more']) $content .= '<p><a href="' . get_permalink() . '">' . $register['read_more'] . '</a></p>';
+        $content .=  '<a id="qem_reload"></a>';
     } else {
         if (!empty($register['title'])) {
             $register['title'] = '<h2>' . $register['title'] . '</h2>';
@@ -149,7 +163,7 @@ function qem_display_form( $values, $errors ) {
         }
         $content .= '<div class="qem-register">';
         if (count($errors) > 0) {
-            $content .= "<h2 style='color:red'>" . $register['error'] . "</h2><a id='qem_reload'></a>\r\t";
+            $content .= "<h2 style='color:red'>" . $register['error'] . "</h2>\r\t";
             $arr = array('yourname','youremail','yourtelephone','yourplaces','yourmessage','youranswer','yourblank1','yourblank2','yourdropdown');
             foreach ($arr as $item) if ($errors[$item] == 'error') $errors[$item] = ' style="border:1px solid red;" ';
             if ($errors['yourplaces']) $errors['yourplaces'] = 'border:1px solid red;';
@@ -224,18 +238,19 @@ function qem_display_form( $values, $errors ) {
                 break;
                 }
             }
-        if ($register['paypal'] && $cost) {
+        if ((($payment['paypal'] && !$paypal) || $paypal=='checked') && $cost) {
             $register['qemsubmit'] = $payment['qempaypalsubmit'];
+            if ($payment['usecoupon']) {
+                $content .= '<input name="couponcode" type="text" value="'.$values['couponcode'].'" onblur="if (this.value == \'\') {this.value = \''.$values['couponcode'].'\';}" onfocus="if (this.value == \''.$values['couponcode'].'\') {this.value = \'\';}" />';
+            }
         }
         $content .= '<input type="submit" value="'.$register['qemsubmit'].'" id="submit" name="qemregister" />
         </form>
         <div style="clear:both;"></div></div>';
-        if (count($errors) > 0) {
-            $content .= "<script type='text/javascript' language='javascript'>
-            document.querySelector('#qem_reload').scrollIntoView();
-            </script>\r\t";
-        }
     }
+    $content .= '<script type="text/javascript" language="javascript">
+        document.querySelector("#qem_reload").scrollIntoView();
+        </script>';
     echo $content;
 }
 
@@ -325,7 +340,7 @@ function qem_verify_form(&$values, &$errors) {
             $errors['youranswer'] = 'error';
         $values['youranswer'] = filter_var($values['youranswer'], FILTER_SANITIZE_STRING);
         
-        if($register['useplaces']) {
+        if($register['useplaces'] && get_post_meta($event, 'event_counter', true)) {
             $event = get_the_ID();
             $attending = qem_get_the_numbers($event);
             $number = $attending + $values['yourplaces'];
@@ -340,21 +355,43 @@ function qem_verify_form(&$values, &$errors) {
 function qem_process_form($values) {
     global $post;
     $date = get_post_meta($post->ID, 'event_date', true);
+    $enddate = get_post_meta($post->ID, 'event_end_date', true);
     $content='';
     $places = get_post_meta($post->ID, 'event_number', true);
 	$date = date_i18n("d M Y", $date);
 	$register = qem_get_stored_register();
-	if (empty($register['sendemail'])) {
+    $event = get_the_ID();
+    $qem_messages = get_option('qem_messages_'.$event);
+    if(!is_array($qem_messages)) $qem_messages = array();
+    $sentdate = date_i18n('d M Y');
+    $custom = md5(mt_rand());
+    $qem_messages[] = array(
+        'sentdate'=>$sentdate,
+        'yourname' => $values['yourname'] ,
+        'youremail' => $values['youremail'] ,
+        'notattend' => $values['notattend'] ,
+        'yourtelephone' => $values['yourtelephone'],
+        'yourplaces' => $values['yourplaces'],
+        'yourblank1' => $values['yourblank1'],
+        'yourblank2' => $values['yourblank2'],
+        'yourdropdown' => $values['yourdropdown'],
+        'yournumber1' => $values['yournumber1'],
+        'ipn' => $custom
+    );
+    update_option('qem_messages_'.$event,$qem_messages);
+    if (empty($register['sendemail'])) {
         global $current_user;
         get_currentuserinfo();
         $qem_email = $current_user->user_email;
-    }
-    else $qem_email = $register['sendemail'];
+    } else {
+        $qem_email = $register['sendemail'];
+    }    
+    
     $subject = $register['subject'];
     if ($register['subjecttitle']) $subject = $subject.' '.get_the_title();
     if ($register['subjectdate']) $subject = $subject.' '.$date;
     if (empty($subject)) $subject = 'Event Register';
-	$content .= '<html>';
+    
     if ($register['usename']) $content .= '<p><b>' . $register['yourname'] . ': </b>' . strip_tags(stripslashes($values['yourname'])) . '</p>';
     if ($register['usemail']) $content .= '<p><b>' . $register['youremail'] . ': </b>' . strip_tags(stripslashes($values['youremail'])) . '</p>';
     if ($register['useattend'] && $values['notattend']) $content .= '<p><b>' . $register['yourattend'] . ': </b></p>';
@@ -367,50 +404,65 @@ function qem_process_form($values) {
     if ($register['useblank2']) $content .= '<p><b>' . $register['yourblank2'] . ': </b>' . strip_tags(stripslashes($values['yourblank2'])) . '</p>';
     if ($register['usedropdown']) $content .= '<p><b>' . $register['yourdropdown'] . ': </b>' . strip_tags(stripslashes($values['yourdropdown'])) . '</p>';
     if ($register['usenumber1']) $content .= '<p><b>' . $register['usenumber1'] . ': </b>' . strip_tags(stripslashes($values['usenumber1'])) . '</p>';
-    $content .= '</html>';
-    $event = get_the_ID();
-    $qem_messages = get_option('qem_messages_'.$event);
-    if(!is_array($qem_messages)) $qem_messages = array();
-    $sentdate = date_i18n('d M Y');
-    $qem_messages[] = array(
-        'sentdate'=>$sentdate,
-        'yourname' => $values['yourname'] ,
-        'youremail' => $values['youremail'] ,
-        'notattend' => $values['notattend'] ,
-        'yourtelephone' => $values['yourtelephone'],
-        'yourplaces' => $values['yourplaces'],
-        'yourblank1' => $values['yourblank1'],
-        'yourblank2' => $values['yourblank2'],
-        'yourdropdown' => $values['yourdropdown'],
-        'yournumber1' => $values['yournumber1'],
-    );
-    update_option('qem_messages_'.$event,$qem_messages);
-	$headers = "From: {$values['yourname']} <{$values['youremail']}>\r\n"
+
+    if ($register['useeventdetails']) {
+        if ($register['eventdetailsblurb']) $details .= '<h2>'.$register['eventdetailsblurb'].'</h2>';
+        $details .= '<p>'.get_the_title().'</p><p>'.$date;
+        if ($enddate) {
+            $enddate = date_i18n("d M Y", $enddate);
+            $details .= ' - '.$enddate;
+        }
+        $details .= '</p>';
+        $event = event_get_stored_options();
+        $display = event_get_stored_display();
+        $custom = get_post_custom();
+        foreach (explode( ',',$event['sort']) as $name) {
+            if ($event['active_buttons'][$name]) {
+                $details .= qem_build_event($name,$event,$display,$custom,'');
+            }
+        }
+    }
+
+    $headers = "From: {$values['yourname']} <{$values['youremail']}>\r\n"
     . "MIME-Version: 1.0\r\n"
     . "Content-Type: text/html; charset=\"utf-8\"\r\n";	
-    
-    wp_mail($qem_email, $subject, $content, $headers);
+    $message = '<html>'.$content.'</html>';
+    wp_mail($qem_email, $subject, $message, $headers);
     
     if ($register['emailmessage']) $register['replyblurb'] = $register['emailmessage'];
     if ($register['sendcopy'] || $values['qem-copy']) {
-        $headers = "From: <{$qem_email}>\r\n"
+        $copy .= '<html><p>' . $register['replytitle'] . '</p><p>' . $register['replyblurb'] . '</p>';
+         if ($register['useregistrationdetails']) {
+             if($register['registrationdetailsblurb']) {
+                 $copy .= '<h2>'.$register['registrationdetailsblurb'].'</h2>';
+             }
+             $copy .= $content;
+         }
+        if ($register['permalink']) $close .= '<p><a href="' . get_permalink() . '">' . get_permalink() . '</a></p>';
+        $message = $copy.$details.$close.'</html>';
+        $headers = "From: ".get_option('blogname')." <{$qem_email}>\r\n"
 		. "MIME-Version: 1.0\r\n"
 		. "Content-Type: text/html; charset=\"utf-8\"\r\n";	
-        $content = $content.'<p>' . $register['replytitle'] . '</p><p>' . $register['replyblurb'] . '</p>';
-        wp_mail($values['youremail'], $subject, $content, $headers);
+                wp_mail($values['youremail'], $subject, $message, $headers);
     }
     
+    if (($payment['paypal'] && !get_post_meta($post->ID, 'event_paypal',true)) || get_post_meta($post->ID, 'event_paypal',true) =='checked') {
+        return 'checked';
+    }
     $redirect = get_post_meta($post->ID, 'event_redirect', true);
     $redirect_id = get_post_meta($post->ID, 'event_redirect_id', true);
+    if (!$redirect && $register['redirectionurl'])
+        $redirect = $register['redirectionurl'];
     if ($redirect) {
         if ($redirect_id) {
-            if (substr("testers", -1) != '/') $redirect = $redirect.'/';
-            $id = get_the_ID();$redirect = $redirect."?event=".$id;}
+            if (substr($redirect, -1) != '/') $redirect = $redirect.'/';
+            $id = get_the_ID();
+            $redirect = $redirect."?event=".$id;
+        }
         echo "<meta http-equiv='refresh' content='0;url=$redirect' />";
         exit();
     }
-return 'checked';
-
+        return 'checked';
 }
 
 function qem_registration_report($atts) {
@@ -430,6 +482,7 @@ function qem_registration_report($atts) {
 }
 
 function qem_build_registration_table ($register,$message,$check,$report,$event) {
+    $payment = qem_get_stored_payment();
     $charles=$content='';$delete=array();$i=0;
     $dashboard = '<table cellspacing="0">
     <tr>';
@@ -444,6 +497,7 @@ function qem_build_registration_table ($register,$message,$check,$report,$event)
     if ($register['usedropdown']) $dashboard .= '<th>'.$register['yourdropdown'].'</th>';
     if ($register['usenumber1']) $dashboard .= '<th>'.$register['yournumber1'].'</th>';
     $dashboard .= '<th>Date Sent</th>';
+    if ($payment['ipn']) $dashboard .= '<th>'.$payment['title'].'</th>';
     if (!$report) $dashboard .= '<th>Delete</th>';
     $dashboard .= '</tr>';
 	
@@ -462,6 +516,10 @@ function qem_build_registration_table ($register,$message,$check,$report,$event)
         if ($register['usenumber1']) $content .= '<td>'.$value['yournumber1'].'</td>';
         if ($value['yourname']) $charles = 'messages';
         $content .= '<td>'.$value['sentdate'].'</td>';
+        if ($payment['ipn']) {
+            $ipn = ($payment['sandbox'] ? $value['ipn'] : '');
+            $content .= ($value['ipn'] == "Paid" ? '<td>'.$payment['paid'].'</td>' : '<td>'.$ipn.'</td>');
+        }
         if (!$report)  $content .= '<td><input type="checkbox" name="'.$i.'" value="checked" /></td>';
         $content .= '</tr>';
         $i++;

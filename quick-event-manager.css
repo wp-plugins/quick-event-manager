@@ -1,4 +1,4 @@
-.qem {margin-bottom:40px;display: inline-block; vertical-align:top}
+.qem {margin-bottom:40px;vertical-align:top;clear:both;}
 .qem p, .qem h2 {margin: 0 0 8px 0;padding:0;}
 .qem a, input#submit.qem-register{cursor:pointer;}
 .qem-icon {float:left;}
@@ -59,7 +59,7 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 .qem-register p {margin: 4px 0;}
 .qem-register input[type=text] .required, .qem-register textarea .required {border:1px solid green;}
 .qem-register #submit {color: #FFF;background: #343838;text-align: center;cursor: pointer;}
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 600px) {
 	.qem-large, .qem-medium {margin-left: 50px;}
 	.qem-icon .qem-calendar-large, .qem-icon .qem-calendar-medium  {font-size: 80%;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
 	.qem-icon .qem-calendar-large .day, .qem-icon .qem-calendar-medium .day {padding: 2px 0;}

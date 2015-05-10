@@ -3,7 +3,7 @@
 Contributors: 
 Tags: event manager, calendar
 Requires at least: 4.0
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: trunk
 
 Simple event manager. No messing about, just add events and a shortcode and the plugin does the rest for you. 
@@ -18,29 +18,31 @@ A really, really simple event creator. Just add new events and publish. The shor
 *	Loads of layout and styling options
 *	Show events as a list or a calendar
 *	Built in event registration form
+*   Accepts payments and IPN
 *	Download events to your calendar
 *	Download attendee report to email/CSV
-*	Connect to payment forms
 *	Event maps
-*	Widgets and Shortcode options
+*	Widgets and lots of shortcode options
 
 = Developers plugin page =
 
-[quick event list plugin](http://quick-plugins.com/quick-event-manager/).
+[Quick Event Manager](http://quick-plugins.com/quick-event-manager/).
 
 = Translations = 
 
 French: [Dan (chouf1](http://bp-fr.net)
 
+If you want the plugin in your own language you can use a plugin like [loco translate](https://wordpress.org/plugins/loco-translate/) to create the necessary translation files. If you do create a translation please snd me the files so I can add them to the plugin repository.
+
 = Demo Pages =
 
 [Event list](http://quick-plugins.com/the-event-list/).
 [Calendar](http://quick-plugins.com/event-calendar/).
-[Guest Events] (http://quick-plugins.com/quick-event-manager/guest-event-plugin-test/).
+[Guest Events](http://quick-plugins.com/quick-event-manager/guest-event-plugin-test/).
 
 == Screenshots ==
 
-1. This is an example of an events post.
+1. This is an example of an event post.
 2. This is the list of events.
 3. This the event editor. 
 4. The styling editor.
@@ -77,6 +79,21 @@ No.
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 == Changelog ==
+
+= 6.2 =
+
+Bug Fixes:
+*   Missing widget
+*   Various styling bugs
+
+New Features:
+*   Options to remove links from event list
+*   Month formatting on the event list
+*   Add category name options to event
+*   Build email confirmation message
+*   Updated Payment options
+*   Instant Payment Notification
+*   Add calendar download to event list
 
 = 6.1 =
 

@@ -10,13 +10,28 @@ function qem_process_payment_form($values) {
     $cost = preg_replace ( '/[^.0-9]/', '', $cost);
     $quantity = ($values['yourplaces'] < 1 ? 1 : strip_tags($values['yourplaces']));
     $redirect = get_post_meta($post->ID, 'event_redirect', true);
+    
+    if (!$redirect && $register['redirectionurl'])
+        $redirect = $register['redirectionurl'];
     $redirect = ($redirect ? $redirect : $page_url);
+    
     if ($payments['useprocess'] && $payments['processtype'] == 'processpercent') {
         $percent = preg_replace ( '/[^.,0-9]/', '', $payments['processpercent']) / 100;
         $handling = $cost * $quantity * $percent;
     }
+    
     if ($payments['useprocess'] && $payments['processtype'] == 'processfixed') {
         $handling = preg_replace ( '/[^.,0-9]/', '', $payments['processfixed']);
+    }
+    
+    if ($payments['usecoupon']) {
+        $coupon = qem_get_stored_coupon();
+        for ($i=1; $i<=10; $i++) {
+            if ($values['couponcode'] == $coupon['code'.$i]) {
+                if ($coupon['coupontype'.$i] == 'percent'.$i) $cost = $cost - ($cost * $coupon['couponpercent'.$i]/100);
+                if ($coupon['coupontype'.$i] == 'fixed'.$i) $cost = $cost - $coupon['couponfixed'.$i];
+            }
+        }
     }
     $content = '<h2 id="qem_reload">'.$payments['waiting'].'</h2>
     <form action="'.$paypalurl.'" method="post" name="qempay" id="qempay">
@@ -29,7 +44,7 @@ function qem_process_payment_form($values) {
     <input type="hidden" name="item_number" value="' . strip_tags($values['yourname']) . '">
     <input type="hidden" name="quantity" value="' . $quantity . '">
     <input type="hidden" name="amount" value="' . $cost . '">';
-    if ($reference['useprocess']) {
+    if ($payments['useprocess']) {
         $content .='<input type="hidden" name="handling" value="' . $handling . '">';
     }
     $content .= '</form>
