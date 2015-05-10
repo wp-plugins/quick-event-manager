@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 6.1
+Version: 6.2
 Author: aerin
 Author URI: http://www.quick-plugins.com
 Text Domain: quick-event-manager
