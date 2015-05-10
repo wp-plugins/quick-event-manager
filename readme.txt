@@ -81,12 +81,6 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 == Changelog ==
 
 = 6.2 =
-
-Bug Fixes:
-*   Missing widget
-*   Various styling bugs
-
-New Features:
 *   Options to remove links from event list
 *   Month formatting on the event list
 *   Add category name options to event
@@ -94,16 +88,10 @@ New Features:
 *   Updated Payment options
 *   Instant Payment Notification
 *   Add calendar download to event list
+*   Fixed Missing widget bug
+*   Various styling bugs sorted
 
 = 6.1 =
-
-Bug Fixes:
-*   Fixed fullevent shortcode bug
-*   Bug fix in Author selection
-*   Stripslashes bug fix
-*   Fix to event field ordering
-
-New Features:
 *   Added option to show numbers attending
 *   Option to remove duplicate dates
 *   Option to add captions to date icons
@@ -112,7 +100,11 @@ New Features:
 *   Updates to payment options
 *   Display number attending on the dashboard event list
 *   Allow multiple registrations
-*   Allow attemdees to deregister
+*   Allow attendees to deregister
+*   Fixed fullevent shortcode bug
+*   Bug fix in Author selection
+*   Stripslashes bug fix
+*   Fix to event field ordering
 
 = 6.0 =
 *   Akismet spam filtering
