@@ -1,0 +1,749 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-22 23:34+0100\n"
+"PO-Revision-Date: 2015-02-17 14:49-0000\n"
+"Last-Translator: Augustin Zidek <augustin.zidek@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;__ngettext_noop:1,2;_n_noop:1,2;"
+"_x:1,2c;_nx:4c,1,2;_n:1,2;_nx_noop:4c,1,2;_ex:1,2c;esc_attr__;esc_attr_e;"
+"esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../quick-event-manager.php:45
+msgid "Settings"
+msgstr "Nastavení"
+
+#: ../quick-event-manager.php:53
+msgctxt "post type general name"
+msgid "Events"
+msgstr "Události"
+
+#: ../quick-event-manager.php:54
+msgctxt "post type singular name"
+msgid "Event"
+msgstr "Událost"
+
+#: ../quick-event-manager.php:55
+msgctxt "event"
+msgid "Add New"
+msgstr "Přidat novou "
+
+#: ../quick-event-manager.php:56
+msgid "Add New Event"
+msgstr "Přidat novou událost"
+
+#: ../quick-event-manager.php:57
+msgid "Edit Event"
+msgstr "Upravit událost"
+
+#: ../quick-event-manager.php:58
+msgid "New Event"
+msgstr "Nová událost"
+
+#: ../quick-event-manager.php:59
+msgid "View Event"
+msgstr "Zobrazit událost"
+
+#: ../quick-event-manager.php:60
+msgid "Search event"
+msgstr "Hledat událost"
+
+#: ../quick-event-manager.php:61
+msgid "Nothing found"
+msgstr "Nic nebylo nalezeno"
+
+#: ../quick-event-manager.php:62
+msgid "Nothing found in Trash"
+msgstr "V koši nebylo nic nalezeno"
+
+#: ../quick-event-manager.php:338
+msgid "Add events to your sidebar"
+msgstr "Přidat události do vašeho postranního panelu"
+
+#: ../quick-event-manager.php:346
+msgid "Number of posts to display: "
+msgstr "Počet událostí, které se mají zobrazit:"
+
+#: ../quick-event-manager.php:347
+msgid "Leave blank to use the default settings."
+msgstr "Nechte prázdné pro použití výchozího nastavení."
+
+#: ../quick-event-manager.php:348
+msgid "All options for the quick events manager are changed on the plugin"
+msgstr "Všechna nastavení Quick Events Manageru se mění přímo v pluginu."
+
+#: ../quick-event-manager.php:348
+msgid "setting page"
+msgstr "Stránka nastavení"
+
+#: ../quick-event-manager.php:544
+msgid "&#9668; Prev"
+msgstr "&#9668; Předchozí"
+
+#: ../quick-event-manager.php:546
+msgid "Next &#9658;"
+msgstr "Další &#9658;"
+
+#: ../quick-event-manager.php:723
+msgid "Short Description"
+msgstr "Krátký popis"
+
+#: ../quick-event-manager.php:724 ../settings.php:547
+msgid "Event Time"
+msgstr "Čas události"
+
+#: ../quick-event-manager.php:725 ../settings.php:548
+msgid "Location"
+msgstr "Místo"
+
+#: ../quick-event-manager.php:726 ../settings.php:549
+msgid "Address"
+msgstr "Adresa"
+
+#: ../quick-event-manager.php:727
+msgid "Event Website"
+msgstr "Webová stránka"
+
+#: ../quick-event-manager.php:728
+msgid "Cost"
+msgstr "Cena"
+
+#: ../settings.php:31
+msgid "Event Manager"
+msgstr "Správce událostí"
+
+#: ../settings.php:31
+msgid "Event Management"
+msgstr "Správa událostí"
+
+#: ../settings.php:62
+msgid "Setup"
+msgstr "Nastavení"
+
+#: ../settings.php:63
+msgid "Event Settings"
+msgstr "Pole události"
+
+#: ../settings.php:64
+msgid "Event Display"
+msgstr "Zobrazení události"
+
+#: ../settings.php:65
+msgid "Event Styling"
+msgstr "Styl události"
+
+#: ../settings.php:66
+msgid "Calendar Options"
+msgstr "Kalendář"
+
+#: ../settings.php:67
+msgid "Event Registration"
+msgstr "Registrace na události"
+
+#: ../settings.php:84
+msgid "Setting up and using the plugin"
+msgstr "Jak nastavit a používat tento plugin"
+
+#: ../settings.php:85
+msgid "Important!"
+msgstr "Důležité!"
+
+#: ../settings.php:85
+msgid ""
+"This plugin uses custom posts. For it to work properly you have to resave "
+"your <a href=\"options-permalink.php\">permalinks</a>. This is not a bug, "
+"it&#146;s how wordpress works. If you don&#146;t resave your permalinks you "
+"will get a page not found on your events."
+msgstr ""
+"Tento plugin používá upravené příspěvky pro zobrazení událostí. Aby mohl "
+"plugin správně fungovat, je třeba znova uložit <a href=\"options-permalink."
+"php\">trvalé odkazy</a>. Toto není chyba - je to normální způsob jak funguje "
+"Wordpress . Pokud znova neuložíte vaše trvalé odkazy, zobrazí se vám stránka "
+"\"Nenalezeno\" místo vašich událostí."
+
+#: ../settings.php:86
+msgid ""
+"Create new events using the <a href=\"edit.php?post_type=event\">Events</a> "
+"link on your dashboard menu."
+msgstr ""
+"Novou událost vytvoříte kliknutím na odkaz <a href=\"edit.php?post_type=event"
+"\">Události</a> v menu v administraci."
+
+#: ../settings.php:87
+msgid ""
+"To display list of events use the shortcode: <code>[qem]</code>. To just "
+"display past events use the shortcode: <code>[qem id=\"archive\"]</code>."
+msgstr ""
+"Pro zobrazení seznamu událostí použijte shortcode: <code>[qem]</code>. Pokud "
+"chcete zobrazit pouze události z minulosti, použijte shortcode: <code>[qem "
+"id=\"archive\"]</code>."
+
+#: ../settings.php:88
+msgid ""
+"If you prefer to display your events as a calendar use the shortcode: <code>"
+"[qem-calendar]</code>."
+msgstr ""
+"Pokud chcete události zobrazit jako kalendář, použijte shortcode: <code>[qem-"
+"calendar]</code>."
+
+#: ../settings.php:89
+msgid ""
+"That&#39;s pretty much it. All you need to do now is <a href=\"edit.php?"
+"post_type=event\">create some events</a>."
+msgstr ""
+"To je v podstatě vše. Nyní již zbývá jen <a href=\"edit.php?post_type=event"
+"\">vytvořit nějaké události</a>."
+
+#: ../settings.php:90
+msgid "Plugin Options"
+msgstr "Nastavení pluginu"
+
+#: ../settings.php:91
+msgid ""
+"To change what is displayed use the <a href=\"?page=quick-event-manager/"
+"settings.php&tab=settings\">Event Settings</a> pages."
+msgstr ""
+"Pro změnu nastavení toho, co má být zobrazeno použijte stránku <a href=\"?"
+"page=quick-event-manager/settings.php&tab=settings\">Pole události</a>."
+
+#: ../settings.php:92
+msgid ""
+"To change how events are displayed use the <a href=\"?page=quick-event-"
+"manager/settings.php&tab=display\">Event Display</a> page."
+msgstr "Pro změnu "
+
+#: ../settings.php:93
+msgid ""
+"To change the overall look of the events use the <a href=\"?page=quick-event-"
+"manager/settings.php&tab=styles\">Styles</a> page."
+msgstr ""
+"Pro změnu celkového vzhledu uálostí použijte stránku <a href=\"?page=quick-"
+"event-manager/settings.php&tab=styles\">Styly</a>."
+
+#: ../settings.php:94
+msgid ""
+"To change calendar settings use the <a href=\"?page=quick-event-manager/"
+"settings.php&tab=calendar\">Calendar</a> page."
+msgstr ""
+"Pro změnu nastavení kalendáře použijte stránku <a href=\"?page=quick-event-"
+"manager/settings.php&tab=calendar\">Kalendář</a>."
+
+#: ../settings.php:96
+msgid ""
+"There is some development info on <a href=\"http://quick-plugins.com/quick-"
+"event-manager/\" target=\"_blank\">quick-plugins.com</a> along with a "
+"feedback form. Or you can email me at "
+msgstr ""
+"Více informací o pluginu a jeho vývoji lze nalézt na  <a href=\"http://quick-"
+"plugins.com/quick-event-manager/\" target=\"_blank\">quick-plugins.com</a>. "
+"Zde je také forum určené pro připomínky. Nebo mi můžete poslat email na "
+
+#: ../settings.php:129
+msgid "The form settings have been updated"
+msgstr "Nastavení formuláře bylo změněno."
+
+#: ../settings.php:153
+msgid ""
+"Use the check boxes to select which fields to display in the event post and "
+"the event list."
+msgstr ""
+"Pomocí zaškrtávacích políček níže můžete nastavit, která pole se mají "
+"zobrazit v příspěvku události a v seznamu událostí."
+
+#: ../settings.php:154
+msgid "Drag and drop to change the order of the fields."
+msgstr "Pořadí polí lze změnit jejich přetažením."
+
+#: ../settings.php:155
+msgid ""
+"The fields with the blue border are for optional captions. For example: "
+"<span style=\"border:1px solid blue;\">The cost is</span> {cost} will "
+"display as <em>The cost is 20 Zlotys</em>. If you leave it blank just <em>20 "
+"Zlotys</em> will display."
+msgstr ""
+"Políčka ohraničená modrým rámečkem slouží k nastavení alternativního textu. "
+"Například <span style=\"border:1px solid blue;\">Cena je</span> {cost} se "
+"zobrazí jako <em>Cena je 200 korun</em>. Pokud toto políčko necháte prázdné, "
+"zobrazí se jen <em>200 korun</em> (tedy bez jakéhokoliv textu před cenou)."
+
+#: ../settings.php:156
+msgid "Show in event post"
+msgstr "Zobrazit v příspěvku události"
+
+#: ../settings.php:157
+msgid "Show in<br>event list"
+msgstr "Zobrazit v<br>seznamu událostí"
+
+#: ../settings.php:158
+msgid "Colour"
+msgstr "Barva"
+
+#: ../settings.php:159
+msgid "Font<br>size"
+msgstr "Velikost<br>písma"
+
+#: ../settings.php:160
+msgid "Font<br>attributes"
+msgstr "Vlastnosti<br>písma"
+
+#: ../settings.php:161
+msgid "Caption and display options:"
+msgstr "Alternativní text a nastavení zobrazení:"
+
+#: ../settings.php:176
+msgid "description"
+msgstr "popis"
+
+#: ../settings.php:180
+msgid "start time"
+msgstr "čas začátku"
+
+#: ../settings.php:180
+msgid "end time"
+msgstr "čas konce"
+
+#: ../settings.php:184
+msgid "location"
+msgstr "místo"
+
+#: ../settings.php:188
+msgid "address"
+msgstr "adresa"
+
+#: ../settings.php:188
+msgid "Show map (if address is given)"
+msgstr "Zobrazit mapu (pokud byla nastavena adresa)"
+
+#: ../settings.php:192
+msgid "Link to website"
+msgstr "Odkaz na webovou stránku"
+
+#: ../settings.php:196
+msgid "cost"
+msgstr "cena"
+
+#: ../settings.php:225 ../settings.php:263 ../settings.php:378
+#: ../settings.php:453 ../settings.php:492
+msgid "Save Changes"
+msgstr "Uložit změny"
+
+#: ../settings.php:238
+msgid "The display settings have been updated."
+msgstr "Nastavení zobrazení bylo změněno."
+
+#: ../settings.php:243
+msgid "The display settings have been reset."
+msgstr "Nastavení zobrazení bylo resetováno."
+
+#: ../settings.php:253
+msgid "Event Messages"
+msgstr "Nastavení texů v událostech"
+
+#: ../settings.php:254
+msgid "Read more caption:"
+msgstr "Text odkazu na více podrobností:"
+
+#: ../settings.php:255
+msgid "No events message:"
+msgstr "Text pokud neexistují žádné události:"
+
+#: ../settings.php:256
+msgid "Event List Options"
+msgstr "Nastavení seznamu událostí"
+
+#: ../settings.php:257
+msgid "List events in reverse order (from future to past)"
+msgstr "Zobrazit události v obráceném pořadí (od budoucích po minulé)"
+
+#: ../settings.php:258
+msgid "Show past events in the events list"
+msgstr "Zobrazit události z minulosti v seznamu událostí"
+
+#: ../settings.php:259
+msgid ""
+"If you only want to display past events use the shortcode: <code>[qem id="
+"\"archive\"]</code>."
+msgstr ""
+"Pokud chcete zobrazit události z minulosti, použijte shortcode: <code>[qem "
+"id=\"archive\"]</code>."
+
+#: ../settings.php:260
+msgid "Map Size"
+msgstr "Velikost mapy"
+
+#: ../settings.php:261
+msgid "Width:"
+msgstr "Šířka:"
+
+#: ../settings.php:261
+msgid "Height:"
+msgstr "Délka:"
+
+#: ../settings.php:262
+msgid ""
+"Note: the map will only display if you have a valid address and the &#146;"
+"show map&#146; checkbox is ticked."
+msgstr ""
+"Poznámka: mapa k události se zobrazí jen pokud máte validní adresu a "
+"zaškrtávací políčko &#146;zobrazit mapu&#146; je zaškrtnuté."
+
+#: ../settings.php:263 ../settings.php:378 ../settings.php:453
+#: ../settings.php:492
+msgid "Reset"
+msgstr "Resetovat"
+
+#: ../settings.php:263
+msgid "Are you sure you want to reset the display settings?"
+msgstr "Doopravdy chcete resetovat nastavení zobrazení?"
+
+#: ../settings.php:293
+msgid "The form styles have been updated."
+msgstr "Styl formuláře byl změněn."
+
+#: ../settings.php:298
+msgid "The style settings have been reset."
+msgstr "Nastavení zobrazení bylo resetováno."
+
+#: ../settings.php:314
+msgid "Event Width"
+msgstr "Šířka události"
+
+#: ../settings.php:316
+msgid "100% (fill the available space)"
+msgstr "100 % (zaplnit celé dostupné místo)"
+
+#: ../settings.php:317
+msgid "Pixel (fixed)"
+msgstr "Pixel (dané pevně)"
+
+#: ../settings.php:318
+msgid "Enter the width in pixels:"
+msgstr "Šířka v pixelech:"
+
+#: ../settings.php:318
+msgid "(Just enter the value, no need to add 'px')."
+msgstr "(Pouze vložte hodnotu, není třeba přidat 'px')."
+
+#: ../settings.php:321
+msgid "Font Options"
+msgstr "Nastavení písma"
+
+#: ../settings.php:322
+msgid "Use your theme font styles"
+msgstr "Použít písma z šablony"
+
+#: ../settings.php:323
+msgid "Use Plugin font styles (enter font family and size below)"
+msgstr "Použít písma pluginu (nastavte rodinu a velikost písma níže)"
+
+#: ../settings.php:324
+msgid "Font Family:"
+msgstr "Typ písma:"
+
+#: ../settings.php:325
+msgid "Font Size:"
+msgstr "Velikost písma:"
+
+#: ../settings.php:328
+msgid "Calender Icon"
+msgstr "Ikona kalendáře"
+
+#: ../settings.php:331
+msgid "Size"
+msgstr "Velikost"
+
+#: ../settings.php:333
+msgid "Small"
+msgstr "Malá"
+
+#: ../settings.php:334
+msgid "Medium"
+msgstr "Velká"
+
+#: ../settings.php:335
+msgid "Large"
+msgstr "Střední"
+
+#: ../settings.php:338
+msgid "Border Thickeness"
+msgstr "Tloušťka okraje"
+
+#: ../settings.php:340
+msgid "Border Colour"
+msgstr "Barva okraje"
+
+#: ../settings.php:344
+msgid "Date Background colour"
+msgstr "Barva pozadí data"
+
+#: ../settings.php:346
+msgid "Grey"
+msgstr "Šedá"
+
+#: ../settings.php:347
+msgid "Red"
+msgstr "Červená"
+
+#: ../settings.php:348 ../settings.php:369
+msgid "Set your own (enter HEX code or color name below)"
+msgstr "Nastavit vlastní barvu (použijte HEX kód nebo jméno barvy)"
+
+#: ../settings.php:352
+msgid "Date Text Colour"
+msgstr "Barva textu data"
+
+#: ../settings.php:354
+msgid "Month Text Style"
+msgstr "Styl textu měsíce"
+
+#: ../settings.php:355
+msgid "Bold"
+msgstr "Tučné písmo"
+
+#: ../settings.php:356
+msgid "Italic"
+msgstr "Kurzíva"
+
+#: ../settings.php:359
+msgid "Event Content"
+msgstr "Obsah události"
+
+#: ../settings.php:361
+msgid "Event Border"
+msgstr "Rámeček kolem události"
+
+#: ../settings.php:362
+msgid "Add a border to the event post"
+msgstr "Přidat rámeček kolem události"
+
+#: ../settings.php:363
+msgid "Thickness and colour will be the same as the calendar icon."
+msgstr "Hroubka rámečku a barva budou stejné jako u ikony kalendáře."
+
+#: ../settings.php:366
+msgid "Event Background colour"
+msgstr "Barva pozadí události"
+
+#: ../settings.php:367
+msgid "White"
+msgstr "Bílá"
+
+#: ../settings.php:368
+msgid "Use theme colours"
+msgstr "Použít barvy šablony"
+
+#: ../settings.php:373
+msgid "Custom CSS"
+msgstr "Vlastní CSS"
+
+#: ../settings.php:374
+msgid "Use Custom CSS"
+msgstr "Použít vlastní CSS"
+
+#: ../settings.php:376
+msgid ""
+"To see all the styling use the <a href=\"plugin-editor.php?file=quick-event-"
+"manager/quick-event-manager-style.css\">CSS editor</a>."
+msgstr ""
+"Pokud vás zajímá kompletní nastavení stylu, použijte <a href=\"plugin-editor."
+"php?file=quick-event-manager/quick-event-manager-style.css\">Editor CSS "
+"pluginu</a>."
+
+#: ../settings.php:377
+msgid "The main style wrapper is the <code>.qem</code> class."
+msgstr "Hlavní wrapper stylu je třída <code>.qem</code>."
+
+#: ../settings.php:378
+msgid "Are you sure you want to reset the style settings?"
+msgstr "Doopravdy chcete resetovat nastavení stylu události?"
+
+#: ../settings.php:382
+msgid "Event List Preview"
+msgstr "Náhled seznamu událostí"
+
+#: ../settings.php:411
+msgid "The calendar settings have been updated."
+msgstr "Nastavení kalendáře bylo změněno."
+
+#: ../settings.php:416
+msgid "The calendar settings have been reset."
+msgstr "Nastavení kalendáře bylo resetováno."
+
+#: ../settings.php:423
+msgid ""
+"This is a new feature in the plugin. It does work but may need some tweaks. "
+"If you want something just let me know:"
+msgstr ""
+"Toto je nová funkcionalita pluginu. Funguje, ale zřejmě bude vyžadovat ještě "
+"doladit. Pokud mnějaký požadavek, kontaktujte mě naadrese:"
+
+#: ../settings.php:424
+msgid ""
+"To add the calendar to your site use the shortcode: <code>[qemcalendar]</"
+"code>."
+msgstr ""
+"Kalendář přidáte na stránky použitím shortcode: <code>[qemcalendar]</code>."
+
+#: ../settings.php:426
+msgid "Event Links"
+msgstr "Odkazy události"
+
+#: ../settings.php:427
+msgid "Link opens event summary in a popup"
+msgstr "Odkaz otevře shrnutí události ve vyskakovacím okně"
+
+#: ../settings.php:429
+msgid "Link opens event page"
+msgstr "Odkaz otevře stránku s událostmi"
+
+#: ../settings.php:430
+msgid ""
+"Link Event List to Calendar Page (you will need to create a page for the "
+"calendar)."
+msgstr ""
+"Zobrazit odkaz na kalendář v seznamu událostí (budete potřebovat vytvořit "
+"stránku pro kalendář)."
+
+#: ../settings.php:432
+msgid "Calendar link text"
+msgstr "Text odkazu na kalendář"
+
+#: ../settings.php:433
+msgid "Calendar page URL"
+msgstr "URL stránky s kalendářem"
+
+#: ../settings.php:434
+msgid "Event list link text"
+msgstr "Text odkazu v seznamu událostí"
+
+#: ../settings.php:435
+msgid "Event list page"
+msgstr "Stránka s událostmi"
+
+#: ../settings.php:437
+msgid "Calendar Colours"
+msgstr "Barvy kalendáře"
+
+#: ../settings.php:439
+msgid "Items"
+msgstr "Položky"
+
+#: ../settings.php:439
+msgid "Background"
+msgstr "Pozadí"
+
+#: ../settings.php:439
+msgid "Text"
+msgstr "Text"
+
+#: ../settings.php:440
+msgid "Days of the Week"
+msgstr "Dny v týdny"
+
+#: ../settings.php:442
+msgid "Normal Date"
+msgstr "Normální datum"
+
+#: ../settings.php:443 ../settings.php:546
+msgid "Event Date"
+msgstr "Datum události"
+
+#: ../settings.php:445
+msgid "Past Date"
+msgstr "Předešlé datum"
+
+#: ../settings.php:447
+msgid "Event Hover"
+msgstr "Barva události při najetí myši"
+
+#: ../settings.php:451
+msgid "On Sunday"
+msgstr "V neděli"
+
+#: ../settings.php:452
+msgid "On Monday"
+msgstr "V pondělí"
+
+#: ../settings.php:453 ../settings.php:492
+msgid "Are you sure you want to reset the calendar settings?"
+msgstr "Doopravdy chcete resetovat nastavení kalendáře?"
+
+#: ../settings.php:457
+msgid "Calendar Preview"
+msgstr "Náhled kalendáře"
+
+#: ../settings.php:478
+msgid "Add a registration form to your events"
+msgstr "Přidat registrační formulář k události"
+
+#: ../settings.php:545
+msgid "Event"
+msgstr "Událost"
+
+#: ../settings.php:569
+msgid ""
+"Empty fields are not displayed. See the plugin <a href=\"options-general.php?"
+"page=quick-event-manager/settings.php\">settings</a> page for options."
+msgstr ""
+"Prázdná pole nebudou zobrazena. Více lze nastavit v <a href=\"options-"
+"general.php?page=quick-event-manager/settings.php\">nastavení</a> pluginu."
+
+#: ../settings.php:570
+msgid "Date:"
+msgstr "Datum:"
+
+#: ../settings.php:571
+msgid "(Errors will reset to today&#146;s date.)"
+msgstr "(Chybné datum bude interpretováno jako dnešní datum.)"
+
+#: ../settings.php:574
+msgid "End Date:"
+msgstr "Koncové datum:"
+
+#: ../settings.php:575
+msgid "(Leave blank for one day events.)"
+msgstr "(Nechte prázdné při jednodenní události.)"
+
+#: ../settings.php:578
+msgid "Short Description:"
+msgstr "Krátký popis:"
+
+#: ../settings.php:579
+msgid "Time"
+msgstr "Čas"
+
+#: ../settings.php:580
+msgid "Location:"
+msgstr "Místo:"
+
+#: ../settings.php:581
+msgid "Address:"
+msgstr "Adresa:"
+
+#: ../settings.php:582
+msgid "Website:"
+msgstr "Webová stránka:"
+
+#: ../settings.php:582
+msgid "Display As:"
+msgstr "Zobrazit jako:"
+
+#: ../settings.php:583
+msgid "Cost:"
+msgstr "Cena:"
+
+#: ../settings.php:625
+msgid "Event Details"
+msgstr "Detaily události:"
+
+#: ../settings.php:631
+msgid "Event Description"
+msgstr "Popis události:"
