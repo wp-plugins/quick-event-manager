@@ -11,8 +11,9 @@ function qem_process_payment_form($values) {
     $quantity = ($values['yourplaces'] < 1 ? 1 : strip_tags($values['yourplaces']));
     $redirect = get_post_meta($post->ID, 'event_redirect', true);
     
-    if (!$redirect && $register['redirectionurl'])
+    if (!$redirect && $register['redirectionurl']) {
         $redirect = $register['redirectionurl'];
+    }
     $redirect = ($redirect ? $redirect : $page_url);
     
     if ($payments['useprocess'] && $payments['processtype'] == 'processpercent') {
@@ -43,7 +44,9 @@ function qem_process_payment_form($values) {
     <input type="hidden" name="currency_code" value="'.$payments['currency'].'">
     <input type="hidden" name="item_number" value="' . strip_tags($values['yourname']) . '">
     <input type="hidden" name="quantity" value="' . $quantity . '">
-    <input type="hidden" name="amount" value="' . $cost . '">';
+    <input type="hidden" name="amount" value="' . $cost . '">
+    <input type="hidden" name="custom" value="' . $values['ipn'] . '">';
+
     if ($payments['useprocess']) {
         $content .='<input type="hidden" name="handling" value="' . $handling . '">';
     }

@@ -2,51 +2,53 @@
 
 function event_get_stored_options () {	
     $event = get_option('event_settings');
-    if(!is_array($event)) $event = array();
+    if(!is_array($event)) {
+        $event = array();
+        $version = get_option('qem_version');
+        if ($version != '6.3') {
+            qem_create_css_file ('update');
+            update_option('qem_version','6.3');
+        }
+    }
     $option_default = event_get_default_options();
     $event = array_merge($option_default, $event);
-    if (!strpos($event['sort'],'7')) {
-        $event['sort'] = $event['sort'].',field7';$event['label']['field7'] = 'Organiser';
-        update_option('event_settings',$event);
-        qem_create_css_file ('update');
-    }
     return $event;
 }
 
 function event_get_default_options () {
-    $event = array();
-    $event['active_buttons'] = array('field1'=>'on','field2'=>'on','field3'=>'on','field4'=>'on','field5'=>'on','field6'=>'on','field7'=>'on');
-    $event['summary'] = array(
-        'field1'=>'checked',
-        'field2'=>'checked',
-        'field3'=>'checked'
+    $event = array(
+        'active_buttons' => array('field1'=>'on','field2'=>'on','field3'=>'on','field4'=>'on','field5'=>'on','field6'=>'on','field7'=>'on'),
+        'summary' => array(
+            'field1'=>'checked',
+            'field2'=>'checked',
+            'field3'=>'checked'
+        ),
+        'label' => array(
+            'field1' => __('Short Description', 'quick-event-manager'),
+            'field2' => __('Event Time', 'quick-event-manager'),
+            'field3' => __('Venue', 'quick-event-manager'),
+            'field4' => __('Address', 'quick-event-manager'),
+            'field5' => __('Event Website', 'quick-event-manager'),
+            'field6' => __('Cost', 'quick-event-manager'),
+            'field7' => __('Organiser', 'quick-event-manager')
+        ),
+        'sort' => 'field1,field2,field3,field4,field5,field6,field7',
+        'bold' => array('field2'=>'checked'),
+        'italic' => array('field4'=>'checked',),
+        'colour' => array('field2'=>'#343838','field6'=>'#008C9E'),
+        'size' => array('field1'=>'110','field2'=>'120','field6'=>'120'),
+        'address_label' => '',
+        'url_label' => '',
+        'description_label' => '',
+        'cost_label' => '',
+        'start_label' => __('From', 'quick-event-manager'),
+        'finish_label' => __('until', 'quick-event-manager'),
+        'location_label' => __('At', 'quick-event-manager'),
+        'show_map' => 'checked',
+        'address_style' => 'italic',
+        'website_link' => 'checked',
+        'show_telephone' => 'checked'
     );
-    $event['label'] = array(
-        'field1'=> __('Short Description', 'quick-event-manager'),
-        'field2' => __('Event Time', 'quick-event-manager'),
-        'field3' => __('Venue', 'quick-event-manager'),
-        'field4' => __('Address', 'quick-event-manager'),
-        'field5' => __('Event Website', 'quick-event-manager'),
-        'field6' => __('Cost', 'quick-event-manager'),
-        'field7' => __('Organiser', 'quick-event-manager')
-    );
-    $event['sort'] = 'field1,field2,field3,field4,field5,field6,field7';
-    $event['bold'] = array('field2'=>'checked');
-    $event['italic'] = array('field4'=>'checked',);
-    $event['colour'] = array('field2'=>'#343838','field6'=>'#008C9E');
-    $event['size'] = array('field1'=>'110','field2'=>'120','field6'=>'120');
-    $event['address_label'] = '';
-    $event['url_label'] = '';
-    $event['description_label'] = '';
-    $event['cost_label'] = '';
-    $event['start_label'] = 'From';
-    $event['finish_label'] = 'until';
-    $event['location_label'] = 'At';
-    $event['show_map'] = 'checked';
-    $event['address_style'] = 'italic';
-    $event['website_link'] = 'checked';
-    $event['show_telephone'] = 'checked';
-    $version = get_option('qem_version');
     return $event;
 }
 
@@ -60,11 +62,11 @@ function event_get_stored_display () {
 
 function qem_get_default_display () {
     $display = array(
-        'read_more' => 'Find out more...',
-        'noevent' => 'No event found',
+        'read_more' => __('Find out more...', 'quick-event-manager'),
+        'noevent' => __('No event found', 'quick-event-manager'),
         'event_image' => '',
         'monthheading' => '',
-        'back_to_list_caption' => 'Return to Event list',
+        'back_to_list_caption' => __('Return to Event list', 'quick-event-manager'),
         'image_width' => '300',
         'event_image_width' => '300',
         'event_order' => 'newest',
@@ -73,10 +75,10 @@ function qem_get_default_display () {
         'map_height' => '200',
         'useics' => '',
         'uselistics' => '',
-        'useicsbutton' => 'Download Event to Calendar',
+        'useicsbutton' => __('Download Event to Calendar', 'quick-event-manager'),
         'usetimezone' => '',
-        'timezonebefore' => 'Timezone:',
-        'timezoneafter' => 'time',
+        'timezonebefore' => __('Timezone:', 'quick-event-manager'),
+        'timezoneafter' => __('time', 'quick-event-manager'),
         'map_and_image' => 'checked',
         'localization' => '',
         'monthtype' => 'short',
@@ -88,12 +90,6 @@ function qem_get_default_display () {
 
 function qem_get_stored_style() {
     $style = get_option('qem_style');
-    if (!$style['keycaption']) {
-        $cal = get_option('qem_calendar');
-        $style['keycaption'] = $cal['keycaption'];
-        $style['showkeyabove'] = $cal['showkeyabove'];
-        $style['showkeybelow'] = $cal['showkeybelow'];
-    }
     if(!is_array($style)) $style = array();
     $default = qem_get_default_style();
     $style = array_merge($default, $style);
@@ -125,8 +121,8 @@ function qem_get_default_style() {
         'icon_corners' => 'rounded',
         'styles' => '',
         'uselabels' => '',
-        'startlabel' => 'Starts',
-        'finishlabel' => 'Ends',
+        'startlabel' => __('Starts', 'quick-event-manager'),
+        'finishlabel' => __('Ends', 'quick-event-manager'),
         'event_margin' => 'margin: 0 0 20px 0,',
         'line_margin' => 'margin: 0 0 8px 0,padding: 0 0 0 0',
         'custom' => ".qem {\r\n}\r\n.qem h2{\r\n}",
@@ -137,12 +133,14 @@ function qem_get_default_style() {
         'use_head' => '',
         'linktocategory' => 'checked',
         'showuncategorised' => '',
-        'keycaption' => 'Event Categories:',
+        'keycaption' => __('Event Categories:', 'quick-event-manager'),
         'showkeyabove' => '',
         'showkeybelow' => '',
         'showcategory' => '',
-        'showcategorycaption' => 'Current Category:',
-        'dayborder' => 'checked'
+        'showcategorycaption' => __('Current Category:', 'quick-event-manager'),
+        'dayborder' => 'checked',
+        'catallevents' => '',
+        'catalleventscaption' => 'Show All'
     );
     return $style;
 }
@@ -166,9 +164,9 @@ function qem_get_default_calendar() {
         'eventbackground' => '#FFF',
         'eventtext' => '#343838',
         'eventlink' => 'linkpopup',
-        'calendar_text' => 'View as calendar',
+        'calendar_text' => __('View as calendar', 'quick-event-manager'),
         'calendar_url' => '',
-        'eventlist_text' => 'View as a list of events',
+        'eventlist_text' => __('View as a list of events', 'quick-event-manager'),
         'eventlist_url' => '',
         'eventlength' => '20',
         'connect' => '',
@@ -183,7 +181,7 @@ function qem_get_default_calendar() {
         'eventbackground' => '#FFF',
         'eventhover' => '#EED1AC',
         'eventborder' => '1px solid #343838',
-        'keycaption' => 'Event Key:',
+        'keycaption' => __('Event Key:', 'quick-event-manager'),
         'navicon' => 'arrows',
         'linktocategory' => 'checked',
         'showuncategorised' => '',
@@ -200,24 +198,20 @@ function qem_get_stored_register () {
     if(!is_array($register)) $register = array();
     $default = qem_get_default_register();
     $register = array_merge($default, $register);
-    $update='';
-    if (!strpos($register['sort'],'9')) {$register['sort'] = $register['sort'].',field9';$update='checked';}
-    if (!strpos($register['sort'],'10')) {$register['sort'] = $register['sort'].',field10';$update='checked';}
-    if (!strpos($register['sort'],'11')) {$register['sort'] = $register['sort'].',fiel11';$update='checked';}
-    if (!strpos($register['sort'],'12')) {$register['sort'] = $register['sort'].',fiel12';$update='checked';}
-    if ($update) update_option('qem_register',$register);
+if (!strpos($register['sort'],'field13')) $register['sort'] = $register['sort'].',field13';
     return $register;
 }
 
 function qem_get_default_register () {
     $register = array(
-        'sort' => 'field1,field2,field3,field4,field5,field6,field7,field8,field9,field10,field11,field12',
+        'sort' => 'field1,field2,field3,field4,field5,field6,field7,field8,field9,field10,field11,field12,field13',
         'usename' => 'checked',
         'usemail' => 'checked',
         'useblank1' => '',
         'useblank2' => '',
         'usedropdown' => '',
         'usenumber1' => '',
+        'useaddinfo' => '',
         'reqname' => 'checked',
         'reqmail' => 'checked',
         'reqblank1' => '',
@@ -225,53 +219,53 @@ function qem_get_default_register () {
         'reqdropdown' => '',
         'reqnumber1' => '',
         'formborder' => '',
-        'title' => 'Register for this event',
-        'blurb' => 'Enter your details below',
+        'title' => __('Register for this event', 'quick-event-manager'),
+        'blurb' => __('Enter your details below', 'quick-event-manager'),
+        'replytitle' => __('Thank you for registering', 'quick-event-manager'),
+        'replyblurb' => __('We will be in contact soon', 'quick-event-manager'),
+        'yourname' => __('Your Name', 'quick-event-manager'),
+        'youremail' => __('Email Address', 'quick-event-manager'),
+        'yourtelephone' => __('Telephone Number', 'quick-event-manager'),
+        'yourplaces' => __('Number of places required', 'quick-event-manager'),
+        'yourmessage' => __('Message', 'quick-event-manager'),
+        'yourattend' => __('I will not be attending this event', 'quick-event-manager'),
+        'yourblank1' => __('More Information', 'quick-event-manager'),
+        'yourblank2' => __('More Information', 'quick-event-manager'),
+        'yourdropdown' => __('Separate,With,Commas', 'quick-event-manager'),
+        'yournumber1' => __('Number', 'quick-event-manager'),
+        'addinfo' => __('Fill in this field', 'quick-event-manager'),
+        'useterms' => '',
+        'termslabel' => __('I agree to the Terms and Conditions', 'quick-event-manager'),
+        'termsurl' => '',
+        'termstarget' => '',
+        'notattend' => '',
         'replytitle' => 'Thank you for registering',
         'replyblurb' => 'We will be in contact soon',
-        'yourname' => 'Your Name',
-        'youremail' => 'Email Address',
-        'yourtelephone' => 'Telephone Number',
-        'yourplaces' => 'Number of places required',
-        'yourmessage' => 'Message',
-        'yourattend' => 'I will not be attending this event',
-        'yourblank1' => 'More Information',
-        'yourblank2' => 'More Information',
-        'yourdropdown' => 'Separate,With.Commas',
-        'yournumber1' => 'Number',
-        'notattend' => '',
-        'error' => 'Please complete the form',
-        'subject' => 'Registration for:',
-        'qemsubmit' => 'Register',
-        'subjecttitle' => 'checked',
-        'subjectdate' => 'checked',
+        'error' => __('Please complete the form', 'quick-event-manager'),
+        'qemsubmit' => __('Register', 'quick-event-manager'),
         'whoscoming' => '',
-        'whoscomingmessage' => 'Look who\'s coming: ',
-        'placesbefore' => 'There are',
-        'placesafter' => 'places available.',
-        'numberattendingbefore' => 'There are',
-        'numberattendingafter' => 'people coming.',
+        'whoscomingmessage' => __('Look who\'s coming: ', 'quick-event-manager'),
+        'placesbefore' => __('There are', 'quick-event-manager'),
+        'placesafter' => __('places available.', 'quick-event-manager'),
+        'numberattendingbefore' => __('There are', 'quick-event-manager'),
+        'numberattendingafter' => __('people coming.', 'quick-event-manager'),
+        'eventlist' => '',
         'eventfull' => '',
-        'eventfullmessage' => 'Registration is closed',
-        'read_more' => 'Return to the event',
+        'eventfullmessage' => __('Registration is closed', 'quick-event-manager'),
+        'read_more' => __('Return to the event', 'quick-event-manager'),
         'useread_more' => '',
         'sendcopy' => '',
         'usecopy' => '',
         'completed' => '',
-        'copyblurb' => 'Send registration details to your email address',
-        'alreadyregistered' => 'You are already registered for this event',
-        'nameremoved' => 'You have been removed from the list',
+        'copyblurb' => __('Send registration details to your email address', 'quick-event-manager'),
+        'alreadyregistered' => __('You are already registered for this event', 'quick-event-manager'),
+        'nameremoved' => __('You have been removed from the list', 'quick-event-manager'),
         'checkremoval' => '',
-        'spam' => 'Your Details have been flagged as spam',
+        'spam' => __('Your Details have been flagged as spam', 'quick-event-manager'),
         'thanksurl' => '',
         'cancelurl' => '',
         'allowmultiple' => '',
-        'couponcode' => 'Coupon code',
-        'useeventdetails' => '',
-        'eventdetailsblurb' => 'Event Details',
-        'useregistrationdetails' => 'checked',
-        'registrationdetailsblurb' => 'Your registration details',
-        'permalink' => ''
+        'couponcode' => __('Coupon code', 'quick-event-manager'),
     );
     return $register;
 }
@@ -279,41 +273,25 @@ function qem_get_default_register () {
 function qem_get_stored_payment () {
     $payment = get_option('qem_payment');
     if(!is_array($payment)) $payment = array();
-    $register = get_option('qem_register');
-    $payment['paypal'] = ($register['paypal'] || $payment['useqpp'] || $payment['qppcost'] ? 'checked' : '');
-    if ($register['paypalemail'] && !$payment['paypalemail']) {
-        $payment['currency'] = ($register['currency'] ? $register['currency'] : 'USD');
-        $payment['paypalemail'] = $register['paypalemail'];
-        $payment['useprocess'] = ($register['useprocess'] ? $register['useprocess'] : '');
-        $payment['processtype'] = ($register['processtype'] ? $register['processtype'] : 'processfixed');
-        $payment['processpercent'] = ($register['processpercent'] ? $register['processpercent'] : '5');
-        $payment['processfixed'] = ($register['processfixed'] ? $register['processfixed'] : '2');
-        $payment['qempaypalsubmit'] = ($register['qempaypalsubmit'] ? $register['qempaypalsubmit'] : 'Register and Pay');
-        update_option('qem_payment',$payment);
-    }
-    $default = qem_get_default_payment();
-    $payment = array_merge($default, $payment);
-    return $payment;
-}
-
-function qem_get_default_payment () {
-    $payment = array(
+    $default = array(
         'useqpp' => '',
         'qppform' => '',
         'currency' => 'USD',
         'paypalemail' => '',
         'useprocess' => '',
-        'waiting' => 'Waiting for PayPal...',
+        'waiting' => __('Waiting for PayPal', 'quick-event-manager').'...',
         'processtype' => 'processfixed',
         'processpercent' => '5',
         'processfixed' => '2',
-        'qempaypalsubmit' => 'Register and Pay',
+        'qempaypalsubmit' => __('Register and Pay', 'quick-event-manager'),
         'ipn' => '',
-        'title' => 'Payment',
-        'paid' => 'Complete',
+        'ipnblock' => '',
+        'title' => __('Payment', 'quick-event-manager'),
+        'paid' => __('Complete', 'quick-event-manager'),
         'usecoupon' => '',
-        'couponcode' => 'Coupon code'
+        'couponcode' => __('Coupon code', 'quick-event-manager')
     );
+    $payment = array_merge($default, $payment);
     return $payment;
 }
 
@@ -337,4 +315,55 @@ function qem_get_default_coupon () {
     $coupon['duplicate'] = '';
     $coupon['couponerror'] = 'Invalid Code';
     return $coupon;
+}
+
+function qem_get_stored_autoresponder () {
+    $auto = get_option('qem_autoresponder');
+    if(!is_array($auto)) {
+        $register = qem_get_stored_register ();
+        $fromemail = $register['sendemail'];
+        if (empty($fromemail)) {
+            global $current_user;
+            get_currentuserinfo();
+            $fromemail = $current_user->user_email;
+        } 
+        $title = get_bloginfo('name');
+        if ($register['sendcopy']) {
+            if (!$register['emailmessage']) $register['emailmessage'] = $register['replytitle'].' '.$register['replyblurb'];
+            $auto = array(
+                'enable' => $register['sendcopy'],
+                'subject' => $register['subject'],
+                'subjecttitle' => $register['subjecttitle'],
+                'subjectdate' => $register['subjectdate'],
+                'message' => $register['emailmessage'],
+                'useeventdetails' => $register['useeventdetails'],
+                'eventdetailsblurb' => $register['eventdetailsblurb'],
+                'useregistrationdetails' => $register['useregistrationdetails'],
+                'registrationdetailsblurb' => $register['registrationdetailsblurb'],
+                'fromname' => $title,
+                'fromemail' => $fromemail,
+                'permalink' => $register['permalink']
+            );
+            $register['sendcopy'] = '';
+            update_option( 'qem_register', $register );
+            update_option( 'qem_autoresponder', $auto );
+        } else {
+            $auto = array(
+                'enable' => '',
+                'subject' => 'You have registered for ',
+                'subjecttitle' => 'checked',
+                'subjectdate' => '',
+                'message' => 'Thank you for registering, we will be in contact soon. If you have any questions please reply to this email.',
+                'useeventdetails' => '',
+                'eventdetailsblurb' => __('Event Details', 'quick-event-manager'),
+                'useregistrationdetails' => 'checked',
+                'registrationdetailsblurb' => __('Your registration details', 'quick-event-manager'),
+                'sendcopy' => 'checked',
+                'fromname' => $title,
+                'fromemail' => $fromemail,
+                'permalink' => ''
+            );
+        }
+    }
+    return $auto;
 }

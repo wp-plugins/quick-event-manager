@@ -1,4 +1,5 @@
 .qem {margin-bottom:40px;vertical-align:top;clear:both;}
+.qem::after{clear:both;}
 .qem p, .qem h2 {margin: 0 0 8px 0;padding:0;}
 .qem a, input#submit.qem-register{cursor:pointer;}
 .qem-icon {float:left;}
@@ -81,5 +82,31 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 #qem-widget td b {color: #005F6B;}
 #qem-widget th {padding: 5px 10px 5px 0;max-width: 400px;text-align: left;color: #005F6B;}
 
-.qem-category {float:left;padding:4px;margin: 0 4px 8px 0;}
+.qem-category, .qem-caption {float:left;padding:4px;margin: 0 4px 8px 0;}
 .qem-category a {color: #343848;text-decoration:none;}
+
+
+
+.popbox {
+    display: none;
+    position: absolute;
+    z-index: 99999;
+    width: 400px;
+    padding: 10px;
+    background: #EEEFEB;
+    color: #000000;
+    border: 1px solid #4D4F53;
+    margin: 0px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(164, 164, 164, 1);
+    box-shadow: 0px 0px 5px 0px rgba(164, 164, 164, 1);
+}
+.popbox h2
+{
+    background-color: #4D4F53;
+    color:  #E3E5DD;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    margin: -10px 0px 8px -10px;
+    padding: 5px 10px;
+}

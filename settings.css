@@ -1,13 +1,12 @@
 .wrapper {padding: 0 15px;}
 .qem-settings {width: 100%;}
-.qem-options {border: 1px solid #B52C00;background:#FFF;padding: 0 10px 10px 10px;margin: 10px 0 0 0 ;float:left;width:46%;width: calc(50% - 30px);}
-.qem-options input[type=text], .qem-options textarea, .qem-options select, .qem-options #submit {margin: 1px 0 1px 0;padding: 4px 2px;
-	color: #465069;font-size: 100%;border:1px solid #415063;width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; 
+.qem-options {border: 1px solid #B52C00;background:#FFF;padding: 0 10px 10px 10px;margin: 10px 0 0 0 ;float:left;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;width:46%;}
+.qem-options input[type=text], .qem-options textarea, .qem-options select {width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; 
 	box-sizing: border-box;}
 .qem-options p {margin: 4px 0;padding: 0;}
 .qem-options h2, .qem-options h2 a{color: #005F6B;text-decoration:none;}
 .qem-options h3 {color: #717DD7;margin: 4px 0 0 0;padding: 0;}
-.qem-options #submit {color: #FFF;background:#343838}
+.qem-register #submit {color: #FFF;background:#343838}
 .qem-options submit input:focus {color: #FFF;}
 .qem-options ul {margin: 0;padding: 0;}
 .qem-options th {text-align:left;}
@@ -22,7 +21,7 @@
 .qem-calcolor p {margin:0;line-height:2.9em}
 .qem-calcolor input[type=text], .qem-calcolor select {margin:0;padding:1px;height:auto;}
 @media screen and (max-width: 600px) {
-	.qem-options {width: calc(100% - 22px);width: -webkit-calc(100% - 22px);}
+	.qem-options {width: 100%;}
 	}
 #qem-widget table {margin-bottom: 20px;}
 #qem-widget td {border-top: 1px solid #005F6B;padding: 5px 10px 5px 0;max-width: 400px;vertical-align:top;}

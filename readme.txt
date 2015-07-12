@@ -14,15 +14,15 @@ A really, really simple event creator. Just add new events and publish. The shor
 
 = Features =
 
-*	Event posts created from your dashboard
-*	Loads of layout and styling options
-*	Show events as a list or a calendar
-*	Built in event registration form
+*   Event posts created from your dashboard
+*   Loads of layout and styling options
+*   Show events as a list or a calendar
+*   Built in event registration form
 *   Accepts payments and IPN
-*	Download events to your calendar
-*	Download attendee report to email/CSV
-*	Event maps
-*	Widgets and lots of shortcode options
+*   Download events to your calendar
+*   Download attendee report to email/CSV
+*   Event maps
+*   Widgets and lots of shortcode options
 
 = Developers plugin page =
 
@@ -30,7 +30,9 @@ A really, really simple event creator. Just add new events and publish. The shor
 
 = Translations = 
 
-French: [Dan (chouf1](http://bp-fr.net)
+French: [Bernard](http://sorties-en-creuse.fr/)
+Czech: [Augustin](http://zidek.eu/)
+Russian: [Alexey](http://hakuna-matata.spb.ru/)
 
 If you want the plugin in your own language you can use a plugin like [loco translate](https://wordpress.org/plugins/loco-translate/) to create the necessary translation files. If you do create a translation please snd me the files so I can add them to the plugin repository.
 
@@ -50,14 +52,14 @@ If you want the plugin in your own language you can use a plugin like [loco tran
 
 == Installation ==
 
-1.	Login to your wordpress dashboard.
-2.	Go to 'Plugins', 'Add New' then search for 'quick event manager'.
-4.	Select the plugin then 'Install Now'.
-5.	Activate the plugin.
-6.	Go to the plugin 'Settings' page to change how the events display.
-7.	Go to your permalinks page and re-save to activate the custom posts.
-8.	Add new events using the event editor on your dashboard
-9.	To use the form in your posts and pages add the shortcode `[qem]`.
+1.  Login to your wordpress dashboard.
+2.  Go to 'Plugins', 'Add New' then search for 'quick event manager'.
+4.  Select the plugin then 'Install Now'.
+5.  Activate the plugin.
+6.  Go to the plugin 'Settings' page to change how the events display.
+7.  Go to your permalinks page and re-save to activate the custom posts.
+8.  Add new events using the event editor on your dashboard
+9.  To use the form in your posts and pages add the shortcode `[qem]`.
 
 == Frequently Asked Questions ==
 
@@ -79,6 +81,19 @@ No.
 Well OK yes you can add more fields if you want but you are going to have to fiddle about with the php file which needs a bit of care and attention. Everything you need to know is in the [wordpress codex](http://codex.wordpress.org/Writing_a_Plugin).
 
 == Changelog ==
+
+= 6.3 =
+*   Improved confirmation email
+*   Bug fixes for calendar download
+*   More categories
+*   Updated linking options
+*   Shortcode to only show today's events.
+*   Shortcode for single events
+*   Posting date can now be the same as the event date
+*   Extra info field on the registration form
+*   Multiple categories in shortcode
+*   Option to float the registration form on the right
+*   Full editing autoresponder
 
 = 6.2 =
 *   Options to remove links from event list
@@ -244,7 +259,7 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 *	Improved widget and shortcode options allows you to set the number of events to display
 *	Fixed code to display all events (overrides reading settings)
 
-=2.2 = 
+= 2.2 = 
 *	Added option to display old events
 *	Added option to display events in descending order (new to old)
 
@@ -277,7 +292,7 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 *	Added locale for the date format
 
 = 1.1 =
-*	Reomved a div that shouldn't be there and was causing alignemnt problems
+*	Removed a div that shouldn't be there and was causing alignemnt problems
 
 = 1.0 =
 *	Initial Issue

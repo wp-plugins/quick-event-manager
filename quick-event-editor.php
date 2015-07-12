@@ -23,17 +23,16 @@ function event_custom_columns($column) {
 }
 
 function qem_attending($event) {
-global $post;
-$number = get_post_meta($post->ID, 'event_number', true);
+    global $post;
+    $number = get_post_meta($post->ID, 'event_number', true);
     $on=$off=$str='';
     $whoscoming = get_option('qem_messages_'.$event);
     if ($whoscoming) {
         foreach($whoscoming as $item)
             $str = $str + $item['yourplaces'];
     }
-  
-if ($number == $str) {$on='<span style="color:red">';$off='</span>';}
-if ($number) $number='/'.$number; 
+    if ($number == $str) {$on='<span style="color:red">';$off='</span>';}
+    if ($number) $number='/'.$number; 
     if ($str) return $on.$str.$number.$off;
 }
 
@@ -188,7 +187,8 @@ if ($eventenddate) $output .= ' <em>'.__('Current end date', 'quick-event-manage
     </tr>
     <tr>
     <td width="20%"><label>'.__('Registration Form', 'quick-event-manager').': </label></td>
-    <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a></td>
+    <td width="80%"><input type="checkbox" style="" name="event_register" value="checked" ' . $useform  . '> Add registration form to this event. <a href="options-general.php?page=quick-event-manager/settings.php&tab=register">Registration form settings</a><br>
+    <span class="description">If you are using the <a href="options-general.php?page=quick-event-manager/settings.php&tab=auto">autoresponder</a> you can create a reply message for this event. See the \'Registration Confirmation Message\' at the bottom of this page.</span></td>
 </tr>
 <tr>
 <td width="20%"><label>'.__('Redirect to a URL after registration', 'quick-event-manager').': </label></td>
@@ -238,6 +238,7 @@ if ($eventenddate) $output .= ' <em>'.__('Current end date', 'quick-event-manage
         <td><a href="admin.php?page=quick-event-manager/quick-event-messages.php&event='.$event.'&title='.$title.'">View Full Registration Details</a></td>
         <tr>';}
     $output .='</table>';
+    $output .= wp_nonce_field('qem_nonce','save_qem');
 	echo $output;
 	}
 
@@ -249,20 +250,34 @@ function get_event_field($event_field) {
 
 function save_event_details() {
     global $post;
+    $eventdetails = event_get_stored_options();
     $event = get_the_ID();
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-    if ( get_post_type($post) != 'event') return;
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    
+    if ( 
+    ! isset( $_POST['save_qem'] ) 
+    || ! wp_verify_nonce( $_POST['save_qem'], 'qem_nonce' ) 
+) {
+    return;
+    }
+	
     if(isset($_POST["event_date"])) {
         $startdate = strtotime($_POST["event_date"]);
+        $starttime = qem_time($_POST["event_start"]);
         if (!$startdate) {
             $startdate=time();
         }
-        update_post_meta($post->ID, "event_date", $startdate);
+        $newdate = $startdate+$starttime;
+        update_post_meta($post->ID, "event_date", $newdate);
     }
-    if(isset($_POST["event_end_date"])) {
+    
+    if($_POST["event_end_date"]) {
         $enddate = strtotime($_POST["event_end_date"]);
-        update_post_meta($post->ID, "event_end_date", $enddate );
+        $endtime = qem_time($_POST["event_finish"]);
+        $newenddate = $enddate+$endtime;
+        update_post_meta($post->ID, "event_end_date", $newenddate);
     }
+    
     save_event_field("event_desc");
     save_event_field("event_start");
     save_event_field("event_finish");
@@ -281,28 +296,34 @@ function save_event_details() {
     save_event_field("event_telephone");
     save_event_field("event_image");
     save_event_field("event_redirect");
+    
     $old = get_event_field("hide_event");
     $new = $_POST["hide_event"];
     if ($new && $new != $old) update_post_meta($post->ID, "hide_event", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "hide_event", $old);
+
     $old = get_event_field("event_number");
     $new = $_POST["event_number"];
     if ($new && $new != $old) {
         update_post_meta($post->ID, "event_number", $new);
     }
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_number", $old);
+
     $old = get_event_field("event_register");
     $new = $_POST["event_register"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_register", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_register", $old);
+
     $old = get_event_field("event_counter");
     $new = $_POST["event_counter"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_counter", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_counter", $old);
+
     $old = get_event_field("event_redirect_id");
     $new = $_POST["event_redirect_id"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_redirect_id", $new);
     elseif ('' == $new && $old) delete_post_meta($post->ID, "event_redirect_id", $old);
+
     $old = get_event_field("event_paypal");
     $new = $_POST["event_paypal"];
     if ($new && $new != $old) update_post_meta($post->ID, "event_paypal", 'checked');
@@ -311,6 +332,15 @@ function save_event_details() {
     $number =  (($harry > 52 || $harry == 0) ? 52 :  $harry);
     if ($_POST["event_repeat"] == 'repeatmonthly') {$_POST["event_repeat"] = ''; qem_duplicate_new_post($event,$number,'months');}
     if ($_POST["event_repeat"] == 'repeatweekly') {$_POST["event_repeat"] = ''; qem_duplicate_new_post($event,$number,'weeks');}
+    
+    if ($eventdetails['publicationdate'] && $newdate) {
+        remove_action('save_post', 'save_event_details');
+        $updatestart = date('Y-m-d H:i:s',$newdate);
+        wp_update_post(array('ID' => $event, 'post_date' => $updatestart));
+        add_action('save_post', 'save_event_details');
+    }
+    
+    save_event_field("event_registration_message");
 }
 
 function save_event_field($event_field) {
@@ -319,7 +349,9 @@ function save_event_field($event_field) {
 }
 
 function action_add_meta_boxes() {
+    
     add_meta_box('event_sectionid',__('Event Details', 'quick-event-manager'),'event_details_meta','event', 'normal', 'high');
+    add_meta_box( 'registration_confirmation', 'Registration Confirmation Message', 'rcm_meta_box');
     global $_wp_post_type_features;
     if (isset($_wp_post_type_features['event']['editor']) && $_wp_post_type_features['event']['editor']) {
         unset($_wp_post_type_features['event']['editor']);
@@ -330,6 +362,12 @@ function action_add_meta_boxes() {
 function inner_custom_box( $post ) {
     $settings = array('wpautop'=>false);
     wp_editor($post->post_content, 'post_content', $settings);
+}
+
+function rcm_meta_box( $post ) {
+    $settings = array('wpautop'=>false);
+    $field_value = get_post_meta( $post->ID, 'event_registration_message', false );
+    wp_editor( $field_value[0], 'event_registration_message', $settings);
 }
 
 function qem_duplicate_month() {
