@@ -1812,8 +1812,10 @@ function qem_settings_scripts() {
 
 add_action('admin_enqueue_scripts', 'qem_settings_scripts');
 
+
 function qem_admin_pages() {
     add_menu_page(__('Registration', 'quick-event-manager'), __('Registration', 'quick-event-manager'), 'manage_options','quick-event-manager/quick-event-messages.php','','dashicons-id');
+    add_submenu_page('edit.php?post_type=event' , 'Registrations' , 'Registrations' , 'manage_options' , 'registration' , 'qem_messages');
 }
 
 function event_page_init() {

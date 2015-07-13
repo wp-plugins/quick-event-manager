@@ -109,6 +109,7 @@ function qem_event_shortcode($atts,$widget) {
     ),$atts,'qem');
     global $post;
     global $_GET;
+    $category = $atts['category'];
     if (isset($_GET['category'])) $category = $_GET['category'];
     $display = event_get_stored_display();
     $atts['popup'] = $display['linkpopup'];
