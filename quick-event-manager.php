@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 6.3
+Version: 6.3.1
 Author: aerin
 Author URI: http://www.quick-plugins.com
 Text Domain: quick-event-manager
@@ -733,7 +733,7 @@ function qem_show_calendar($atts) {
     $eventlinks = array();
     $eventslug = array();
     $eventimage = array();
-$eventdesc = array();
+    $eventdesc = array();
     $query = new WP_Query( $args );
     if ( $query->have_posts()) {
         while ( $query->have_posts()) {
@@ -744,8 +744,7 @@ $eventdesc = array();
                 $startdate = strtotime(date("d M Y", $startdate));
                 $enddate = get_post_meta($post->ID, 'event_end_date', true);
                 $image = get_post_meta($post->ID, 'event_image', true);
-$desc = get_post_meta($post->ID, 'event_desc', true);
-
+                $desc = get_post_meta($post->ID, 'event_desc', true);
                 $link = get_permalink();
                 $cat = get_the_category();
                 $slug = $cat[0]->slug;
@@ -767,8 +766,7 @@ $desc = get_post_meta($post->ID, 'event_desc', true);
                     array_push($eventsummary, $eventx);
                     array_push($eventlinks,$link);
                     array_push($eventimage,$image);
-array_push($eventdesc,$desc);
-
+                    array_push($eventdesc,$desc);
                 }
             }
         }
