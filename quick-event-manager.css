@@ -51,8 +51,8 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 
 #qem-calendar a.calnav {text-decoration:none;padding:4px;border:1px solid #CCC;display:block;text-align:center;}
 #qem-calendar .calmonth h2 {text-align:center;padding:0;margin:0;}
-.qempop {max-width:800px;min-width:280px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:99;}
-.qemeventpop {max-width:80%;min-width:500px;auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:99;}
+.qempop {max-width:800px;min-width:280px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:9999;}
+.qemeventpop {max-width:80%;min-width:500px;auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:9999;}
 @media screen and (
 	max-width: 768px) {.qem-options {width: calc(100% - 20px);}
     .qemeventpop {min-width:500px;}
