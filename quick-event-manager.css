@@ -45,7 +45,10 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 #qem-calendar table {width:100%; border:none;}
 @media screen and (max-width: 768px) {#qem-calendar table {max-width:100%;}}
 #qem-calendar td {width:14.2%;vertical-align:top;padding:0;margin:0;}
-#qem-calendar td a:hover {background:#F2F2E6; }
+#qem-calendar td.eventday a{position:relative;z-index:9999;}
+#qem-calendar td a:hover {background:#F2F2E6;}
+#qem-calendar td img {max-width:80px;height:auto;overflow:hidden;}
+
 #qem-calendar a.calnav {text-decoration:none;padding:4px;border:1px solid #CCC;display:block;text-align:center;}
 #qem-calendar .calmonth h2 {text-align:center;padding:0;margin:0;}
 .qempop {max-width:800px;min-width:280px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:99;}
@@ -60,6 +63,10 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 .qem-register p {margin: 4px 0;}
 .qem-register input[type=text] .required, .qem-register textarea .required {border:1px solid green;}
 .qem-register #submit {color: #FFF;background: #343838;text-align: center;cursor: pointer;}
+@media only screen and (max-width: 700px) {
+    img.qem-image, img.qem-list-image,.qemmap {max-width:200px;}
+    .qemtrim img {display:none;}
+    }
 @media only screen and (max-width: 600px) {
 	.qem-large, .qem-medium {margin-left: 50px;}
 	.qem-icon .qem-calendar-large, .qem-icon .qem-calendar-medium  {font-size: 80%;width: 40px;margin: 0 0 10px 0;padding: 0 0 2px 0;}
@@ -67,10 +74,9 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 	.qem-icon .qem-calendar-large .month, .qem-icon .qem-calendar-medium .month {font-size: 140%;padding: 2px 0;}
 	#qem-calendar td {width:14%;}
     #qem-calendar .eventday a {text-align:center;}
-    img.qem-image, img.qem-list-image {max-width:100px;}
+    img.qem-image, img.qem-list-image, .qemmap {max-width:100px;}
     .qemeventpop {min-width:400px;}
 	}
-
 #qem-calendar-widget #qem-calendar .calday {text-align:center;padding:1px;font-weight:normal}
 #qem-calendar-widget #qem-calendar a.calnav {padding:1px;}
 #qem-calendar-widget td a{text-align:center;}
@@ -85,8 +91,6 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 .qem-category, .qem-caption {float:left;padding:4px;margin: 0 4px 8px 0;}
 .qem-category a {color: #343848;text-decoration:none;}
 
-
-
 .popbox {
     display: none;
     position: absolute;
@@ -100,8 +104,7 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
     -webkit-box-shadow: 0px 0px 5px 0px rgba(164, 164, 164, 1);
     box-shadow: 0px 0px 5px 0px rgba(164, 164, 164, 1);
 }
-.popbox h2
-{
+.popbox h2 {
     background-color: #4D4F53;
     color:  #E3E5DD;
     font-size: 14px;
@@ -109,4 +112,54 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
     width: 100%;
     margin: -10px 0px 8px -10px;
     padding: 5px 10px;
+}
+
+
+[data-tooltip] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+[data-tooltip]:before,
+[data-tooltip]:after {
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+    position: absolute;
+    bottom: 100%;
+    left: 0%;
+    margin-bottom: 5px;
+    padding: 7px;
+    width: 160px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 20%, 0.9);
+    color: #fff;
+    content: attr(data-tooltip);
+    text-align: left;
+    font-size:90%;
+}
+
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+
+.tooltip-left:before,
+.tooltip-left:after {
+    right: 0%;
+    bottom: 100%;
+    left: auto;
 }

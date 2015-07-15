@@ -9,8 +9,8 @@ function qem_loop() {
             qem_display_form($formvalues, $formerrors);
         } else {
             qem_process_form($formvalues);
-            $values = array('completed' => 'checked');
-            qem_display_form($values, null);
+            $formvalues['completed'] = 'checked';
+            qem_display_form($formvalues, null);
         }
     } else {
         $values = qem_get_stored_register();

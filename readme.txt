@@ -82,6 +82,13 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 6.3.1 =
+*   Bug fix for payment quantity
+*   Category shorcode fixed
+*   Registration link added to sub-menu
+*   Images option on Calendar
+*   Event title and description popup option on Calendar
+
 = 6.3 =
 *   Improved confirmation email
 *   Bug fixes for calendar download

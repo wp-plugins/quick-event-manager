@@ -188,7 +188,10 @@ function qem_get_default_calendar() {
         'tdborder' => '',
         'cellspacing' => 3,
         'header' =>'h2',
-        'headerstyle' => ''
+        'headerstyle' => '',
+'eventimage' => '',
+'imagewidth' => '80',
+'usetootlip' => ''
     );
     return $calendar;
 }

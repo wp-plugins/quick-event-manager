@@ -796,7 +796,10 @@ function qem_calendar() {
             'cellspacing',
             'tdborder',
             'header',
-            'headerstyle'
+            'headerstyle',
+            'eventimage',
+'imagewidth',
+'usetooltip'
         );
         foreach ( $options as $item) {
             $cal[$item] = stripslashes($_POST[$item]);
@@ -863,7 +866,6 @@ function qem_calendar() {
     <tr>
     <td width="30%">'.__('Event list page', 'quick-event-manager').' URL</td>
     <td><input type="text" style="" label="eventlist_url" name="eventlist_url" value="' . $calendar['eventlist_url'] . '" /></td></tr>
-    
     <tr>
     <td width="30%">Navigation Labels</td>
     <td><input type="text" style="width:50%;" label="text" name="prevmonth" value="' . $calendar['prevmonth'] . '" /><input type="text" style="text-align:right;width:50%;" label="text" name="nextmonth" value="' . $calendar['nextmonth'] . '" /></td>
@@ -888,12 +890,20 @@ function qem_calendar() {
     <td><input type="text" style="width:4em;" label="text" name="eventlength" value="' . $calendar['eventlength'] . '" /><span class="description"> Number of characters to display in event box</span></td>
     </tr>
     <tr>
+    <td width="30%">'.__('Event Image', 'quick-event-manager').'</td>
+    <td><input type="checkbox" style="margin:0; padding: 0; border: none" name="eventimage" ' . $calendar['eventimage'] . ' value="checked" /> '.__('Show event image on the calendar', 'quick-event-manager').'<br>'.__('Image Width', 'quick-event-manager').'<input type="text" style="width:3em;" label="text" name="imagewidth" value="' . $calendar['imagewidth'] . '" /> px</td>
+    </tr>
+<tr>
+    <td width="30%">'.__('Hover Message', 'quick-event-manager').'</td>
+    <td><input type="checkbox" style="margin:0; padding: 0; border: none" name="usetooltip" ' . $calendar['usetooltip'] . ' value="checked" /> '.__('Show full event title on hover', 'quick-event-manager').'</td>
+    </tr>
+
+    <tr>
     <td style="vertical-align:top;">'.__('Month and Date Header', 'quick-event-manager').'</td>
     <td><input type="radio" name="header" value="h2" ' . $h2 . ' /> H2 <input type="radio" name="header" value="h3" ' . $h3 . ' /> H3 <input type="radio" name="header" value="h4" ' . $h4 . ' /> H4<br>
 Header CSS:<br>
     <input type="text" style="" name="headerstyle" value="' . $calendar['headerstyle'] . '" /></td>
     </tr>
-    
     <tr>
     <td style="vertical-align:top;">'.__('Small Screens', 'quick-event-manager').'</td>
     <td><span class="description">'.__('What to display on small screens', 'quick-event-manager').':</span><br>
@@ -1148,7 +1158,7 @@ function qem_register (){
     <td><input type="text" style="" name="eventfullmessage" value="' . $register['eventfullmessage'] . '" /></td>
     </tr>
     <tr>
-    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="allowtags"' . $register['allowtags'] . ' value="checked" /></td>
+    <td width="5%"><input type="checkbox" style="margin:0; padding: 0; border: none" name="allowtags"' . $register['allowtags'] . ' value="cheFcked" /></td>
     <td colspan="2">'.__('Allow HTML tags', 'quick-event-manager').' '.__('Warning: this may leave your site open to CSRF and XSS attacks so be careful.', 'quick-event-manager').'</td>
     </tr>
     <td colspan="3"><h2>'.__('Notifications', 'quick-event-manager').'</h2></td>

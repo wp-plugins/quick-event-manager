@@ -21,7 +21,7 @@ if (is_admin()) {
     require_once( plugin_dir_path( __FILE__ ) . '/quick-event-editor.php' );
 }
 
-add_shortcode("qem","qem_event_shortcode");
+add_shortcode('qem','qem_event_shortcode');
 add_shortcode('qem-calendar', 'qem_show_calendar');
 add_shortcode('qemcalendar', 'qem_show_calendar');
 add_shortcode('qemnewevent', 'qem_user_event');
@@ -121,7 +121,7 @@ function qem_event_shortcode($atts,$widget) {
     if ($atts['listlink']) $atts['listlink']='checked';
     if ($atts['cb']) $style['cat_border'] = 'checked';
     ob_start();
-    if ($display['event_descending'] || $order == 'asc')
+    if ($display['event_descending'] || $order == $atts['asc'])
         $args = array(
         'post_type'=> 'event',
         'orderby' => 'meta_value_num',
@@ -133,7 +133,7 @@ function qem_event_shortcode($atts,$widget) {
         'post_type'=>'event',
         'orderby'=>'meta_value_num',
         'meta_key'=>'event_date',
-        'order'=>'asc',
+        'order'=>$atts['asc'],
         'posts_per_page'=> -1
     );
     $the_query = new WP_Query( $args );
@@ -732,6 +732,8 @@ function qem_show_calendar($atts) {
     $eventsummary = array();
     $eventlinks = array();
     $eventslug = array();
+    $eventimage = array();
+$eventdesc = array();
     $query = new WP_Query( $args );
     if ( $query->have_posts()) {
         while ( $query->have_posts()) {
@@ -741,6 +743,9 @@ function qem_show_calendar($atts) {
                 if (!$startdate) $startdate = time();
                 $startdate = strtotime(date("d M Y", $startdate));
                 $enddate = get_post_meta($post->ID, 'event_end_date', true);
+                $image = get_post_meta($post->ID, 'event_image', true);
+$desc = get_post_meta($post->ID, 'event_desc', true);
+
                 $link = get_permalink();
                 $cat = get_the_category();
                 $slug = $cat[0]->slug;
@@ -761,6 +766,9 @@ function qem_show_calendar($atts) {
                     array_push($eventslug,$slug);
                     array_push($eventsummary, $eventx);
                     array_push($eventlinks,$link);
+                    array_push($eventimage,$image);
+array_push($eventdesc,$desc);
+
                 }
             }
         }
@@ -834,15 +842,22 @@ function qem_show_calendar($atts) {
             $zzz = mktime(0,0,0,$m,$d,$y);
             if($xxx==$zzz && $show) {
                 $tdstart = '<td class="eventday '.$oldday.' '.$firstday.'"><'.$header.'>'.($i - $startday+1).'</'.$header.'>';
+                $img = ($eventimage[$key] && $cal['eventimage'] && !$widget ? '<br><img src="'.$eventimage[$key].'">' : '');
+                if ($cal['usetooltip']) {
+                    $desc =  ($eventdesc[$key] ? ' - '.$eventdesc[$key] : '');
+                    $tooltip = 'data-tooltip="'.$eventtitle[$key].$desc.'"';
+                    $tooltipclass = (($i % 7) == 6 ? ' tooltip-left ' : '');
+                    if ($widget) $tooltipclass = (($i % 7) > 2 ? ' tooltip-left ' : '');
+                }
                 $length = $cal['eventlength'];
                 if(strlen($eventtitle[$key]) > $length) 
                     $trim = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1...', $eventtitle[$key]);
                 else 
                     $trim = $eventtitle[$key];
                 if ($cal['eventlink'] == 'linkpopup' ) 
-                    $tdcontent .= '<a class="event ' . $eventslug[$key] . '" onclick=\'pseudo_popup("<div class =\"qempop\">'.$eventsummary[$key].'</div>")\'><div class="qemtrim"><span>'.$trim.'</span></div></a>';
+                    $tdcontent .= '<a '.$tooltip.' class="event ' . $eventslug[$key] .$tooltipclass. '" onclick=\'pseudo_popup("<div class =\"qempop\">'.$eventsummary[$key].'</div>")\'><div class="qemtrim"><span>'.$trim.'</span>'.$img.'</div></a>';
                 else 
-                    $tdcontent .= '<a class="'.$eventslug[$key].'" href="'.$eventlinks[$key].'"><div class="qemtrim"><span>'.$trim.'</span></div></a>';
+                    $tdcontent .= '<a '.$tooltip.' class="'.$eventslug[$key].$tooltipclass.'" href="'.$eventlinks[$key].'"><div class="qemtrim"><span>'.$trim.'</span>'.$img.'</div></a>';
             }
         }
         $tdbuilt = $tdstart.$tdcontent.'</td>';
@@ -1014,6 +1029,10 @@ img.qem-list-image {width:100%;max-width:".$j."px  !important;height:auto;overfl
 #qem-calendar .oldday {background:".$cal['oldday'].";}
 #qem-calendar td a:hover {background:".$cal['eventhover']." !important;}
 .qemtrim span {".$eventbold.$eventitalic."}
+@media only screen and (max-width: 700px) {
+    img.qem-image, img.qem-list-image, .qemmap {max-width:200px;}
+    .qemtrim img {display:none;}
+    }\n
 @media only screen and (max-width: 480px) {
     img.qem-image, img.qem-list-image, .qemmap {max-width:100px;}
     .qem-large, .qem-medium {margin-left: 50px;}
