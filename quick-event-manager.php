@@ -936,6 +936,7 @@ function get_calendar_details($links) {
 function get_event_popup($atts) {
     $atts['links'] = 'checked';
     $atts['fullevent'] = 'popup';
+    $atts['popup'] = '';
     $atts['linkpopup'] = '';
     $atts['thisday'] = '';
     $output = qem_event_construct ($atts);
