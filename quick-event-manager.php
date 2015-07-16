@@ -121,7 +121,7 @@ function qem_event_shortcode($atts,$widget) {
     if ($atts['listlink']) $atts['listlink']='checked';
     if ($atts['cb']) $style['cat_border'] = 'checked';
     ob_start();
-    if ($display['event_descending'] || $order == $atts['asc'])
+    if ($display['event_descending'] || $atts['order'] == 'asc')
         $args = array(
         'post_type'=> 'event',
         'orderby' => 'meta_value_num',
@@ -133,7 +133,7 @@ function qem_event_shortcode($atts,$widget) {
         'post_type'=>'event',
         'orderby'=>'meta_value_num',
         'meta_key'=>'event_date',
-        'order'=>$atts['asc'],
+        'order'=> 'asc',
         'posts_per_page'=> -1
     );
     $the_query = new WP_Query( $args );
