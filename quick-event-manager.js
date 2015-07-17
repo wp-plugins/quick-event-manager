@@ -6,6 +6,7 @@ function pseudo_popup(content) {
     function add_underlay() {
         var underlay = document.createElement("div");
         underlay.style.position = "fixed";
+        popup.style.zIndex = "9997";
         underlay.style.top = "0px";
         underlay.style.left = "0px";
         underlay.style.width = viewport_width + "px";
@@ -30,6 +31,7 @@ function pseudo_popup(content) {
     document.body.appendChild(popup);
     x -= popup.clientWidth / 2;
     y -= popup.clientHeight / 2;
+    popup.style.zIndex = "9998";
     popup.style.top = y + "px";
     popup.style.left = x + "px";
     return false;

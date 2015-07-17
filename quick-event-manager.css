@@ -39,20 +39,20 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 #qem-calendar .day {height:3em;padding:0 2px 4px 2px;text-align:left;background:#EBEFC9;}
 #qem-calendar .oldday {background:#CCC;padding:0 2px 4px 2px;}
 #qem-calendar .eventday {background:#EED1AC;padding:0 2px 4px 2px;}
+#qem-calendar .event {position:relative;z-index:0;}
 #qem-calendar .day span {font-size:160%;color: #D75231;}
 #qem-calendar h2 {padding:0 4px 8px 4px;margin:0;text-align:left;line-height:auto;}
 #qem-calendar .eventday a {display:block;margin: 3px 2px;padding: 4px;text-decoration:none;cursor: pointer;-webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;font-size:90%;}
 #qem-calendar table {width:100%; border:none;}
 @media screen and (max-width: 768px) {#qem-calendar table {max-width:100%;}}
 #qem-calendar td {width:14.2%;vertical-align:top;padding:0;margin:0;}
-#qem-calendar td.eventday a{position:relative;z-index:9999;}
 #qem-calendar td a:hover {background:#F2F2E6;}
 #qem-calendar td img {max-width:80px;height:auto;overflow:hidden;}
 
 #qem-calendar a.calnav {text-decoration:none;padding:4px;border:1px solid #CCC;display:block;text-align:center;}
 #qem-calendar .calmonth h2 {text-align:center;padding:0;margin:0;}
-.qempop {max-width:800px;min-width:280px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:9999;}
-.qemeventpop {max-width:80%;min-width:500px;auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:9999;}
+.qempop {max-width:800px;min-width:280px;height:auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:99;}
+.qemeventpop {max-width:80%;min-width:500px;auto;text-align:left;padding: 10px;border:5px solid #343838;padding:10px;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;background:#FFF;-webkit-box-shadow: 5px 5px 5px #415063;-moz-box-shadow: 5px 5px 5px #415063;box-shadow: 5px 5px 5px #415063;position:relative;z-index:99;}
 @media screen and (
 	max-width: 768px) {.qem-options {width: calc(100% - 20px);}
     .qemeventpop {min-width:500px;}
@@ -91,75 +91,12 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 .qem-category, .qem-caption {float:left;padding:4px;margin: 0 4px 8px 0;}
 .qem-category a {color: #343848;text-decoration:none;}
 
-.popbox {
-    display: none;
-    position: absolute;
-    z-index: 99999;
-    width: 400px;
-    padding: 10px;
-    background: #EEEFEB;
-    color: #000000;
-    border: 1px solid #4D4F53;
-    margin: 0px;
-    -webkit-box-shadow: 0px 0px 5px 0px rgba(164, 164, 164, 1);
-    box-shadow: 0px 0px 5px 0px rgba(164, 164, 164, 1);
-}
-.popbox h2 {
-    background-color: #4D4F53;
-    color:  #E3E5DD;
-    font-size: 14px;
-    display: block;
-    width: 100%;
-    margin: -10px 0px 8px -10px;
-    padding: 5px 10px;
-}
+[data-tooltip] {position: relative;z-index: 2;cursor: pointer;}
 
+[data-tooltip]:before {visibility: hidden;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);opacity: 0;pointer-events: none;}
 
-[data-tooltip] {
-    position: relative;
-    z-index: 2;
-    cursor: pointer;
-}
+[data-tooltip]:before {position: absolute;bottom: 100%;left: 0%;margin-bottom: 5px;padding: 7px;width: 140px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;background-color: #000;background-color: hsla(0, 0%, 20%, 0.9);color: #fff;content: attr(data-tooltip);text-align: left;font-size:90%;}
 
-[data-tooltip]:before,
-[data-tooltip]:after {
-    visibility: hidden;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
-    opacity: 0;
-    pointer-events: none;
-}
+[data-tooltip]:hover:before {visibility: visible;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);opacity: 1;}
 
-/* Position tooltip above the element */
-[data-tooltip]:before {
-    position: absolute;
-    bottom: 100%;
-    left: 0%;
-    margin-bottom: 5px;
-    padding: 7px;
-    width: 160px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    background-color: #000;
-    background-color: hsla(0, 0%, 20%, 0.9);
-    color: #fff;
-    content: attr(data-tooltip);
-    text-align: left;
-    font-size:90%;
-}
-
-[data-tooltip]:hover:before,
-[data-tooltip]:hover:after {
-    visibility: visible;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
-    opacity: 1;
-}
-
-.tooltip-left:before,
-.tooltip-left:after {
-    right: 0%;
-    bottom: 100%;
-    left: auto;
-}
+.tooltip-left:before {right: 0%;bottom: 100%;left: auto;}
