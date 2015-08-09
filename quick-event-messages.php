@@ -1,0 +1,2 @@
+<?php
+qem_messages();

@@ -1,0 +1,1968 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Quick Event Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Wed May 06 2015 16:55:02 GMT+0100 (BST)\n"
+"PO-Revision-Date: Sun Jun 21 2015 16:51:55 GMT-0300 (BRT)\n"
+"Last-Translator: lanna <juliusmiranda@gmail.com>\n"
+"Language-Team: \n"
+"Language: Portuguese (Brazil)\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Loco-Target-Locale: pt_BR"
+
+#: quick-event-widget.php:7
+msgid "Add an event list to your sidebar"
+msgstr "Adicionar lista de eventos ao sidebar"
+
+#: quick-event-widget.php:40
+msgid "Event List"
+msgstr "Lista de Eventos"
+
+#: quick-event-widget.php:42
+msgid "Title"
+msgstr "Título"
+
+#: quick-event-widget.php:44
+msgid "Number of posts to display "
+msgstr "Número de posts a exibir"
+
+#: quick-event-widget.php:67
+msgid "Anchor text:"
+msgstr "Texto âncora:"
+
+#: quick-event-widget.php:69
+msgid "URL of list page"
+msgstr "URL da página da lista"
+
+#: quick-event-widget.php:71 /quick-event-widget.php:158
+msgid "All other options are changed on the "
+msgstr "Todas as outras opções são modificadas em"
+
+#: quick-event-widget.php:71 /quick-event-widget.php:158
+msgid "settings page"
+msgstr "página de configuração"
+
+#: quick-event-widget.php:106
+msgid "Add an event calendar to your sidebar"
+msgstr "Adicione um calendário de eventos no seu sidebar"
+
+#: quick-event-widget.php:130
+msgid "Event Calendar"
+msgstr "Calendário de Eventos"
+
+#: quick-event-widget.php:132
+msgid "Title:"
+msgstr "Título:"
+
+#: quick-event-manager.php:50
+msgctxt "post type general name"
+msgid "Events"
+msgstr "Eventos"
+
+#: quick-event-manager.php:51
+msgctxt "post type singular name"
+msgid "Event"
+msgstr "Evento"
+
+#: quick-event-manager.php:52
+msgctxt "event"
+msgid "Add New"
+msgstr "Adicionar novo"
+
+#: quick-event-manager.php:53
+msgid "Add New Event"
+msgstr "Novo evento"
+
+#: quick-event-manager.php:54
+msgid "Edit Event"
+msgstr "Editar evento"
+
+#: quick-event-manager.php:55
+msgid "New Event"
+msgstr "Novo evento"
+
+#: quick-event-manager.php:56
+msgid "View Event"
+msgstr "Ver evento"
+
+#: quick-event-manager.php:57
+msgid "Search event"
+msgstr "Buscar evento"
+
+#: quick-event-manager.php:58
+msgid "Nothing found"
+msgstr "Nada encontrado"
+
+#: quick-event-manager.php:59
+msgid "Nothing found in Trash"
+msgstr "Nada encontrado na lixeira"
+
+#: quick-event-manager.php:1289 /settings.php:77
+msgid "Settings"
+msgstr "Configurações"
+
+#: quick-event-options.php:25 /quick-event-editor.php:109
+msgid "Short Description"
+msgstr "Resumo"
+
+#: quick-event-options.php:26 /quick-event-editor.php:65 /settings.php:245
+msgid "Event Time"
+msgstr "Horário do evento"
+
+#: quick-event-options.php:27 /quick-event-editor.php:66 /quick-event-editor.php:
+#: 166 /settings.php:247
+msgid "Venue"
+msgstr "Local"
+
+#: quick-event-options.php:28 /quick-event-editor.php:170 /settings.php:248
+msgid "Address"
+msgstr "Endereço"
+
+#: quick-event-options.php:29
+msgid "Event Website"
+msgstr "Site do evento"
+
+#: quick-event-options.php:30 /quick-event-editor.php:178 /settings.php:246
+msgid "Cost"
+msgstr "Custo"
+
+#: quick-event-options.php:31 /quick-event-editor.php:182
+msgid "Organiser"
+msgstr "Organizador"
+
+#: quick-event-editor.php:63
+msgid "Event"
+msgstr "Evento"
+
+#: quick-event-editor.php:64
+msgid "Event Date"
+msgstr "Data do evento"
+
+#: quick-event-editor.php:67
+msgid "Attending<br>/ Places"
+msgstr "Ocupação"
+
+#: quick-event-editor.php:68 /settings.php:687
+msgid "Categories"
+msgstr "Categorias"
+
+#: quick-event-editor.php:69
+msgid "Author"
+msgstr "Autor"
+
+#: quick-event-editor.php:70 /quick-event-editor.php:97
+msgid "Date"
+msgstr "Data"
+
+#: quick-event-editor.php:94
+msgid "Empty fields are not displayed"
+msgstr "Campos vazios não são exibidos"
+
+#: quick-event-editor.php:94
+msgid "See the plugin"
+msgstr "Ver plugin"
+
+#: quick-event-editor.php:94
+msgid "settings"
+msgstr "configurações"
+
+#: quick-event-editor.php:94
+msgid "page for options"
+msgstr "página de opções"
+
+#: quick-event-editor.php:98
+msgid "Local date"
+msgstr "Data local"
+
+#: quick-event-editor.php:102
+msgid "End Date"
+msgstr "Data final"
+
+#: quick-event-editor.php:103
+msgid "Leave blank for one day events"
+msgstr "Deixe em branco para eventos o dia todo"
+
+#: quick-event-editor.php:104
+msgid "Current end date"
+msgstr "Data final atual"
+
+#: quick-event-editor.php:114
+msgid "Time"
+msgstr "Horário"
+
+#: quick-event-editor.php:123
+msgid "Timezone"
+msgstr "Timezone"
+
+#: quick-event-editor.php:174 /settings.php:249
+msgid "Website"
+msgstr "Site"
+
+#: quick-event-editor.php:175
+msgid "Display As"
+msgstr "Texto do link"
+
+#: quick-event-editor.php:186
+msgid "Organiser Contact Details"
+msgstr "Contato do organizador"
+
+#: quick-event-editor.php:190 /settings.php:1149
+msgid "Registration Form"
+msgstr "Formulário de registro"
+
+#: quick-event-editor.php:194
+msgid "Redirect to a URL after registration"
+msgstr "Redirecionar para URL depois do registro"
+
+#: quick-event-editor.php:199
+msgid "Event Counter"
+msgstr "Contador do evento"
+
+#: quick-event-editor.php:203
+msgid "Payment"
+msgstr "Pagamento"
+
+#: quick-event-editor.php:207
+msgid "Hide Event"
+msgstr "Ocultar evento\n"
+
+#: quick-event-editor.php:211
+msgid "Event Image"
+msgstr "Imagem do evento"
+
+#: quick-event-editor.php:220
+msgid "Repeat Event"
+msgstr "Repetir evento"
+
+#: quick-event-editor.php:222
+msgid "Weekly"
+msgstr "Semanalmente"
+
+#: quick-event-editor.php:223
+msgid "Monthly"
+msgstr "Mensalmente"
+
+#: quick-event-editor.php:322
+msgid "Event Details"
+msgstr "Detalhes do evento"
+
+#: quick-event-editor.php:326
+msgid "Event Description"
+msgstr "Descrição do evento"
+
+#: settings.php:41
+msgid "Setup"
+msgstr "Setup"
+
+#: settings.php:42 /settings.php:78
+msgid "Event Settings"
+msgstr "Configurações do evento"
+
+#: settings.php:43 /settings.php:80
+msgid "Event Display"
+msgstr "Exibição do evento"
+
+#: settings.php:44 /settings.php:82
+msgid "Event Styling"
+msgstr "Estilo do evento"
+
+#: settings.php:45 /settings.php:84
+msgid "Calendar Options"
+msgstr "Opções do calendário"
+
+#: settings.php:46 /settings.php:86
+msgid "Event Registration"
+msgstr "Registro no evento"
+
+#: settings.php:47
+msgid "Event Payment"
+msgstr "Pagamento do evento"
+
+#: settings.php:48
+msgid "Event Template"
+msgstr "Template do evento"
+
+#: settings.php:62
+msgid "Setting up and using the plugin"
+msgstr "Configurando e usando o plugin"
+
+#: settings.php:63
+msgid "Important!"
+msgstr "Importante!"
+
+#: settings.php:63
+msgid "If you get an error when trying to view events, resave your"
+msgstr "Se você receber um erro quando tentar visualizar eventos, salve novamente seu"
+
+#: settings.php:64
+msgid "Create new events using the"
+msgstr "Criar novos eventos usando o "
+
+#: settings.php:64
+msgid "link on your dashboard menu"
+msgstr "Link no menu dashboard"
+
+#: settings.php:65
+msgid "To display a list of events on your posts or pages use the shortcode: [qem]"
+msgstr ""
+"Para exibir uma lista de eventos nos seus posts ou páginas, use o shortcode: "
+"[qem]"
+
+#: settings.php:66
+msgid "If you prefer to display your events as a calendar use the shortcode"
+msgstr "Se você preferir exibir seus eventos como calendário, use o shortcode"
+
+#: settings.php:67
+msgid "More shortcodes on the right"
+msgstr "Mais shortcode à direita"
+
+#: settings.php:68
+msgid "That&#39;s pretty much it. All you need to do now is"
+msgstr "Ótimo. Tudo que você precisa fazer agora é"
+
+#: settings.php:68
+msgid "create some events"
+msgstr "criar alguns eventos"
+
+#: settings.php:70
+msgid "Help and Support"
+msgstr "Ajuda e Suporte"
+
+#: settings.php:71
+msgid "Help at"
+msgstr "Ajuda em"
+
+#: settings.php:71
+msgid "along with a feedback form. Or you can email me at "
+msgstr "juntamente com o formulário de feedback. Ou você pode enviar um email: "
+
+#: settings.php:74
+msgid "Event Manager Role"
+msgstr "Gerenciar papéis"
+
+#: settings.php:75
+msgid ""
+"There is a user role called <em>Event Manager</em>. Users with this role "
+"only have access to events, they cannot edit posts or pages."
+msgstr ""
+"Existe um papel de usuário chamado <em>Gerenciador de evento</em>. Usuários "
+"com este papel apenas tem acesso aos eventos, eles não podem editar posts ou "
+"páginas."
+
+#: settings.php:79
+msgid ""
+"Select which fields are displayed in the event list and event page. Change "
+"actions and style of each field"
+msgstr ""
+"Selecione quais campos serão exibidos na página de lista de eventos. "
+"Modifique ações e estilos para cada campo"
+
+#: settings.php:81
+msgid "Edit event messages and display options"
+msgstr "Edite mensagens do evento e opções de exibição"
+
+#: settings.php:83
+msgid "Styling options for the date icon and overall event layout"
+msgstr "Opções de estilo para ícone da data e restante do layout do evento"
+
+#: settings.php:85
+msgid "Show events as a calendar. Some styling and display options"
+msgstr "Exibir eventos como um calendário. Alguns estilos e opções de exibição"
+
+#: settings.php:87
+msgid "Add a registration form and attendee reports to your events"
+msgstr "Adicionar um formulário de registro e relatório de ocupação em seus eventos"
+
+#: settings.php:88
+msgid "Event Payments"
+msgstr "Pagamentos do evento"
+
+#: settings.php:89
+msgid "Configure event payments"
+msgstr "Configurar pagamentos do evento"
+
+#: settings.php:90
+msgid "Registration Report"
+msgstr "Relatório de registros"
+
+#: settings.php:91
+msgid "View, edit and download event registrations"
+msgstr "Ver, editar e baixar registros do evento"
+
+#: settings.php:91
+msgid "Access using the <b>Registration</b> link on your dashboard menu"
+msgstr "Acessar usando o link <b>Registro</b> no menu dashboard"
+
+#: settings.php:93
+msgid "Primary Shortcodes"
+msgstr "Shortcodes primários"
+
+#: settings.php:96
+msgid "Standard event list"
+msgstr "Lista de eventos padrão"
+
+#: settings.php:97
+msgid "Calendar view"
+msgstr "Visualização de calendário"
+
+#: settings.php:98
+msgid "Set the number of events to display"
+msgstr "Definir número de eventos a exibir"
+
+#: settings.php:99
+msgid "Show old events"
+msgstr "Exibir eventos antigos"
+
+#: settings.php:100
+msgid "List events by category"
+msgstr "Listar eventos por categoria"
+
+#: settings.php:103
+msgid "There are loads more shortcode options listed on the"
+msgstr "Há mais opções de shortcodes listados em"
+
+#: settings.php:103
+msgid "Plugin Website"
+msgstr "Site do Plugin"
+
+#: settings.php:103
+msgid "link opens in a new tab"
+msgstr "link abre em nova aba"
+
+#: settings.php:161
+msgid "The form settings have been updated"
+msgstr "As configurações do formulário foram atualizadas"
+
+#: settings.php:166
+msgid "The event settings have been reset"
+msgstr "As configurações do evento foram redefinidas"
+
+#: settings.php:180
+msgid ""
+"Use the check boxes to select which fields to display in the event post and "
+"the event list"
+msgstr ""
+"Use os checkboxes para selecionar quais campos serão exibidos no post do "
+"evento e na lista de eventos"
+
+#: settings.php:181
+msgid "Drag and drop to change the order of the fields"
+msgstr "Arraste e solte para alterar a ordem dos campos"
+
+#: settings.php:182
+msgid ""
+"The fields with the blue border are for optional captions. For example: "
+"<span style=\"border:1px solid blue;\">The cost is</span> {cost} will display "
+"as <em>The cost is 20 Zlotys</em>. If you leave it blank just <em>20 "
+"Zlotys</em> will display"
+msgstr ""
+"Os campos com borda azul são para legendas opcionais. Por exemplo: <span "
+"style=\"border:1px solid blue;\">O custo é</span> {cost} será exibido como "
+"<em> O custo é 20 Reais</em>. Se você deixar em branco, somente <em>20 "
+"reais</em> será exibido"
+
+#: settings.php:186
+msgid "Show in event post"
+msgstr "Exibir no post do evento"
+
+#: settings.php:187
+msgid "Show in<br>event list"
+msgstr "Exibir na<br>lista de evento"
+
+#: settings.php:188
+msgid "Colour"
+msgstr "Cor"
+
+#: settings.php:189
+msgid "Font<br>size"
+msgstr "Tamanho <br>da fonte"
+
+#: settings.php:190
+msgid "Font<br>attributes"
+msgstr "Atributos<br>da fonte"
+
+#: settings.php:191
+msgid "Caption and display options"
+msgstr "Opções de exibição e legenda"
+
+#: settings.php:203
+msgid "description"
+msgstr "descrição"
+
+#: settings.php:206
+msgid "start time"
+msgstr "horário de início"
+
+#: settings.php:206
+msgid "end time"
+msgstr "horário de término"
+
+#: settings.php:209
+msgid "venue"
+msgstr "local"
+
+#: settings.php:212
+msgid "address"
+msgstr "endereço"
+
+#: settings.php:212
+msgid "Show map (if address is given)"
+msgstr "Mostrar mapa (se endereço for fornecido)"
+
+#: settings.php:215
+msgid "Open exteran llinks in new tab/page"
+msgstr "Abrir links externos em nova aba/página"
+
+#: settings.php:218
+msgid "cost"
+msgstr "custo"
+
+#: settings.php:221
+msgid "organiser"
+msgstr "organizador"
+
+#: settings.php:221
+msgid "Show orgainser's contact details"
+msgstr "Exibir contato do organizador"
+
+#: settings.php:237 /settings.php:475 /settings.php:721 /settings.php:973
+#: settings.php:1391 /settings.php:1501
+msgid "Save Changes"
+msgstr "Salvar alterações"
+
+#: settings.php:237 /settings.php:475 /settings.php:721 /settings.php:973
+#: settings.php:1392 /settings.php:1501
+msgid "Reset"
+msgstr "Redefinir"
+
+#: settings.php:237 /settings.php:475
+msgid "Are you sure you want to reset the display settings?"
+msgstr "Tem certeza que deseja redefinir as configurações de exibição?"
+
+#: settings.php:240
+msgid "Shortcode Selection"
+msgstr "Seleção de shortcode"
+
+#: settings.php:241
+msgid ""
+"If you want a custom layout for a specific list you can use the shortcode "
+"[qem fields=1,2,5]."
+msgstr ""
+"Se você preferir um layout customizado para uma lista específica, você pode "
+"usar o shortcode [qem fields=1,2,5]"
+
+#: settings.php:242
+msgid "The numbers correspond to the fields like this"
+msgstr "Os números correspondem aos campos desta forma"
+
+#: settings.php:244
+msgid "Short description"
+msgstr "Resumo"
+
+#: settings.php:251
+msgid ""
+"The order of the fields and other options is set using the drag and drop "
+"selectors above"
+msgstr ""
+"A ordem dos campos e outras opções são definidas usando arrastando e "
+"soltando os seletores abaixo"
+
+#: settings.php:302
+msgid "The display settings have been updated"
+msgstr "As configurações de exibição foram atualizadas"
+
+#: settings.php:307
+msgid "The display settings have been reset"
+msgstr "As configurações de exibição foram redefinidas"
+
+#: settings.php:322
+msgid "End Date Display"
+msgstr "Data final de exibição"
+
+#: settings.php:325
+msgid "Show end date in event list"
+msgstr "Exibir data final na lista de eventos"
+
+#: settings.php:328
+msgid "Combine Start and End dates into one box"
+msgstr "Combinar datas de início e fim em uma caixa "
+
+#: settings.php:331
+msgid "Show combined Start and End dates if in the same month"
+msgstr "Exibir datas e início combinadas e fim se forem do mesmo mês"
+
+#: settings.php:334
+msgid "Only show icon on first event if more than one event on that day"
+msgstr "Apenas exibir ícone no primeiro evento se existirem mais de um no mesmo dia"
+
+#: settings.php:337
+msgid "Show start and end dates above one another"
+msgstr "Exibir datas de início e fim abaixo uma da outra"
+
+#: settings.php:340
+msgid "Event Messages"
+msgstr "Mensagens do evento"
+
+#: settings.php:343
+msgid "Read more caption"
+msgstr "Legenda leia mais"
+
+#: settings.php:346
+msgid "No events message"
+msgstr "Mensagem de não há eventos"
+
+#: settings.php:349
+msgid "Event List Options"
+msgstr "Opções da lista de eventos"
+
+#: settings.php:353
+msgid "List events in reverse order (from future to past)"
+msgstr "Listar eventos em ordem reversa (do futuro para passado)"
+
+#: settings.php:357
+msgid "Show past events in the events list"
+msgstr "Exibir eventos passados na lista de ventos"
+
+#: settings.php:357
+msgid "If you only want to display past events use the shortcode: [qem id=\"archive\"]"
+msgstr ""
+"Se você desejar exibir somente eventos passados, use o shortcode: [qem "
+"id=\"archive\"]"
+
+#: settings.php:361
+msgid "Split the list into month/year sections"
+msgstr "Dividir a lista em seções mês/ano"
+
+#: settings.php:365
+msgid "Short (Aug)"
+msgstr "Curto (Ago)"
+
+#: settings.php:365
+msgid "Full (August)"
+msgstr "Completo (Agosto)"
+
+#: settings.php:369
+msgid "Show events in recent posts list"
+msgstr "Exibir eventos na lista de posts recentes"
+
+#: settings.php:373
+msgid "Show category"
+msgstr "Exibir categoria"
+
+#: settings.php:377
+msgid "Next to title"
+msgstr "Próximo ao título"
+
+#: settings.php:377
+msgid "Next to date (if no icon styling)"
+msgstr "Próximo à data (se não possuir icone)"
+
+#: settings.php:389
+msgid "Add download button to event"
+msgstr "Adicionar botão de download ao evento"
+
+#: settings.php:393
+msgid "Add download button to event list"
+msgstr "Adicionar botão de download à lista de eventos"
+
+#: settings.php:397
+msgid "Button text:"
+msgstr "Texto do botão:"
+
+#: settings.php:404
+msgid "Open links in new tab/page"
+msgstr "Abrir links em nova aba/página"
+
+#: settings.php:408
+msgid "Open event in lightbox"
+msgstr "Abrir evento no lightbox"
+
+#: settings.php:408
+msgid "Warning: doesn't always behave as expected on small screens"
+msgstr "Aviso: nem sempre é exibido como esperado em telas pequenas"
+
+#: settings.php:412
+msgid "Remove link from event title"
+msgstr "Remover link do título do evento"
+
+#: settings.php:416
+msgid "Hide Read More link"
+msgstr "Ocultar link leia mais\n"
+
+#: settings.php:420
+msgid "Add a link to events to go back to the event list"
+msgstr "Adicionar um link aos eventos para retornar à lista de eventos\n"
+
+#: settings.php:429
+msgid "Link caption"
+msgstr "Legenda do link"
+
+#: settings.php:432
+msgid "Maps and Images"
+msgstr "Mapas e Imagens"
+
+#: settings.php:435
+msgid ""
+"The map will only display if you have a valid address and the &#146;show "
+"map&#146; checkbox is ticked on the <a href=\"?page=quick-event-"
+"manager/settings.php&tab=settings\">Event Settings</a> page. If you add an "
+"image to the event it will replace the map unless you use the option to "
+"display both."
+msgstr ""
+"O mapa exibirá somente se você definir um endereço válido e o checkbox &#146;"
+"exibir mapa&#146; estiver marcado na página de <a href=\"?page=quick-event-"
+"manager/settings.php&tab=settings\">Configurações do evento</a>. Se você "
+"adicionar uma imagem ao evento, ela substituirá o mapa, a não ser que use a "
+"opção para exibir os dois."
+
+#: settings.php:438
+msgid "Map Width"
+msgstr "Largura do Mapa"
+
+#: settings.php:438
+msgid "Map Height"
+msgstr "Altura do Mapa"
+
+#: settings.php:442
+msgid "Show map in event list"
+msgstr "Exibir mapa na lista de eventos"
+
+#: settings.php:446
+msgid "Open map in new tab/window"
+msgstr "Abrir mapa em nova aba/janela"
+
+#: settings.php:449
+msgid "Event Image Max Width"
+msgstr "Largura máxima da imagem do evento"
+
+#: settings.php:453
+msgid "Show event image in event list"
+msgstr "Exibir imagem do evento na lista de eventos"
+
+#: settings.php:453
+msgid "Max Width"
+msgstr "Largura máxima"
+
+#: settings.php:457
+msgid "Show event map and image"
+msgstr "Exibir mapa e imagem do evento"
+
+#: settings.php:461
+msgid "Make image the same width as the map"
+msgstr "Definir tamanho da imagem como do mapa"
+
+#: settings.php:464
+msgid "Timezones"
+msgstr "Timezones"
+
+#: settings.php:468
+msgid "Show timeszones on your events"
+msgstr "Exibir timezones nos eventos"
+
+#: settings.php:472
+msgid ""
+"This doesn't change the time of the event, it just shows the name of the "
+"local timeszone. Set the event timezone in the event editor."
+msgstr ""
+"Isto não modifica o horário do evento, somente mostra o mesmo nome com o "
+"horário local. Defina a timezone do evento no editor de eventos."
+
+#: settings.php:482 /settings.php:727
+msgid "Event List Preview"
+msgstr "Preview da lista de eventos"
+
+#: settings.php:542
+msgid "The form styles have been updated"
+msgstr "Os estilos do formulário foram atualizados"
+
+#: settings.php:547
+msgid "The style settings have been reset"
+msgstr "As configurações de estilo foram redefinidas "
+
+#: settings.php:564
+msgid "Event Width"
+msgstr "Largura do evento"
+
+#: settings.php:566
+msgid "100% (fill the available space)"
+msgstr "100% (preencher todo espaço disponível)"
+
+#: settings.php:567
+msgid "Pixel (fixed)"
+msgstr "Pixel (fixado)"
+
+#: settings.php:568
+msgid "Enter the max-width "
+msgstr "Defina a largura máxima"
+
+#: settings.php:568
+msgid "(Just enter the value, no need to add 'px')"
+msgstr "(Apenas insira o valor, sem o 'px')"
+
+#: settings.php:570
+msgid "Font Options"
+msgstr "Opções de fonte"
+
+#: settings.php:573
+msgid "Use your theme font styles"
+msgstr "Usar os estilos de fonte do tema"
+
+#: settings.php:574
+msgid "Use Plugin font styles (enter font family and size below)"
+msgstr "Usar os estilos de fonte do plugin (insira as famílias de fonte abaixo)"
+
+#: settings.php:576
+msgid "Font Family"
+msgstr "Família de fonte"
+
+#: settings.php:579
+msgid "Font Size"
+msgstr "Tamanho da fonte"
+
+#: settings.php:583
+msgid "Header Size"
+msgstr "Tamanho do Header\n"
+
+#: settings.php:584
+msgid "This the size of the title in the event list"
+msgstr "Este é o tamanho do título na lista de eventos"
+
+#: settings.php:587
+msgid "Header Colour"
+msgstr "Cor do Header"
+
+#: settings.php:591
+msgid "Calender Icon"
+msgstr "Icone do calendário"
+
+#: settings.php:594
+msgid "Remove styles"
+msgstr "Remover estilos"
+
+#: settings.php:595
+msgid "Do not style the calendar icon"
+msgstr "Não estilizar o ícone do calendário"
+
+#: settings.php:598
+msgid "Size"
+msgstr "Tamanho"
+
+#: settings.php:600
+msgid "Small"
+msgstr "Pequeno"
+
+#: settings.php:601
+msgid "Medium"
+msgstr "Médio"
+
+#: settings.php:602
+msgid "Large"
+msgstr "Grande"
+
+#: settings.php:605
+msgid "Corners"
+msgstr "Cantos"
+
+#: settings.php:607
+msgid "Square"
+msgstr "Quadrado"
+
+#: settings.php:608
+msgid "Rounded"
+msgstr "Arredondado"
+
+#: settings.php:611
+msgid "Border Thickness"
+msgstr "Espessura da borda"
+
+#: settings.php:615
+msgid "Border Colour"
+msgstr "Cor da borda"
+
+#: settings.php:616
+msgid "There is an option below to use category colours for the icon border"
+msgstr "Há uma opção abaixo para usar cores de categoria para borda do ícone"
+
+#: settings.php:619
+msgid "Calendar Icon Order"
+msgstr "Ordem do ícone do calendário"
+
+#: settings.php:621
+msgid "DMY"
+msgstr "DMA"
+
+#: settings.php:621
+msgid "MDY"
+msgstr "MDA"
+
+#: settings.php:622
+msgid "YDM"
+msgstr "ADM"
+
+#: settings.php:623
+msgid "DM"
+msgstr "DM"
+
+#: settings.php:623
+msgid "MD"
+msgstr "MD"
+
+#: settings.php:626
+msgid "Start/Finish Labels"
+msgstr "Etiqueta Início/FIm"
+
+#: settings.php:627
+msgid "Show start/finish labels"
+msgstr "Exibir etiquetas início/fim"
+
+#: settings.php:628
+msgid "Start"
+msgstr "Início"
+
+#: settings.php:628
+msgid "Finish"
+msgstr "Fim"
+
+#: settings.php:631
+msgid "Day Name"
+msgstr "Nome do dia"
+
+#: settings.php:632
+msgid "Show day name"
+msgstr "Exibir nome do dia"
+
+#: settings.php:633
+msgid "Show day name inline with date"
+msgstr "Exibir nome do dia com data"
+
+#: settings.php:636
+msgid "Date Background colour"
+msgstr "Cor de fundo da data"
+
+#: settings.php:638
+msgid "Grey"
+msgstr "Cinza"
+
+#: settings.php:639
+msgid "Red"
+msgstr "Vermelho"
+
+#: settings.php:640 /settings.php:651 /settings.php:674
+msgid "Set your own"
+msgstr "Definir a sua"
+
+#: settings.php:644
+msgid "Date Text Colour"
+msgstr "Cor do texto da data"
+
+#: settings.php:648
+msgid "Month Background colour"
+msgstr "Cor de fundo do mês"
+
+#: settings.php:650 /settings.php:672
+msgid "White"
+msgstr "Branco"
+
+#: settings.php:655
+msgid "Month Text Colour"
+msgstr "Cor do texto do Mês"
+
+#: settings.php:659
+msgid "Month Text Style"
+msgstr "Estilo do texto do mês"
+
+#: settings.php:660 /settings.php:904
+msgid "Bold"
+msgstr "Negrito"
+
+#: settings.php:661 /settings.php:904
+msgid "Italic"
+msgstr "Italico"
+
+#: settings.php:664
+msgid "Event Content"
+msgstr "Conteúdo do evento"
+
+#: settings.php:667 /settings.php:911
+msgid "Event Border"
+msgstr "Borda do evento"
+
+#: settings.php:668
+msgid "Add a border to the event post"
+msgstr "Adicionar uma borda ao post do evento"
+
+#: settings.php:668
+msgid "Thickness and colour will be the same as the calendar icon"
+msgstr "Espessura e cor será a mesma do icone do calendário"
+
+#: settings.php:671
+msgid "Event Background Colour"
+msgstr "Cor de fundo do evento"
+
+#: settings.php:673
+msgid "Use theme colours"
+msgstr "Usar cores do tema"
+
+#: settings.php:678
+msgid "Margins and Padding"
+msgstr "Margens e Padding"
+
+#: settings.php:679
+msgid "Set the margins and padding of each bit using CSS shortcodes"
+msgstr "Defina as margens e padding para cada usando shortcodes CSS\n"
+
+#: settings.php:682
+msgid "Event Margin"
+msgstr "Margem do evento"
+
+#: settings.php:683
+msgid "Set the margin or each event using CSS shortcodes"
+msgstr "Defina a margem em cada evento usando shortcodes CSS"
+
+#: settings.php:690 /settings.php:957
+msgid "Display category key"
+msgstr "Exibir chave da categoria"
+
+#: settings.php:691
+msgid "Show above event list"
+msgstr "Exibir acima da lista de eventos"
+
+#: settings.php:692
+msgid "Show below event list"
+msgstr "Exibir abaixo da lista de eventos"
+
+#: settings.php:695
+msgid "Caption"
+msgstr "Legenda"
+
+#: settings.php:699
+msgid "Category Colours"
+msgstr "Cores da categoria"
+
+#: settings.php:699
+msgid "Use category colours for the event border"
+msgstr "USe cores de categoria para borda do evento"
+
+#: settings.php:700
+msgid "Options are set on the"
+msgstr "Opções são definidas nas"
+
+#: settings.php:700
+msgid "Calendar Settings"
+msgstr "Configurações do calendário"
+
+#: settings.php:700
+msgid "page"
+msgstr "página"
+
+#: settings.php:703
+msgid "Show name of current category"
+msgstr "Exibir o nome da categoria atual"
+
+#: settings.php:707
+msgid "Current category label"
+msgstr "Etiqueta da categoria atual\n"
+
+#: settings.php:710
+msgid "Linking"
+msgstr "Vinculação"
+
+#: settings.php:711 /settings.php:966
+msgid "Link keys to categories"
+msgstr "Vincular chaves à categorias"
+
+#: settings.php:712 /settings.php:967
+msgid "Show uncategorised key"
+msgstr "Exibir chave não categorizada"
+
+#: settings.php:715
+msgid "Custom CSS"
+msgstr "CSS customizado"
+
+#: settings.php:716
+msgid "Add styles to document head"
+msgstr "Adicionar estilos ao cabeçalho do documento"
+
+#: settings.php:716
+msgid ""
+"Use this option if you are unable to create or save a stylesheet for the "
+"plugin"
+msgstr ""
+"Use esta opção se você não possui permissão para criar ou salvar uma folha "
+"de estilos para o plugin"
+
+#: settings.php:717
+msgid "Use Custom CSS"
+msgstr "Usar CSS customizado"
+
+#: settings.php:719
+msgid "To see all the styling use the"
+msgstr "Para ver todos os estilos use o"
+
+#: settings.php:719
+msgid "CSS editor"
+msgstr "Editor CSS"
+
+#: settings.php:720
+msgid "The main style wrapper is the <code>.qem</code> class."
+msgstr "O seletor para o estilo principal é a classe <code>.qem</code>."
+
+#: settings.php:721
+msgid "Are you sure you want to reset the style settings?"
+msgstr "Tem certeza que deseja redefinir as configurações de estilo?"
+
+#: settings.php:728
+msgid ""
+"Check the event list in your site as the Wordpress Dashboard can do funny "
+"things with styles"
+msgstr ""
+"Definir a lista de eventos no seu site como Dashboard do Wordpress pode "
+"fazer coisas interessantes com estilos "
+
+#: settings.php:802
+msgid "The calendar settings have been updated"
+msgstr "As configurações do calendário foram atualizadas\n"
+
+#: settings.php:807
+msgid "The calendar settings have been reset"
+msgstr "As configurações do calendário foram redefinidas"
+
+#: settings.php:826
+msgid "Using the Calendar"
+msgstr "Usando o calendário"
+
+#: settings.php:827
+msgid "To add a calendar to your site use the shortcode: [qemcalendar]"
+msgstr "Para adicionar o calendário em seu site use o shortcode: [qemcalendar]\n"
+
+#: settings.php:831 /settings.php:1109
+msgid "General Settings"
+msgstr "Configurações gerais"
+
+#: settings.php:834
+msgid "Linking to Events"
+msgstr "Vinculando à eventos"
+
+#: settings.php:835
+msgid "Link opens event summary in a popup"
+msgstr "Link abre resumo do evento em um popup"
+
+#: settings.php:836
+msgid "Link opens event page"
+msgstr "Link abre página do evento"
+
+#: settings.php:839
+msgid "Old Events"
+msgstr "Eventos antigos"
+
+#: settings.php:840
+msgid "Show past events in the calendar"
+msgstr "Exibir eventos antigos no calendário"
+
+#: settings.php:843
+msgid "Linking Calendar to the Event List"
+msgstr "Vincular calendário à lista de eventos"
+
+#: settings.php:844
+msgid "Link Event List to Calendar Page"
+msgstr "Vincular a lista de eventos à página do calendário"
+
+#: settings.php:845
+msgid "You will need to create pages for the calendar and the event list"
+msgstr "Você precisará criar páginas para o calendário e lista de eventos"
+
+#: settings.php:849
+msgid "Calendar link text"
+msgstr "Texto do link do calendário\n"
+
+#: settings.php:850
+msgid "Calendar page URL"
+msgstr "URL da página do calendário"
+
+#: settings.php:851
+msgid "Event list link text"
+msgstr "Texto do link da lista de eventos"
+
+#: settings.php:853
+msgid "Event list page"
+msgstr "Página da lista de eventos"
+
+#: settings.php:861
+msgid "Navigation Icons"
+msgstr "Icones de navegação"
+
+#: settings.php:863
+msgid "None"
+msgstr "Nenhum"
+
+#: settings.php:865 /settings.php:891
+msgid "Other"
+msgstr "Outro"
+
+#: settings.php:865
+msgid "enter"
+msgstr "entrar"
+
+#: settings.php:865
+msgid "hex code"
+msgstr "código hexadecimal"
+
+#: settings.php:865
+msgid "below"
+msgstr "abaixo"
+
+#: settings.php:869
+msgid "Event Options"
+msgstr "Opções do evento"
+
+#: settings.php:872
+msgid "Multi-day Events"
+msgstr "Eventos multiplos dias"
+
+#: settings.php:873
+msgid "Show event on all days"
+msgstr "Exibir eventos em todos os dias"
+
+#: settings.php:876
+msgid "Character Number"
+msgstr "Número de caracteres"
+
+#: settings.php:880
+msgid "Month and Date Header"
+msgstr "Header do Mês e Data"
+
+#: settings.php:887
+msgid "Small Screens"
+msgstr "Telas pequenas"
+
+#: settings.php:888
+msgid "What to display on small screens"
+msgstr "Deseja exibir em telas pequenas"
+
+#: settings.php:889
+msgid "Full message"
+msgstr "Mensagem completa"
+
+#: settings.php:889
+msgid "&#9654;"
+msgstr "&#9654;"
+
+#: settings.php:889
+msgid "&#9633;"
+msgstr "&#9633;"
+
+#: settings.php:889
+msgid "&#9632;"
+msgstr "&#9632;"
+
+#: settings.php:889
+msgid "&#9733;"
+msgstr "&#9733;"
+
+#: settings.php:890
+msgid "Blank"
+msgstr "Branco"
+
+#: settings.php:891
+msgid "enter escaped"
+msgstr "escapar enter"
+
+#: settings.php:891
+msgid "or hex code below"
+msgstr "ou código hexadecimal abaixo"
+
+#: settings.php:894 /settings.php:926 /settings.php:933
+msgid "Background"
+msgstr "Fundo"
+
+#: settings.php:898 /settings.php:926 /settings.php:933
+msgid "Text"
+msgstr "Texto"
+
+#: settings.php:903
+msgid "Text Styles"
+msgstr "Estilos de texto"
+
+#: settings.php:907
+msgid "Event Hover"
+msgstr "Hover do evento"
+
+#: settings.php:915
+msgid "Day Border"
+msgstr "Borda do dia"
+
+#: settings.php:919
+msgid "Cellspacing"
+msgstr "Espaçamento de célula"
+
+#: settings.php:924
+msgid "Calendar Colours"
+msgstr "Cores do calendário"
+
+#: settings.php:926
+msgid "Items"
+msgstr "Itens"
+
+#: settings.php:927
+msgid "Days of the Week"
+msgstr "Dias da semana"
+
+#: settings.php:928
+msgid "Normal Day"
+msgstr "Dia normal"
+
+#: settings.php:929
+msgid "Event Day"
+msgstr "Dia do evento"
+
+#: settings.php:930
+msgid "Past Day"
+msgstr "Dia passado"
+
+#: settings.php:932
+msgid "Event Category Colours"
+msgstr "Cores da categoria do evento"
+
+#: settings.php:933
+msgid "Category"
+msgstr "Categoria"
+
+#: settings.php:958
+msgid "Show above calendar"
+msgstr "Exibir acima do calendário"
+
+#: settings.php:959
+msgid "Show below calendar"
+msgstr "Exibir abaixo do calendário"
+
+#: settings.php:962
+msgid "Caption:"
+msgstr "Legenda:"
+
+#: settings.php:970
+msgid "Start the Week"
+msgstr "Iniciar a semana"
+
+#: settings.php:971
+msgid "On Sunday"
+msgstr "No domingo"
+
+#: settings.php:972
+msgid "On Monday"
+msgstr "Na segunda\n"
+
+#: settings.php:973
+msgid "Are you sure you want to reset the calendar settings?"
+msgstr "Tem certeza que deseja redefinir as configurações do calendário?"
+
+#: settings.php:978
+msgid "Calendar Preview"
+msgstr "Preview do calendário"
+
+#: settings.php:979
+msgid ""
+"The <em>prev</em> and <em>next</em> buttons only work on your Posts and "
+"Pages - so don&#146;t click on them!"
+msgstr ""
+"Os botões <em>anterior</em> e <em>próximo</em> somente funcionam nas paǵinas "
+"e posts - então NÃO clique neles."
+
+#: settings.php:1085
+msgid "The registration form settings have been updated"
+msgstr "O formulário de registro foi atualizado"
+
+#: settings.php:1089
+msgid "The registration form settings have been reset"
+msgstr "O formulário de registro foi redefinido"
+
+#: settings.php:1112
+msgid "Add a registration form to ALL your events"
+msgstr "Adicionar um formulário de registro em TODOS os eventos"
+
+#: settings.php:1113
+msgid "To add a registration form to individual events use the event editor"
+msgstr ""
+"Para adicionar um formulário de registro em eventos individuais, use o "
+"editor do evento"
+
+#: settings.php:1117
+msgid "Do not display registration form on old events"
+msgstr "Não exibir o formulário de registro em eventos passados"
+
+#: settings.php:1121
+msgid "Add a border to the form"
+msgstr "Adicionar uma borda ao formulário"
+
+#: settings.php:1125
+msgid "Pre-fill user name if logged in"
+msgstr "Pre-preencher o nome de usuário quando logado"
+
+#: settings.php:1129
+msgid "Only users who have logged in can register"
+msgstr "Somente usuários que estão logados podem registrar"
+
+#: settings.php:1133
+msgid "Allow multiple registrations"
+msgstr "Permitir multiplos registros"
+
+#: settings.php:1137
+msgid "Hide registration form when event is full"
+msgstr "Ocultar o formulário de registro quando o evento estiver lotado"
+
+#: settings.php:1140 /settings.php:1374 /settings.php:1387
+msgid "Message to display"
+msgstr "Mensagem a exibir"
+
+#: settings.php:1143
+msgid "Notifications"
+msgstr "Notificações"
+
+#: settings.php:1145
+msgid "Your Email Address"
+msgstr "Seu endereço de email"
+
+#: settings.php:1146
+msgid "This is where registration notifications will be sent"
+msgstr "Aqui é onde as mensagens de notificações serão enviadas"
+
+#: settings.php:1152
+msgid "Form title"
+msgstr "Título do formulário"
+
+#: settings.php:1156
+msgid "Form blurb"
+msgstr "Sinopse do formulário"
+
+#: settings.php:1159
+msgid "Submit Button"
+msgstr "Botão de envio"
+
+#: settings.php:1163
+msgid "Check those fields you want to use. Drag and drop to change the order"
+msgstr "Marque os campos que deseja usar. Arraste e solte para mudar a ordem"
+
+#: settings.php:1179
+msgid "Field"
+msgstr "Campo"
+
+#: settings.php:1180
+msgid "Label"
+msgstr "Etiqueta"
+
+#: settings.php:1189
+msgid "Name"
+msgstr "Nome"
+
+#: settings.php:1195
+msgid "Email"
+msgstr "Email"
+
+#: settings.php:1201
+msgid "Not Attending"
+msgstr "Não comparecerei"
+
+#: settings.php:1207
+msgid "Telephone"
+msgstr "Telefone"
+
+#: settings.php:1213
+msgid "Places"
+msgstr "Locais"
+
+#: settings.php:1219 /settings.php:1363
+msgid "Message"
+msgstr "Mensagem"
+
+#: settings.php:1225
+msgid "Captcha"
+msgstr "Captcha"
+
+#: settings.php:1231
+msgid "Copy Message"
+msgstr "Copiar mensagem"
+
+#: settings.php:1237 /settings.php:1243
+msgid "User defined"
+msgstr "Definido pelo usuário"
+
+#: settings.php:1249
+msgid "Dropdown"
+msgstr "Dropdown"
+
+#: settings.php:1255
+msgid "Number"
+msgstr "Número"
+
+#: settings.php:1273
+msgid "Error and Thank-you messages"
+msgstr "Erros e mensagem de agradecimento"
+
+#: settings.php:1276
+msgid "Error Message"
+msgstr "Mensagem de erro"
+
+#: settings.php:1280
+msgid "Already Registered"
+msgstr "Já registrado"
+
+#: settings.php:1284
+msgid "Thank you message title"
+msgstr "Título da mensagem de agradecimento"
+
+#: settings.php:1288
+msgid "Thank you message blurb"
+msgstr "Sinopse da mensagem de agradecimento"
+
+#: settings.php:1293
+msgid ""
+"Use 'Not Attending' option to allow people to remove their names from the "
+"list"
+msgstr ""
+"Usar opção 'Não comparecerei' para permitir as pessoas remover seus nomes da "
+"lista "
+
+#: settings.php:1297
+msgid "Name Removed Message"
+msgstr "Mensagem de remoção do nome"
+
+#: settings.php:1302
+msgid "Display a 'return to event' message after registration"
+msgstr "Exibir uma mensagem de 'retornar ao evento' após o registro"
+
+#: settings.php:1306
+msgid "Return to event message:"
+msgstr "Mensagem de retorno ao evento:"
+
+#: settings.php:1310
+msgid "Confirmation Email"
+msgstr "Email de confirmação"
+
+#: settings.php:1314
+msgid "Confirmation"
+msgstr "Confirmação"
+
+#: settings.php:1318
+msgid "Email Subject"
+msgstr "Assunto do email"
+
+#: settings.php:1322
+msgid "Show event title"
+msgstr "Exibir o título do evento"
+
+#: settings.php:1323
+msgid "Show date"
+msgstr "Exibir data"
+
+#: settings.php:1326
+msgid "Email message"
+msgstr "Mensagem do email"
+
+#: settings.php:1328
+msgid "Will replace the thank-you blurb if used"
+msgstr "Irá substituir a mensagem de agradecimento, caso use uma"
+
+#: settings.php:1333
+msgid "Add registration details to the email"
+msgstr "Adicionar detalhes do registro no email"
+
+#: settings.php:1336
+msgid "Registration details blurb"
+msgstr "Sinopse dos detalhes de registro\n"
+
+#: settings.php:1341
+msgid "Add event details to the email"
+msgstr "Adicionar detalhes do evento ao email"
+
+#: settings.php:1344
+msgid "Event details blurb"
+msgstr "Sinopse dos detalhes do evento"
+
+#: settings.php:1349
+msgid "Include link to event page"
+msgstr "Inclui link para página do evento"
+
+#: settings.php:1352
+msgid "Show Attendees"
+msgstr "Exibir participantes"
+
+#: settings.php:1356
+msgid "List attendees"
+msgstr "Lista participantes"
+
+#: settings.php:1360
+msgid "Show avatars"
+msgstr "Exibir avatars"
+
+#: settings.php:1367
+msgid "Places Available and Numbers Attending"
+msgstr "Lugares disponíveis e número de participantes"
+
+#: settings.php:1370
+msgid "Show how many places are left for an event"
+msgstr "Exibir quantos lugares restam para um evento"
+
+#: settings.php:1370
+msgid "Set the number of places in the event editor"
+msgstr "Defina o número de lugares no editor do evento"
+
+#: settings.php:1380
+msgid ""
+"Show places available on event list - this only works if you have selected "
+"'Add an attendee counter to this form' on the event editor."
+msgstr ""
+"Exibir lugares disponíveis na lista de eventos - isto somente vai funcionar "
+"se você selecionar 'Adicionar um contador de participantes neste formulário' "
+"no editor do evento."
+
+#: settings.php:1384
+msgid "Show number of people attending."
+msgstr "Exibir número de pessoas participantes"
+
+#: settings.php:1392
+msgid "Are you sure you want to reset the registration form?"
+msgstr "Você tem certeza que deseja redefinir o formulário de registro?"
+
+#: settings.php:1393
+msgid "Use Akismet Validation"
+msgstr "Usar validação Askimet"
+
+#: settings.php:1394
+msgid "Enter your API Key to check all messages against the Akismet database."
+msgstr ""
+"Insira sua Chave API para verificar todas as mensagens no banco de dados "
+"Askimet."
+
+#: settings.php:1401
+msgid "Example form"
+msgstr "Formulário de exemplo"
+
+#: settings.php:1402
+msgid ""
+"This is an example of the form. When it appears on your site it will use "
+"your theme styles."
+msgstr ""
+"Este é um formulário de exemplo. Quando isto aparecer no seu site, usará os "
+"estilos do seu tema."
+
+#: settings.php:1434
+msgid "The payment form settings have been updated"
+msgstr "As configurações de pagamento foram atualizadas"
+
+#: settings.php:1438
+msgid "The payment form settings have been reset"
+msgstr "As configurações de pagamento foram redefinidas"
+
+#: settings.php:1446
+msgid "PayPal Payments"
+msgstr "Pagamentos via PayPal"
+
+#: settings.php:1447
+msgid ""
+"This setting only works if you have a simple cost on your event. This means "
+"<em>Entry $10</em> will be OK but <em>&pound;5 for adults and &pound;3 for "
+"children</em> may casue problems."
+msgstr ""
+"Esta configuração somente funcionar se você possuir um custo único para o "
+"evento. "
+
+#: settings.php:1450
+msgid "Transfer to PayPal after registration"
+msgstr "Redirecionar ao PayPal após o registro"
+
+#: settings.php:1451
+msgid ""
+"After registration the plugin will link to paypal using the event title, "
+"cost and number of places for the payment details."
+msgstr ""
+"Após o registro, o plugin irá enviar ao paypal com o título do evento, custo "
+"e número de lugares para detalhes de pagamento."
+
+#: settings.php:1451
+msgid "You can also select payments on individual events"
+msgstr "Você pode também selecionar pagamentos individualmente em cada evento"
+
+#: settings.php:1451
+msgid "Event Editor"
+msgstr "Editor do evento"
+
+#: settings.php:1454
+msgid "Your PayPal Email Address"
+msgstr "Seu email do PayPal"
+
+#: settings.php:1458
+msgid "Currency code"
+msgstr "Código da moeda"
+
+#: settings.php:1460
+msgid "Allowed Paypal Currencies"
+msgstr "Moedas permitidas no PayPal"
+
+#: settings.php:1463
+msgid "Add processing fee"
+msgstr "Adicionar custo de processamento"
+
+#: settings.php:1464
+msgid "Percentage of the total"
+msgstr "Percentual do total"
+
+#: settings.php:1465
+msgid "Fixed amount"
+msgstr "Valor fixo"
+
+#: settings.php:1468
+msgid "Submit Label"
+msgstr "Etiqueta de envio"
+
+#: settings.php:1472
+msgid "Waiting Message"
+msgstr "Mensagem de aguarde"
+
+#: settings.php:1476
+msgid "Coupons"
+msgstr "Cupons"
+
+#: settings.php:1477
+msgid ""
+"Discounts are applied at checkout before any processing fees are caclulated. "
+"The coupon field will appear just before the submission button on the "
+"registration form"
+msgstr ""
+"Descontos serão aplicados no checkout antes de qualquer taxa de "
+"processamento. O campo do cupom aparece somente logo após o envio do "
+"formulário."
+
+#: settings.php:1478
+msgid "Use Coupons"
+msgstr "Usar cupons"
+
+#: settings.php:1478
+msgid "Set coupon codes"
+msgstr "Definir códigos de cupom"
+
+#: settings.php:1479
+msgid "Coupon code label"
+msgstr "Etiqueta do código do cupom"
+
+#: settings.php:1480
+msgid "Instant Payment Notification"
+msgstr "Notificação instantânea do pagamento"
+
+#: settings.php:1481
+msgid ""
+"IPN only works if you have a PayPal Business or Premier account and IPN has "
+"been set up on that account"
+msgstr ""
+"A notificação somente fucniona se você possuir uma conta Business ou Premier "
+"do Paypal.\n"
+
+#: settings.php:1482
+msgid "See the"
+msgstr "Veja o "
+
+#: settings.php:1482
+msgid "PayPal IPN Integration Guide"
+msgstr "Guia de integração da notificação do Paypal"
+
+#: settings.php:1482
+msgid "for more information on how to set up IPN"
+msgstr "para mais informações de como usar as notificações"
+
+#: settings.php:1484
+msgid "The IPN listener URL you will need is"
+msgstr "A URL para configuração é"
+
+#: settings.php:1485
+msgid "To see the Payments Report click on the"
+msgstr "Para ver o relatório de pagamentos clique no"
+
+#: settings.php:1485 /settings.php:1760 /settings.php:1760
+msgid "Registration"
+msgstr "link de registro"
+
+#: settings.php:1485
+msgid "link in your dashboard menu or"
+msgstr "em seu dashboard ou"
+
+#: settings.php:1485
+msgid "click here"
+msgstr "clique aqui"
+
+#: settings.php:1488
+msgid "Enable IPN"
+msgstr "Habilitar notificações"
+
+#: settings.php:1492
+msgid "Payment Report Column header"
+msgstr "Cabeçalho de coluna do relatório de pagamento"
+
+#: settings.php:1496
+msgid "Payment Complete Label"
+msgstr "Etiqueta de pagamento completado"
+
+#: settings.php:1501
+msgid "Are you sure you want to reset the settings?"
+msgstr "Tem certeza que deseja redefinir as configurações?"
+
+#: settings.php:1502
+msgid "Use Paypal sandbox (developer use only)"
+msgstr "Usar Paypal sandbox (apenas para desenvolvedores)"
+
+#: settings.php:1506
+msgid "Separate Payment Form"
+msgstr "Formulário separado de pagamento"
+
+#: settings.php:1507
+msgid "Warning!"
+msgstr "Atenção!"
+
+#: settings.php:1507
+msgid "This function has been depreciated."
+msgstr "Esta função está obsoleta."
+
+#: settings.php:1508
+msgid "Payments are now integrated into the registation form."
+msgstr "Pagamentos estão integrados com o formulário de registro."
+
+#: settings.php:1508
+msgid ""
+"If you really, really need to use the Quick PayPal Payment plugin check this "
+"box:"
+msgstr "Se realmente, precisa MUITO usar o Paypal Quick plugin, marque esta caixa:"
+
+#: settings.php:1563
+msgid "Coupons Codes"
+msgstr "Códidos de cupom"
+
+#: settings.php:1565
+msgid "Leave fields blank if you don't want to use them"
+msgstr "Deixe em branco os campos que não deseja utilizar"
+
+#: settings.php:1568
+msgid "Coupon Code"
+msgstr "Código do cupom"
+
+#: settings.php:1569
+msgid "Percentage"
+msgstr "Parcentual"
+
+#: settings.php:1570
+msgid "Fixed Amount"
+msgstr "Valor fixo"
+
+#: settings.php:1611
+msgid "ERROR: Unable to create new theme file"
+msgstr "ERRO: Impossível criar um arquivo no tema"
+
+#: settings.php:1615
+msgid "The Automated Option"
+msgstr "Opção automatizada"
+
+#: settings.php:1618
+msgid ""
+"If your theme adds posting dates and other unwanted features to your event "
+"page you can set up and edit a template for single events."
+msgstr ""
+"Se seu tema adicionar datas ao post e outras coisas indesejadas à página de "
+"eventos, você pode ajustar editando um template para single events."
+
+#: settings.php:1619
+msgid ""
+"This function clones the 'single.php' theme file and saves it as 'single-"
+"event.php'."
+msgstr ""
+"Esta função clona o arquivo do tema 'single.php' e salva como 'single-event."
+"php'. "
+
+#: settings.php:1621
+msgid "If you aren't confident editing theme files it may be prudent to read the"
+msgstr "Se você não está confiante para editar o tema, seja prudente e leia o "
+
+#: settings.php:1621
+msgid "first."
+msgstr "primeiro."
+
+#: settings.php:1623
+msgid ""
+"An Event Template already exists. Clicking the button below will overwrite "
+"the existing file."
+msgstr ""
+"Um Template de Evento já existe. Clique no botão abaixo para sobrescrever o "
+"arquivo existente."
+
+#: settings.php:1623
+msgid "View Template file"
+msgstr "Ver arquivo do template"
+
+#: settings.php:1625
+msgid "Create Event Template"
+msgstr "Criar template para evento"
+
+#: settings.php:1629
+msgid ""
+"Your theme doesn't appear to have the 'single.php' file needed to create an "
+"event template. To create an event template follow the instrctions on the "
+"right."
+msgstr ""
+"Seu tema aparenta não possuir o arquivo 'single.php' necessário para criar o "
+"template do evento. Para criar um template de evento siga as instruções à "
+"direita."
+
+#: settings.php:1633
+msgid "The DIY Option"
+msgstr "Opções DIY (faça você mesmo)"
+
+#: settings.php:1634
+msgid ""
+"It's very easy to create your own template if you have FTP access to your "
+"theme"
+msgstr ""
+"É muito fácil criar seu próprio template se você possuir acessoao FTP do seu "
+"tema"
+
+#: settings.php:1635
+msgid "1. Connect to your domain using FTP"
+msgstr "1. Conecte ao seu domínio usando FTP"
+
+#: settings.php:1636
+msgid "2. Navigate to the theme directory. Normally wp-content/themes/your theme"
+msgstr "2. Navegue até o diretório do tema. Normalmente wp-content/themes/seutema\n"
+
+#: settings.php:1637
+msgid "3. Download the file called single.php to your computer"
+msgstr "3. Baixe o arquivo chamado single.php para seu computador"
+
+#: settings.php:1638
+msgid "4. Open the file using a text editor"
+msgstr "4. Abra o arquivo usando um editor"
+
+#: settings.php:1639
+msgid "5. Add the following to the very top of the file"
+msgstr "5. Adicione o trecho abaixo ao topo do arquivo"
+
+#: settings.php:1647
+msgid "6. Save as: <code>single-event.php</code>"
+msgstr "6. Salve como: <code>single-event.php</code>"
+
+#: settings.php:1648
+msgid "7. Upload the file to your theme directory"
+msgstr "7. Suba o arquivo para o diretório do tema"
+
+#: settings.php:1649
+msgid "The event manager will detect the new template and use it for single events"
+msgstr "O gerenciar do evento vai detectar o novo template e usar para eventos"
+
+#: settings.php:1764 /settings.php:1764
+msgid "Event Manager"
+msgstr "Gerenciador de Eventos"
