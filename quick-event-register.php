@@ -49,7 +49,7 @@ function qem_display_form( $values, $errors ) {
     $check = get_post_meta($post->ID, 'event_counter', true);
     $cost = get_post_meta($post->ID, 'event_cost', true);
     $paypal = get_post_meta($post->ID, 'event_paypal', true);
-if ($paypal && $cost) $payment['paypal'] = 'checked';
+    if ($paypal && $cost) $payment['paypal'] = 'checked';
     $number = get_post_meta($event, 'event_number', true);
     if ($check) $num = qem_numberscoming($register,$event,$payment);
     $content = qem_totalcoming($register,$payment);
@@ -134,9 +134,12 @@ if ($paypal && $cost) $payment['paypal'] = 'checked';
                 break;
                 case 'field5':
                 if ($register['useplaces']) 
-                    $content .= '<input id="yourplaces" name="yourplaces" type="text" style="'.$errors['yourplaces'].'width:3em;margin-right:5px" value="'.$values['yourplaces'].'" onblur="if (this.value == \'\') {this.value = \''.$values['yourplaces'].'\';}" onfocus="if (this.value == \''.$values['yourplaces'].'\') {this.value = \'\';}" />'.$register['yourplaces'].'<br>';
+                    $content .= '<p><input id="yourplaces" name="yourplaces" type="text" style="'.$errors['yourplaces'].'width:3em;margin-right:5px" value="'.$values['yourplaces'].'" onblur="if (this.value == \'\') {this.value = \''.$values['yourplaces'].'\';}" onfocus="if (this.value == \''.$values['yourplaces'].'\') {this.value = \'\';}" />'.$register['yourplaces'].'</p>';
                 else 
                     $content .= '<input type="hidden" name="yourplaces" value="1">';
+                if ($register['usemorenames']) 
+                    $content .= '<div id="morenames" hidden="hidden"><p>'.$register['morenames'].'</p>
+                    <textarea rows="4" label="message" name="morenames"></textarea></div>';
                 break;
                 case 'field6':
                 if ($register['usemessage']) 
@@ -179,18 +182,29 @@ if ($paypal && $cost) $payment['paypal'] = 'checked';
                 if ($register['useaddinfo'])
                     $content .= '<p>'.$register['addinfo'].'</p>';
                 break;
+                case 'field14':
+                if ($register['useselector']) {
+                    $content .= '<select '.$errors['yourselector'].' name="yourselector">';
+                    $arr = explode(",",$register['yourselector']);
+                    foreach ($arr as $item) {
+                        $selected = '';
+                        if ($values['yourselector'] == $item) $selected = 'selected';
+                        $content .= '<option value="' .  $item . '" ' . $selected .'>' .  $item . '</option>';
+                    }
+                    $content .= '</select>';
+                }
+                break;
                 }
             }
-if ($register['useterms']) {
-if ($errors['terms']) {
-$termstyle = ' style="border:1px solid red;"';
-$termslink = ' style="color:red;"';
-}
-
-if ($register['termstarget']) $target = ' target="_blank"';
-$content .= '<p><input type="checkbox" name="terms" value="checked" '.$termstyle.$values['terms'].' /> <a href="'.$register['termsurl'].'"'.$target.$termslink.'>'.$register['termslabel'].'</a></p>';
-}        
-if ((($payment['paypal'] && !$paypal) || $paypal=='checked') && $cost) {
+        if ($register['useterms']) {
+            if ($errors['terms']) {
+                $termstyle = ' style="border:1px solid red;"';
+                $termslink = ' style="color:red;"';
+            }
+            if ($register['termstarget']) $target = ' target="_blank"';
+            $content .= '<p><input type="checkbox" name="terms" value="checked" '.$termstyle.$values['terms'].' /> <a href="'.$register['termsurl'].'"'.$target.$termslink.'>'.$register['termslabel'].'</a></p>';
+        }        
+        if ((($payment['paypal'] && !$paypal) || $paypal=='checked') && $cost) {
             $register['qemsubmit'] = $payment['qempaypalsubmit'];
             if ($payment['usecoupon']) {
                 $content .= '<input name="couponcode" type="text" value="'.$values['couponcode'].'" onblur="if (this.value == \'\') {this.value = \''.$values['couponcode'].'\';}" onfocus="if (this.value == \''.$values['couponcode'].'\') {this.value = \'\';}" />';
@@ -222,7 +236,7 @@ function qem_verify_form(&$values, &$errors) {
     $whoscoming = get_option('qem_messages_'.$event);
     if (!$whoscoming) $whoscoming = array();
     $register = qem_get_stored_register();
-$payment = qem_get_stored_payment();
+    $payment = qem_get_stored_payment();
     $apikey = get_option('qem-akismet');
     if ($apikey) {
         $blogurl = get_site_url();
@@ -270,6 +284,8 @@ $payment = qem_get_stored_payment();
         if ($register['useplaces'] && empty($values['yourplaces'])) 
             $values['yourplaces'] = '1';
     
+        $values['morenames'] = filter_var($values['morenames'], FILTER_SANITIZE_STRING);
+        
         $values['yourmessage'] = filter_var($values['yourmessage'], FILTER_SANITIZE_STRING);
         if (($register['usemessage'] && $register['reqmessage']) && (empty($values['yourmessage']) || $values['yourmessage'] == $register['yourmessage'])) 
             $errors['yourmessage'] = 'error';
@@ -283,7 +299,8 @@ $payment = qem_get_stored_payment();
             $errors['yourblank2'] = 'error';
         
         $values['yourdropdown'] = filter_var($values['yourdropdown'], FILTER_SANITIZE_STRING);
-        
+        $values['yourselector'] = filter_var($values['yourselector'], FILTER_SANITIZE_STRING);
+
         $values['yournumber1'] = filter_var($values['yournumber1'], FILTER_SANITIZE_STRING);
         if (($register['usenumber1'] && $register['reqnumber1']) && (empty($values['yournumber1']) || $values['yournumber1'] == $register['yournumber1'])) 
             $errors['yournumber1'] = 'error';
@@ -322,7 +339,18 @@ function qem_process_form($values) {
     if(!is_array($qem_messages)) $qem_messages = array();
     $sentdate = date_i18n('d M Y');
     $newmessage = array();
-    $arr = array('yourname','youremail','notattend','yourtelephone','yourplaces','yourblank1','yourblank2','yourdropdown','yournumber1');
+    $arr = array(
+        'yourname',
+        'youremail',
+        'notattend',
+        'yourtelephone',
+        'yourplaces',
+        'yourblank1',
+        'yourblank2',
+        'yourdropdown',
+        'yourselector',
+        'yournumber1',
+        'morenames');
     
     foreach ($arr as $item) {
         if ($values[$item] != $register[$item]) $newmessage[$item] = $values[$item];
@@ -351,11 +379,19 @@ function qem_process_form($values) {
     if ($register['usetelephone']) $content .= '<p><b>' . $register['yourtelephone'] . ': </b>' . strip_tags(stripslashes($values['yourtelephone'])) . '</p>';
     if ($register['useplaces']  && !$values['notattend']) $content .= '<p><b>' . $register['yourplaces'] . ': </b>' . strip_tags(stripslashes($values['yourplaces'])) . '</p>';
     elseif (!$register['useplaces']  && !$values['notattend']) $values['yourplaces'] = '1'; 
-    else $values['yourplaces'] = '';                                               
+    else $values['yourplaces'] = '';
+    if ($register['usemorenames']) $content .= '<p><b>' . $register['morenames'] . ': </b>' . strip_tags(stripslashes($values['morenames'])) . '</p>';
     if ($register['usemessage']) $content .= '<p><b>' . $register['yourmessage'] . ': </b>' . strip_tags(stripslashes($values['yourmessage'])) . '</p>';
     if ($register['useblank1']) $content .= '<p><b>' . $register['yourblank1'] . ': </b>' . strip_tags(stripslashes($values['yourblank1'])) . '</p>';
     if ($register['useblank2']) $content .= '<p><b>' . $register['yourblank2'] . ': </b>' . strip_tags(stripslashes($values['yourblank2'])) . '</p>';
-    if ($register['usedropdown']) $content .= '<p><b>' . $register['yourdropdown'] . ': </b>' . strip_tags(stripslashes($values['yourdropdown'])) . '</p>';
+    if ($register['usedropdown']) {
+        $arr = explode(",",$register['yourdropdown']);
+        $content .= '<p><b>' . $arr[0] . ': </b>' . strip_tags(stripslashes($values['yourdropdown'])) . '</p>';
+    }
+    if ($register['useselector']) {
+        $arr = explode(",",$register['yourselector']);
+        $content .= '<p><b>' . $arr[0] . ': </b>' . strip_tags(stripslashes($values['yourselector'])) . '</p>';
+    }
     if ($register['usenumber1']) $content .= '<p><b>' . $register['usenumber1'] . ': </b>' . strip_tags(stripslashes($values['usenumber1'])) . '</p>';
 
     if ($auto['useeventdetails']) {
@@ -443,10 +479,18 @@ function qem_build_registration_table ($register,$message,$check,$report,$event)
     if ($register['useattend']) $dashboard .= '<th>'.$register['yourattend'].'</th>';
     if ($register['usetelephone']) $dashboard .= '<th>'.$register['yourtelephone'].'</th>';
     if ($register['useplaces']) $dashboard .= '<th>'.$register['yourplaces'].'</th>';
+    if ($register['usemorenames']) $dashboard .= '<th>'.$register['morenames'].'</th>';
     if ($register['usemessage']) $dashboard .= '<th>'.$register['yourmessage'].'</th>';
     if ($register['useblank1']) $dashboard .= '<th>'.$register['yourblank1'].'</th>';
     if ($register['useblank2']) $dashboard .= '<th>'.$register['yourblank2'].'</th>';
-    if ($register['usedropdown']) $dashboard .= '<th>'.$register['yourdropdown'].'</th>';
+    if ($register['usedropdown']) {
+        $arr = explode(",",$register['yourdropdown']);
+        $dashboard .= '<th>'.$arr[0].'</th>';
+    }
+    if ($register['useselector']) {
+        $arr = explode(",",$register['yourselector']);
+        $dashboard .= '<th>'.$arr[0].'</th>';
+    }
     if ($register['usenumber1']) $dashboard .= '<th>'.$register['yournumber1'].'</th>';
     $dashboard .= '<th>Date Sent</th>';
     if ($payment['ipn']) $dashboard .= '<th>'.$payment['title'].'</th>';
@@ -461,10 +505,12 @@ function qem_build_registration_table ($register,$message,$check,$report,$event)
         if ($register['usetelephone']) $content .= '<td>'.$value['yourtelephone'].'</td>';
         if ($register['useplaces'] && empty($value['notattend'])) $content .= '<td>'.$value['yourplaces'].'</td>';
         else $content .= '<td></td>';
+        if ($register['usemorenames']) $content .= '<td>'.$value['morenames'].'</td>';
         if ($register['usemessage']) $content .= '<td>'.$value['yourmessage'].'</td>';
         if ($register['useblank1']) $content .= '<td>'.$value['yourblank1'].'</td>';
         if ($register['useblank2']) $content .= '<td>'.$value['yourblank2'].'</td>';
         if ($register['usedropdown']) $content .= '<td>'.$value['yourdropdown'].'</td>';
+        if ($register['useselector']) $content .= '<td>'.$value['yourselector'].'</td>';
         if ($register['usenumber1']) $content .= '<td>'.$value['yournumber1'].'</td>';
         if ($value['yourname']) $charles = 'messages';
         $content .= '<td>'.$value['sentdate'].'</td>';
@@ -552,7 +598,7 @@ function qem_qpp_places () {
 function qem_place_number ($event,$values,$payment) {
     $attending = qem_get_the_numbers($event,$payment);
     $number = get_post_meta($event, 'event_number', true);
-if (!$number) return;
+    if (!$number) return;
     if (!is_numeric($values['yourplaces'])) $values['yourplaces'] = 1;
     $attending = $eventnumber - $values['yourplaces'];
     if ($eventnumber < 1) $eventnumber = 'full';
@@ -561,66 +607,65 @@ if (!$number) return;
 
 
 function qem_messages(){
-$event=$title='';
-global $_GET;
-$event = (isset($_GET["event"]) ? $_GET["event"] : null);
-$title = (isset($_GET["title"]) ? $_GET["title"] : null);
-$unixtime = get_post_meta($event, 'event_date', true);
-$date = date_i18n("d M Y", $unixtime);
-$noregistration = '<p>No event selected</p>';
-$register = qem_get_stored_register();
-$category = 'All Categories';
-
-if( isset( $_POST['qem_reset_message'])) {
-    $event= $_POST['qem_download_form'];
-    $title = get_the_title($event);
-    delete_option('qem_messages_'.$event);
-    delete_option($event);
-    qem_admin_notice('Registrants for '.$title.' have been deleted.');
-    $eventnumber = get_post_meta($event, 'event_number', true);
-    update_option($event.'places',$eventnumber);
-}
-
-if( isset( $_POST['category']) ) {
-    $category = $_POST["category"];
-}
-
-if( isset( $_POST['select_event'])  || isset( $_POST['eventid'])) {
-    $event = $_POST["eventid"];
-    if ($event) {
-        $unixtime = get_post_meta($event, 'event_date', true);
-        $date = date_i18n("d M Y", $unixtime);
+    $event=$title='';
+    global $_GET;
+    $event = (isset($_GET["event"]) ? $_GET["event"] : null);
+    $title = (isset($_GET["title"]) ? $_GET["title"] : null);
+    $unixtime = get_post_meta($event, 'event_date', true);
+    $date = date_i18n("d M Y", $unixtime);
+    $noregistration = '<p>No event selected</p>';
+    $register = qem_get_stored_register();
+    $category = 'All Categories';
+    if( isset( $_POST['qem_reset_message'])) {
+        $event= $_POST['qem_download_form'];
         $title = get_the_title($event);
-        $noregistration = '<h2>'.$title.' | '.$date.'</h2><p>Nobody has registered for '.$title.' yet</p>';
-    } else {
-        $noregistration = '<p>No event selected</p>';
+        delete_option('qem_messages_'.$event);
+        delete_option($event);
+        qem_admin_notice('Registrants for '.$title.' have been deleted.');
+        $eventnumber = get_post_meta($event, 'event_number', true);
+        update_option($event.'places',$eventnumber);
     }
-}
-
-if( isset( $_POST['changeoptions'])) {
-    $options = array( 'showevents','category');
-    foreach ( $options as $item) $messageoptions[$item] = stripslashes($_POST[$item]);
-    $category = $messageoptions['category'];
-    update_option( 'qem_messageoptions', $messageoptions );
-}
-
-if( isset($_POST['qem_delete_selected'])) {
-    $event = $_POST["qem_download_form"];
-    $message = get_option('qem_messages_'.$event);
-    $eventnumber = get_option($event.'places');
-    $check = get_post_meta($event, 'event_counter', true);
-    for($i = 0; $i <= 100; $i++) {
-        if ($_POST[$i] == 'checked') {
-            $num = ($message[$i]['yourplaces'] ? $message[$i]['yourplaces'] : 1);
-            if ($check) $eventnumber = $eventnumber + $num;
-            unset($message[$i]);
+    
+    if( isset( $_POST['category']) ) {
+        $category = $_POST["category"];
+    }
+    
+    if( isset( $_POST['select_event'])  || isset( $_POST['eventid'])) {
+        $event = $_POST["eventid"];
+        if ($event) {
+            $unixtime = get_post_meta($event, 'event_date', true);
+            $date = date_i18n("d M Y", $unixtime);
+            $title = get_the_title($event);
+            $noregistration = '<h2>'.$title.' | '.$date.'</h2><p>Nobody has registered for '.$title.' yet</p>';
+        } else {
+            $noregistration = '<p>No event selected</p>';
         }
     }
-    $message = array_values($message);
-    update_option('qem_messages_'.$event, $message ); 
-    if ($check) update_option($event.'places',$eventnumber);
-    qem_admin_notice('Selected registrations have been deleted.');
-}
+    
+    if( isset( $_POST['changeoptions'])) {
+        $options = array( 'showevents','category');
+        foreach ( $options as $item) $messageoptions[$item] = stripslashes($_POST[$item]);
+        $category = $messageoptions['category'];
+        update_option( 'qem_messageoptions', $messageoptions );
+    }
+    
+    if( isset($_POST['qem_delete_selected'])) {
+        $event = $_POST["qem_download_form"];
+        $message = get_option('qem_messages_'.$event);
+        $eventnumber = get_option($event.'places');
+        $check = get_post_meta($event, 'event_counter', true);
+        for($i = 0; $i <= 100; $i++) {
+            if ($_POST[$i] == 'checked') {
+                $num = ($message[$i]['yourplaces'] ? $message[$i]['yourplaces'] : 1);
+                if ($check) $eventnumber = $eventnumber + $num;
+                unset($message[$i]);
+            }
+        }
+        $message = array_values($message);
+        update_option('qem_messages_'.$event, $message ); 
+        if ($check) update_option($event.'places',$eventnumber);
+        qem_admin_notice('Selected registrations have been deleted.');
+    }
 
 if( isset($_POST['qem_emaillist'])) {
     $event = $_POST["qem_download_form"];

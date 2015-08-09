@@ -82,6 +82,13 @@ Well OK yes you can add more fields if you want but you are going to have to fid
 
 == Changelog ==
 
+= 6.4 =
+*   Option to display links to months on calendar 
+*   Field selector on widget
+*   Option for T&C on the registration form
+*   Option to add more names if places required is greater thna 1
+*   Widgets updated for WP 4.3
+
 = 6.3.1 =
 *   Bug fix for payment quantity
 *   Category shorcode fixed

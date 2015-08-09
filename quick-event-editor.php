@@ -91,6 +91,7 @@ function event_details_meta() {
     $usepaypal ='';
     if ($register['paypal'] && !get_event_field('event_date') || get_event_field('event_paypal')=='checked') $usepaypal = 'checked';
 	$output .= '<p><em>'.__('Empty fields are not displayed', 'quick-event-manager').' '.__('See the plugin', 'quick-event-manager').' <a href="options-general.php?page=quick-event-manager/settings.php">'.__('settings', 'quick-event-manager').'</a> '.__('page for options', 'quick-event-manager').'.</em></p>
+    <p>Event ID: '.$post->ID.'</p>
     <table width="100%">
     <tr>
     <td width="20%"><label>'.__('Date', 'quick-event-manager').': </label></td>
@@ -351,7 +352,7 @@ function save_event_field($event_field) {
 function action_add_meta_boxes() {
     
     add_meta_box('event_sectionid',__('Event Details', 'quick-event-manager'),'event_details_meta','event', 'normal', 'high');
-    add_meta_box( 'registration_confirmation', 'Registration Confirmation Message', 'rcm_meta_box');
+    add_meta_box( 'registration_confirmation', 'Registration Confirmation Message', 'rcm_meta_box','event');
     global $_wp_post_type_features;
     if (isset($_wp_post_type_features['event']['editor']) && $_wp_post_type_features['event']['editor']) {
         unset($_wp_post_type_features['event']['editor']);

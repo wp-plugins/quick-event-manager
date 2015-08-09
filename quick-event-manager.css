@@ -57,12 +57,16 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 	max-width: 768px) {.qem-options {width: calc(100% - 20px);}
     .qemeventpop {min-width:500px;}
 	}
+
 .qem-register {text-align: left;margin: 10px 0 10px 0;padding: 0; max-width:280px;overflow: hidden;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
 .qem-register form, .qem-register p {margin: 0;padding: 0;}
 .qem-register input[type=text], .qem-register textarea, .qem-register select, .qem-register #submit {margin: 5px 0 7px 0;padding: 4px;color: #465069;font-family: inherit;font-size: inherit;height:auto;border:1px solid #415063;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
 .qem-register p {margin: 4px 0;}
 .qem-register input[type=text] .required, .qem-register textarea .required {border:1px solid green;}
 .qem-register #submit {color: #FFF;background: #343838;text-align: center;cursor: pointer;}
+.qem-register .hidden { display: none }
+.qem-register .shown { display: block }
+
 @media only screen and (max-width: 700px) {
     img.qem-image, img.qem-list-image,.qemmap {max-width:200px;}
     .qemtrim img {display:none;}
@@ -88,8 +92,11 @@ img.qem-list-image {height:auto;overflow:hidden;margin: 0px 0px 10px 10px;-moz-b
 #qem-widget td b {color: #005F6B;}
 #qem-widget th {padding: 5px 10px 5px 0;max-width: 400px;text-align: left;color: #005F6B;}
 
+.clearfix:after {content: "."; visibility: hidden; display: block; height: 0; clear: both;}
+
+
 .qem-category, .qem-caption {float:left;padding:4px;margin: 0 4px 8px 0;}
-.qem-category a {color: #343848;text-decoration:none;}
+.qem-category a {color: #343848;text-decoration:none;padding: 4px;}
 
 [data-tooltip] {position: relative;z-index: 2;cursor: pointer;}
 

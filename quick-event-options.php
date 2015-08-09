@@ -5,9 +5,9 @@ function event_get_stored_options () {
     if(!is_array($event)) {
         $event = array();
         $version = get_option('qem_version');
-        if ($version != '6.3') {
+        if ($version != '6.3.1') {
             qem_create_css_file ('update');
-            update_option('qem_version','6.3');
+            update_option('qem_version','6.3.1');
         }
     }
     $option_default = event_get_default_options();
@@ -55,13 +55,7 @@ function event_get_default_options () {
 function event_get_stored_display () {
     $display = get_option('qem_display');
     if(!is_array($display)) $display = array();
-    $default = qem_get_default_display();
-    $display = array_merge($default, $display);
-    return $display;
-}
-
-function qem_get_default_display () {
-    $display = array(
+    $default = array(
         'read_more' => __('Find out more...', 'quick-event-manager'),
         'noevent' => __('No event found', 'quick-event-manager'),
         'event_image' => '',
@@ -85,6 +79,7 @@ function qem_get_default_display () {
         'categorylocation' => 'title',
         'showcategory' => ''
     );
+    $display = array_merge($default, $display);
     return $display;
 }
 
@@ -148,13 +143,7 @@ function qem_get_default_style() {
 function qem_get_stored_calendar() {
     $calendar = get_option('qem_calendar');
     if(!is_array($calendar)) $calendar = array();
-    $default = qem_get_default_calendar();
-    $calendar = array_merge($default, $calendar);
-    return $calendar;
-}
-
-function qem_get_default_calendar() {
-    $calendar = array(
+    $default = array(
         'day' => '#EBEFC9',
         'calday' => '#EBEFC9',
         'eventday' => '#EED1AC',
@@ -189,10 +178,18 @@ function qem_get_default_calendar() {
         'cellspacing' => 3,
         'header' =>'h2',
         'headerstyle' => '',
-'eventimage' => '',
-'imagewidth' => '80',
-'usetootlip' => ''
+        'eventimage' => '',
+        'imagewidth' => '80',
+        'usetootlip' => '',
+        'event_corner' => 'rounded',
+        'fixeventborder' => '',
+        'showmonthsabove' => '',
+        'showmonthsbelow' => '',
+        'monthscaption' => 'Select Month:',
+        'hidenavigation' => '',
+        'jumpto' => 'checked'
     );
+    $calendar = array_merge($default, $calendar);
     return $calendar;
 }
 
@@ -201,13 +198,15 @@ function qem_get_stored_register () {
     if(!is_array($register)) $register = array();
     $default = qem_get_default_register();
     $register = array_merge($default, $register);
-if (!strpos($register['sort'],'field13')) $register['sort'] = $register['sort'].',field13';
+    if (!strpos($register['sort'],'field14')) $register['sort'] = $register['sort'].',field14';
     return $register;
 }
 
 function qem_get_default_register () {
     $register = array(
-        'sort' => 'field1,field2,field3,field4,field5,field6,field7,field8,field9,field10,field11,field12,field13',
+        'sort' => 'field1,field2,field3,field4,field5,field6,field7,field8,field9,field10,field11,field12,field13,field14',
+        'useform' => '',
+        'formwidth' => 280,
         'usename' => 'checked',
         'usemail' => 'checked',
         'useblank1' => '',
@@ -235,8 +234,11 @@ function qem_get_default_register () {
         'yourblank1' => __('More Information', 'quick-event-manager'),
         'yourblank2' => __('More Information', 'quick-event-manager'),
         'yourdropdown' => __('Separate,With,Commas', 'quick-event-manager'),
+        'yourselector' => __('Separate,With,Commas', 'quick-event-manager'),
         'yournumber1' => __('Number', 'quick-event-manager'),
         'addinfo' => __('Fill in this field', 'quick-event-manager'),
+        'usemorenames' => '',
+        'morenames' => __('Enter all names:','quick-event-manager'),
         'useterms' => '',
         'termslabel' => __('I agree to the Terms and Conditions', 'quick-event-manager'),
         'termsurl' => '',

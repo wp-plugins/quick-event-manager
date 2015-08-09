@@ -3,7 +3,7 @@
 Plugin Name: Quick Event Manager
 Plugin URI: http://www.quick-plugins.com/quick-event-manager
 Description: A simple event manager. There is nothing to configure, all you need is an event and the shortcode.
-Version: 6.3.1
+Version: 6.4
 Author: aerin
 Author URI: http://www.quick-plugins.com
 Text Domain: quick-event-manager
@@ -158,6 +158,7 @@ function qem_event_shortcode($atts,$widget) {
     if ($atts['id'] == 'today') $daynumber = date("d");
     if (strpos($atts['id'],'D') !== false) {$daynumber = filter_var($atts['id'], FILTER_SANITIZE_NUMBER_INT);}
     if ($category) $category = explode(',',$category);
+    if ($atts['event']) $eventid = explode(',',$atts['event']);
     $thisyear = date('Y');$thismonth = date("M");$currentmonth = date("M");
     if ( $the_query->have_posts()){
         if ($cal['connect']) $content .='<p><a href="'.$cal['calendar_url'].'">'.$cal['calendar_text'].'</a></p>';
@@ -180,14 +181,15 @@ function qem_event_shortcode($atts,$widget) {
             if ($atts['event']) {
                 $atts['id'] = 'event';
                 $event = $post->ID;
+                $eventbyid = (in_array($event,$eventid) ? 'checked' : '');
             }
             if ($i < $atts['posts']) {
                 if (//All Events
-                    ($all ||
+                    (($all ||
                      // Event by ID
-                     $atts['event'] && $atts['event'] == $event) ||
+                     $atts['event'] && $eventbyid) ||
                     // Archive Events
-                    (($archive && $unixtime < $today && $enddate < $today) ||
+                    ($archive && $unixtime < $today && $enddate < $today) ||
                      // All if no ID
                      ($atts['id'] == '' && ($unixtime >= $today || $enddate >= $today || $display['event_archive'] == 'checked')) ||
                     // Today only
@@ -318,7 +320,11 @@ function qem_event_construct ($atts) {
     if ($atts['fields']) {
         foreach (explode( ',',$event['sort']) as $name) $event['summary'][$name] = '';
         $derek = explode( ',',$atts['fields']);
-        foreach ($derek as $item) $event['summary']['field'.$item] = 'checked';
+$event['sort'] = '';
+        foreach ($derek as $item) {
+$event['summary']['field'.$item] = 'checked';
+$event['sort'] = $event['sort'].'field'.$item.',';
+}
     }
 
     if ($display['external_link'] && $link) {
@@ -565,7 +571,7 @@ function get_event_calendar_icon($width,$dateicon,$join,$vw,$widget) {
                 $content .= $dayname;
                 $content .= ($style['use_dayname_inline'] ? ' ' : '<br>');
             }
-            $content .= $top.'</span><span class="nonday" '.$bar.'><span class="month">' .$boldon.$italicon.$middle.$italicoff.$boldoff. '</span>'.$bottom.'</span></div>';
+            $content .= $top.'</span><span class="nonday" '.$bar.'><span class="month">' .$boldon.$italicon.$middle.$italicoff.$boldoff. '</span class="year">'.$bottom.'</span></div>';
         }
         return $content;
     }
@@ -585,11 +591,11 @@ function qem_build_event ($name,$event,$display,$custom,$settings) {
         if (!empty($event['description_label'])) 
             $caption = $event['description_label'].' ';
         if (!empty ( $custom['event_desc'][0] ))
-            $output .= '<p ' . $style . '>' . $caption . $custom['event_desc'][0] . '</p>';
+            $output .= '<p class="desc" ' . $style . '>' . $caption . $custom['event_desc'][0] . '</p>';
         break;
         case 'field2':
         if (!empty($custom['event_start'][0] )) {
-            $output .= '<p ' . $style . '>' . $event['start_label'] . ' ' . $custom['event_start'][0];
+            $output .= '<p class="start" ' . $style . '>' . $event['start_label'] . ' ' . $custom['event_start'][0];
             if (!empty($custom['event_finish'][0])) 
                 $output .= ' '.$event['finish_label'].' '. $custom['event_finish'][0];
             if ($display['usetimezone'] && $custom['event_timezone'][0]) 
@@ -600,13 +606,13 @@ function qem_build_event ($name,$event,$display,$custom,$settings) {
         if (!empty($event['location_label']))
             $caption = $event['location_label'].' ';
         if (!empty ( $custom['event_location'][0] ))
-            $output .= '<p ' . $style . '>' . $caption . $custom['event_location'][0]  . '</p>';
+            $output .= '<p class="location" ' . $style . '>' . $caption . $custom['event_location'][0]  . '</p>';
         break;
         case 'field4':
         if (!empty($event['address_label']))
             $caption = $event['address_label'].' ';
         if (!empty ($custom['event_address'][0] ))
-            $output .= '<p ' . $style . '>' . $caption . $custom['event_address'][0]  . '</p>';
+            $output .= '<p class="address" ' . $style . '>' . $caption . $custom['event_address'][0]  . '</p>';
         break;
         case 'field5':
         if (!empty($event['url_label'])) 
@@ -620,7 +626,7 @@ function qem_build_event ($name,$event,$display,$custom,$settings) {
         if (empty($custom['event_anchor'][0])) 
             $custom['event_anchor'][0] = $custom['event_link'][0];
         if (!empty ( $custom['event_link'][0] )) 
-            $output .= '<p '.$style.'>'.$caption.'<a itemprop="url" '.$style .' '.$target.' href="'.$url.'">' .$custom['event_anchor'][0].'</a></p>';
+            $output .= '<p class="website" '.$style.'>'.$caption.'<a itemprop="url" '.$style .' '.$target.' href="'.$url.'">' .$custom['event_anchor'][0].'</a></p>';
         break;
         case 'field6':
         if (!empty($event['cost_label'])) 
@@ -632,7 +638,7 @@ function qem_build_event ($name,$event,$display,$custom,$settings) {
         if (!empty($event['organiser_label'])) 
             $caption = $event['organiser_label'].' ';
         if (!empty ( $custom['event_organiser'][0] )) {
-            $output .= '<p' . $style . '>' . $caption . $custom['event_organiser'][0];
+            $output .= '<p class="organisation" ' . $style . '>' . $caption . $custom['event_organiser'][0];
             if (!empty($custom['event_telephone'][0]) && $event['show_telephone']) 
             $output .= ' / ' . $custom['event_telephone'][0];
             $output .= '</p>';
@@ -674,6 +680,32 @@ function qem_widget_calendar($atts) {
     return '<div id="qem-calendar-widget"><style>'.$smallicon.' '.$headerstyle.'</style>'.qem_show_calendar($atts).'</div>'."\r\n";
 }
 
+function qem_calendar_months($cal) {
+    $month = date_i18n("n");
+    $year = date_i18n("Y");
+    
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $parts = explode("&",$actual_link);
+    $actual_link = $parts['0']; 
+    $link = (strpos($actual_link,'?') ? '&' : '?');
+    $reload = ($cal['jumpto'] ? '#qem_calreload' : '');
+    
+    $content = '<p>'.$cal['monthscaption'].'</p>
+        <p class="clearfix">';
+    for ($i = $month; $i<=12; $i++) {
+        $monthname = date("M", mktime(0, 0, 0, $i, 10));
+        $content .= '<span class="qem-category"><a href="'.$actual_link.$link.'qemmonth='. $i . '&amp;qemyear=' . $year . $reload.'">'.$monthname.'</a></span>';
+    }
+    $year = $year + 1;
+    $month = $month -1;
+    for ($i = 1; $i<=$month; $i++) {
+        $monthname = date("M", mktime(0, 0, 0, $i, 10));
+        $content .= '<span class="qem-category"><a href="'.$actual_link.$link.'qemmonth='. $i . '&amp;qemyear=' . $year . $reload.'">'.$monthname.'</a></span>';
+    }
+    $content .=  '</p>';
+    return $content;
+}
+
 function qem_show_calendar($atts) {
     $cal = qem_get_stored_calendar();
     $style = qem_get_stored_style();
@@ -693,6 +725,8 @@ function qem_show_calendar($atts) {
     global $post;
     global $_GET;
     if (!$widget) $header = $cal['header'];
+    if ($cal['hidenavigation']) $navigation = 'off';
+    $reload = ($cal['jumpto'] ? '#qem_calreload' : '');
     if (isset($_GET['category'])) $category = $_GET['category']; 
     $args = array(
         'post_type' => 'event',
@@ -782,6 +816,7 @@ function qem_show_calendar($atts) {
     $currentmonth = $_GET["qemmonth"];
     $currentyear = $_GET["qemyear"];
     $calendar = '<a name="qem_calreload"></a>';
+    
     $p_year = $currentyear;
     $n_year = $currentyear;
     $p_month = $currentmonth-1;
@@ -796,15 +831,16 @@ function qem_show_calendar($atts) {
     $link = (strpos($actual_link,'?') ? '&' : '?');
     $catkey = qem_category_key($cal,$style,'calendar');
     if ($cal['showkeyabove'] || $categorykeyabove) $calendar .= $catkey;
+    if ($cal['showmonthsabove']) $calendar .= qem_calendar_months($cal);
     $calendar .='<div id="qem-calendar">
     <table cellspacing="'.$cal['cellspacing'].'" cellpadding="0">
     <tr class="top">
     <td colspan="1" >';
-    if ($navigation != 'off') $calendar .= '<a class="calnav" href="'.$actual_link.$link.'qemmonth='. $p_month . '&amp;qemyear=' . $p_year . '#qem_calreload">' .$leftnavicon.$cal['prevmonth'].'</a>';
+    if ($navigation != 'off') $calendar .= '<a class="calnav" href="'.$actual_link.$link.'qemmonth='. $p_month . '&amp;qemyear=' . $p_year .$reload.'">' .$leftnavicon.$cal['prevmonth'].'</a>';
     $calendar .= '</td>
     <td colspan="5" class="calmonth"><'.$header.'>'. $monthnames[$currentmonth-1].' '.$currentyear .'</'.$header.'></td>
     <td colspan="1">';
-    if ($navigation != 'off') $calendar .= '<a class="calnav" href="'.$actual_link.$link.'qemmonth='. $n_month . '&amp;qemyear=' . $n_year . '#qem_calreload">'.$cal['nextmonth'].
+    if ($navigation != 'off') $calendar .= '<a class="calnav" href="'.$actual_link.$link.'qemmonth='. $n_month . '&amp;qemyear=' . $n_year .$reload.'">'.$cal['nextmonth'].
         $rightnavicon.'</a>';
     $calendar .= '</td>
     </tr>
@@ -866,6 +902,7 @@ function qem_show_calendar($atts) {
     }
     $calendar .= "</table></div>";
     if ($cal['showkeybelow'] || $categorykeybelow) $calendar .= $catkey;
+    if ($cal['showmonthsbelow']) $calendar .= qem_calendar_months($cal);
     $eventdate = remove_empty($eventdate);
     $calendar .= '';
     return $calendar;
@@ -965,21 +1002,34 @@ function qem_generate_css() {
 	if ($style['date_background'] == 'red') $color = 'red';
     if ($style['month_background'] == 'colour') $colour = $style['month_backgroundhex'];
 	else $colour = '#FFF';
-	if ($style['event_background'] == 'bgwhite') $eventbackground = 'background:white;';
+	
+    if ($style['event_background'] == 'bgwhite') $eventbackground = 'background:white;';
 	if ($style['event_background'] == 'bgcolor') $eventbackground = 'background:'.$style['event_backgroundhex'].';';
+    
+    $formwidth = preg_split('#(?<=\d)(?=[a-z%])#i', $register['formwidth']);
+    if (!$formwidth[0]) $formwidth[0] = '280';
+    if (!$formwidth[1]) $formwidth[1] = 'px';
+    $regwidth = $formwidth[0].$formwidth[1];
+
     $dayborder = 'color:' . $style['date_colour'].';background:'.$color.'; border: '. $style['date_border_width']. 'px solid ' .$style['date_border_colour'].';border-bottom:none;';
+    
     $nondayborder = 'border: '. $style['date_border_width']. 'px solid ' .$style['date_border_colour'].';border-top:none;background:'.$colour.';';
+    
     $monthcolor = 'span.month {color:'.$style['month_colour'].';}';
+    
     $eventborder = 'border: '. $style['date_border_width']. 'px solid ' .$style['date_border_colour'].';';
-	if ($style['icon_corners'] == 'rounded') {
+	
+    if ($style['icon_corners'] == 'rounded') {
         $dayborder = $dayborder.'-webkit-border-top-left-radius:'.$radius.'px; -moz-border-top-left-radius:'.$radius.'px; border-top-left-radius:'.$radius.'px; -webkit-border-top-right-radius:'.$radius.'px; -moz-border-top-right-radius:'.$radius.'px; border-top-right-radius:'.$radius.'px;';
         $nondayborder = $nondayborder.'-webkit-border-bottom-left-radius:'.$radius.'px; -moz-border-bottom-left-radius:'.$radius.'px; border-bottom-left-radius:'.$radius.'px; -webkit-border-bottom-right-radius:'.$radius.'px; -moz-border-bottom-right-radius:'.$radius.'px; border-bottom-right-radius:'.$radius.'px;';
         $eventborder = $eventborder.'-webkit-border-radius:'.$radius.'px; -moz-border-radius:'.$radius.'px; border-radius:'.$radius.'px;';
     }
+    
     if ($style['event_border']) $showeventborder = 'padding:'.$radius.'px;'.$eventborder;
     if ($register['formborder']) $formborder = "\n.qem-register {".$eventborder."padding:".$radius."px;}\n";
     if ($style['widthtype'] == 'pixel') $eventwidth = preg_replace("/[^0-9]/", "", $style['width']) . 'px;';
     else $eventwidth = '100%';
+    
     $i = '300';
     if ($display['event_image_width']) $i = preg_replace ( '/[^.,0-9]/', '', $display['event_image_width']);
     if ($display['map_and_image_size']) $i = preg_replace ( '/[^.,0-9]/', '', $display['map_width']);
@@ -988,6 +1038,7 @@ function qem_generate_css() {
     else $j = '300';
     if ($cal['eventbold']) $eventbold = 'font-weight:bold;';
     if ($cal['eventitalic']) $eventitalic = 'font-style:italic;';
+    $ec = ($cal['event_corner'] == 'square' ? 0 : 3); 
     $script .= '.qem {width:'.$eventwidth.';'.$style['event_margin'].';}
 .qem p {'.$style['line_margin'].';}
 .qem p, .qem h2 {margin: 0 0 8px 0;padding:0;}'."\n";
@@ -1006,7 +1057,8 @@ function qem_generate_css() {
 }'."\n";
         $script .= '.qem-small, .qem-medium, .qem-large {'.$showeventborder.$eventbackground.'}'
 .$formborder.
-"img.qem-image {max-width:".$i."px;height:auto;overflow:hidden;}
+".qem-register{max-width:".$regwidth.";}
+img.qem-image {max-width:".$i."px;height:auto;overflow:hidden;}
 img.qem-list-image {width:100%;max-width:".$j."px  !important;height:auto;overflow:hidden;}
 .qem-category {".$eventborder."}
 .qem-icon .qem-calendar-small {width:".$ssize.";}
@@ -1024,7 +1076,7 @@ img.qem-list-image {width:100%;max-width:".$j."px  !important;height:auto;overfl
 #qem-calendar .calday {background:".$cal['calday']."; color:".$cal['caldaytext']."}
 #qem-calendar .day {background:".$cal['day'].";}
 #qem-calendar .eventday {background:".$cal['eventday'].";}
-#qem-calendar .eventday a {color:".$cal['eventtext']." !important;background:".$cal['eventbackground']." !important;border:".$cal['eventborder']." !important;}
+#qem-calendar .eventday a {-webkit-border-radius:".$ec."px; -moz-border-radius:".$ec."px; border-radius:".$ec."px;color:".$cal['eventtext']." !important;background:".$cal['eventbackground']." !important;border:".$cal['eventborder']." !important;}
 #qem-calendar .oldday {background:".$cal['oldday'].";}
 #qem-calendar td a:hover {background:".$cal['eventhover']." !important;}
 .qemtrim span {".$eventbold.$eventitalic."}
@@ -1058,7 +1110,8 @@ img.qem-list-image {width:100%;max-width:".$j."px  !important;height:auto;overfl
     $cat = array('a','b','c','d','e','f','g','h','i','j');
     foreach ($cat as $i) {
         if ($cal['cat'.$i]) {
-            $script .="#qem-calendar a.".$cal['cat'.$i]." {background:".$cal['cat'.$i.'back']." !important;color:".$cal['cat'.$i.'text']." !important;border:1px solid ".$cal['cat'.$i.'text']." !important;}\n";
+            $eb = ($cal['fixeventborder'] || $cal['eventborder'] == 'none' ? '' : 'border:1px solid '.$cal['cat'.$i.'text'].' !important;');
+            $script .="#qem-calendar a.".$cal['cat'.$i]." {background:".$cal['cat'.$i.'back']." !important;color:".$cal['cat'.$i.'text']." !important;".$eb."}\n";
 $script .='.'.$cal['cat'.$i].' .qem-small, .'.$cal['cat'.$i].' .qem-medium, .'.$cal['cat'.$i].' .qem-large {border-color:'.$cal['cat'.$i.'back'].';}'."\n".'
 .'.$cal['cat'.$i].' .qem-calendar-small .day, .'.$cal['cat'.$i].' .qem-calendar-medium .day, .'.$cal['cat'.$i].' .qem-calendar-large .day, .'.$cal['cat'.$i].' .qem-calendar-small .nonday, .'.$cal['cat'.$i].' .qem-calendar-medium .nonday, .'.$cal['cat'.$i].' .qem-calendar-large .nonday {border-color:'.$cal['cat'.$i.'back'].';}'."\n";
         }
@@ -1172,10 +1225,13 @@ function qem_generate_csv() {
         if ($register['usemail']) array_push($headerrow, $register['youremail']);
         if ($register['usetelephone']) array_push($headerrow, $register['yourtelephone']);
         if ($register['useplaces']) array_push($headerrow, $register['yourplaces']);
+        if ($register['usemorenames']) array_push($headerrow, $register['morenames']);
         if ($register['usemessage']) array_push($headerrow, $register['yourmessage']);
         if ($register['useblank1']) array_push($headerrow, $register['yourblank1']);
         if ($register['useblank2']) array_push($headerrow, $register['yourblank2']);
         if ($register['usedropdown']) array_push($headerrow, $register['yourdropdown']);
+if ($register['useselector']) array_push($headerrow, $register['yourselector']);
+if ($register['usenumber1']) array_push($headerrow, $register['yournumber1']);
         array_push($headerrow,'Date Sent');
         fputcsv($outstream,$headerrow, ',', '"');
         foreach($message as $value) {
@@ -1184,10 +1240,13 @@ function qem_generate_csv() {
             if ($register['usemail']) array_push($cells, $value['youremail']);
             if ($register['usetelephone']) array_push($cells, $value['yourtelephone']);
             if ($register['useplaces']) array_push($cells, $value['yourplaces']);
+            if ($register['usemorenames']) array_push($cells, $value['morenames']);
             if ($register['usemessage']) array_push($cells, $value['yourmessage']);
             if ($register['useblank1']) array_push($cells, $value['yourblank1']);
         if ($register['useblank2']) array_push($cells, $value['yourblank2']);
         if ($register['usedropdown']) array_push($cells, $value['yourdropdown']);
+if ($register['useselector']) array_push($cells, $value['yourselector']);
+if ($register['usenumber1']) array_push($cells, $value['yournumber1']);
             array_push($cells,$value['sentdate']);
             fputcsv($outstream,$cells, ',', '"');
         }
@@ -1398,6 +1457,7 @@ function qem_enqueue_scripts() {
     wp_enqueue_style('event_custom',plugins_url('quick-event-manager-custom.css', __FILE__));
     wp_enqueue_script('event_script',plugins_url('quick-event-manager.js', __FILE__),array(),false,true);
     wp_enqueue_script('event_lightbox',plugins_url('quick-event-lightbox.js', __FILE__ ), array( 'jquery' ), false, true );
+    wp_enqueue_script('event_toggle',plugins_url('quick-event-toggle.js', __FILE__ ), array( 'jquery' ), false, true );
 }
 
 function qem_create_css_file ($update) {

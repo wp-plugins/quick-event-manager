@@ -1,12 +1,15 @@
 <?php
 
 class qem_widget extends WP_Widget {
-    function qem_widget() {
-        $widget_ops = array(
-            'classname' => 'qem_widget',
-            'description' => ''.__('Add an event list to your sidebar', 'quick-event-manager').'');
-        $this->WP_Widget('qem_widget', 'Quick Event List', $widget_ops);
-    }	
+    
+    function __construct() {
+		parent::__construct(
+			'qem_widget', // Base ID
+			__( 'Quick Event List', 'quick-event-manager' ), // Name
+			array( 'description' => __( 'Add an event list to your sidebar', 'quick-event-manager' ), ) // Args
+		);
+	}
+    
     function form($instance) {
         $instance = wp_parse_args( (array) $instance, array(
             'posts' => '3',
@@ -20,11 +23,13 @@ class qem_widget extends WP_Widget {
             'vanillawidget'=>'',
             'usecategory' =>'checked',
             'categorykeyabove' =>'checked',
-            'categorykeybelow' =>'checked'
+            'categorykeybelow' =>'checked',
+            'fields' => ''
         ));
         $posts = $instance['posts'];
         $size = $instance['size'];
         $$size = 'checked';
+        $fields = $instance['fields'];
         $headersize = $instance['headersize'];
         $$headersize = 'checked';
         $settings = $instance['settings'];
@@ -49,7 +54,9 @@ class qem_widget extends WP_Widget {
         <input type="radio" id="<?php echo $this->get_field_name('size'); ?>" name="<?php echo $this->get_field_name('size'); ?>" value="large" <?php echo $large; ?>> Large</p>
         <h3>Event Title</h3>
         <p><input type="radio" id="<?php echo $this->get_field_name('headersize'); ?>" name="<?php echo $this->get_field_name('headersize'); ?>" value="headtwo" <?php echo $headtwo; ?>> H2 <input type="radio" id="<?php echo $this->get_field_name('headersize'); ?>" name="<?php echo $this->get_field_name('headersize'); ?>" value="headthree" <?php echo $headthree; ?>> H3</p>
-        <h3>Styling</h3>
+        <h3>Fields</h3>
+        <p>Enter the <a href="options-general.php?page=quick-event-manager/settings.php&tab=settings">field numbers</a> you want to display. Enter <em>none</em> to hide all fields.
+        <input class="widefat" type="text" id="<?php echo $this->get_field_name('fields'); ?>" name="<?php echo $this->get_field_name('fields'); ?>" value="<?php echo attribute_escape($fields); ?>" ></p>        <h3>Styling</h3>
         <p><input type="checkbox" id="<?php echo $this->get_field_name('settings'); ?>" name="<?php echo $this->get_field_name('settings'); ?>" value="checked" <?php echo $settings; ?>> Use plugin styles (<a href="options-general.php?page=quick-event-manager/settings.php&tab=settings">View styles</a>)</p>
         <h3>Categories</h3>
         <p><select id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>" class="widefat" style="width:100%;">
@@ -75,6 +82,7 @@ class qem_widget extends WP_Widget {
         $instance = $old_instance;
         $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
         $instance['posts'] = $new_instance['posts'];
+        $instance['fields'] = $new_instance['fields'];
         $instance['size'] = $new_instance['size'];
         $instance['headersize'] = $new_instance['headersize'];
         $instance['settings'] = $new_instance['settings'];
@@ -100,12 +108,14 @@ class qem_widget extends WP_Widget {
 }
 
 class qem_calendar_widget extends WP_Widget {
-    function qem_calendar_widget() {
-        $widget_ops = array(
-            'classname' => 'qem_calendar_widget',
-            'description' => ''.__('Add an event calendar to your sidebar', 'quick-event-manager').'');
-        $this->WP_Widget('qem_calendar_widget', 'Quick Event Calendar', $widget_ops);
-    }	
+    
+    function __construct() {
+		parent::__construct(
+			'qem_calendar_widget', // Base ID
+			__( 'Quick Event Calendar', 'quick-event-manager' ), // Name
+			array( 'description' => __( 'Add an event calendar to your sidebar', 'quick-event-manager' ), ) // Args
+		);
+	}
 	
     function form($instance) {
         $instance = wp_parse_args( (array) $instance, array(
@@ -133,18 +143,14 @@ class qem_calendar_widget extends WP_Widget {
         <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 <p><input type="checkbox" id="<?php echo $this->get_field_name('categorykeyabove'); ?>" name="<?php echo $this->get_field_name('categorykeyabove'); ?>" value="checked" <?php echo $categorykeyabove; ?>> Show category key above list</p>
         <p><input type="checkbox" id="<?php echo $this->get_field_name('categorykeybelow'); ?>" name="<?php echo $this->get_field_name('categorykeybelow'); ?>" value="checked" <?php echo $categorykeybelow; ?>> Show category key below list</p>
-
-<h3>Month and Date Style</h3>
+        <h3>Month and Date Style</h3>
         <p>
         <input type="radio" id="<?php echo $this->get_field_name('header'); ?>" name="<?php echo $this->get_field_name('header'); ?>" value="h2" <?php echo $h2; ?>> H2&nbsp;
-<input type="radio" id="<?php echo $this->get_field_name('header'); ?>" name="<?php echo $this->get_field_name('header'); ?>" value="h3" <?php echo $h3; ?>> H3&nbsp;
-<input type="radio" id="<?php echo $this->get_field_name('header'); ?>" name="<?php echo $this->get_field_name('header'); ?>" value="h4" <?php echo $h4; ?>> H4
-</p>
-<p>Header CSS:</p>
-<p><input class="widefat" type="text" id="<?php echo $this->get_field_name('headerstyle'); ?>" name="<?php echo $this->get_field_name('headerstyle'); ?>" value="<?php echo esc_attr( $headerstyle ); ?>" />
-
-
-
+        <input type="radio" id="<?php echo $this->get_field_name('header'); ?>" name="<?php echo $this->get_field_name('header'); ?>" value="h3" <?php echo $h3; ?>> H3&nbsp;
+        <input type="radio" id="<?php echo $this->get_field_name('header'); ?>" name="<?php echo $this->get_field_name('header'); ?>" value="h4" <?php echo $h4; ?>> H4
+        </p>
+        <p>Header CSS:</p>
+        <p><input class="widefat" type="text" id="<?php echo $this->get_field_name('headerstyle'); ?>" name="<?php echo $this->get_field_name('headerstyle'); ?>" value="<?php echo esc_attr( $headerstyle ); ?>" />
         <h3>Event Symbol</h3><p>If there is no room on narrow sidebars for the full calendar details select an alternate symbol below:</p>
         <p>
         <input type="radio" id="<?php echo $this->get_field_name('smallicon'); ?>" name="<?php echo $this->get_field_name('smallicon'); ?>" value="trim" <?php echo $trim; ?>> Event name<br />
