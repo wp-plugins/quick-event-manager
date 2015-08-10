@@ -371,7 +371,8 @@ function qem_process_form($values) {
     $subject = $auto['subject'];
     if ($auto['subjecttitle']) $subject = $subject.' '.get_the_title();
     if ($autor['subjectdate']) $subject = $subject.' '.$date;
-    if (empty($subject)) $subject = 'Event Register';
+    if (empty($subject)) $subject = 'Event Registration';
+    $notificationsubject = 'New Registration for '.get_the_title().' on '.$date;
     
     if ($register['usename']) $content .= '<p><b>' . $register['yourname'] . ': </b>' . strip_tags(stripslashes($values['yourname'])) . '</p>';
     if ($register['usemail']) $content .= '<p><b>' . $register['youremail'] . ': </b>' . strip_tags(stripslashes($values['youremail'])) . '</p>';
@@ -416,7 +417,7 @@ function qem_process_form($values) {
     . "MIME-Version: 1.0\r\n"
     . "Content-Type: text/html; charset=\"utf-8\"\r\n";	
     $message = '<html>'.$content.'</html>';
-    wp_mail($qem_email, $subject, $message, $headers);
+    wp_mail($qem_email, $notificationsubject, $message, $headers);
     
     if ($auto['enable'] || $values['qem-copy']) {
         
@@ -431,7 +432,8 @@ function qem_process_form($values) {
          }
         if ($auto['permalink']) $close .= '<p><a href="' . get_permalink() . '">' . get_permalink() . '</a></p>';
         $message = $copy.$details.$close.'</html>';
-        $headers = "From: ".$auto['yourname']." <{$auto['youremail']}>\r\n"
+        
+        $headers = "From: ".$auto['fromname']." <{$auto['fromemail']}>\r\n"
 		. "MIME-Version: 1.0\r\n"
 		. "Content-Type: text/html; charset=\"utf-8\"\r\n";	
         wp_mail($values['youremail'], $subject, $message, $headers);

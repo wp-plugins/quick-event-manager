@@ -402,7 +402,7 @@ $event['sort'] = $event['sort'].'field'.$item.',';
     if (function_exists('file_get_contents') && (($atts['fullevent'] && !$image) || $display['map_in_list'] || ($display['map_and_image'] && ($display['map_in_list'] || $atts['fullevent']))))
         $content .= get_event_map();
     
-    if ($atts['fullevent'] && $register['ontheright']) $content .= '<div class="qem-rightregister">'.qem_loop().'</div>';
+    if ($atts['fullevent'] && ((($register['useform'] && $usereg) || $usereg ) && $register['ontheright'])) $content .= '<div class="qem-rightregister">'.qem_loop().'</div>';
     
         $content .= '</div>';
     
